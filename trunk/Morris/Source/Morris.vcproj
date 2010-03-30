@@ -1,417 +1,632 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Morris"
 	ProjectGUID="{8839E02C-5058-3B84-B098-C898A56116F0}"
-	Keyword="Qt4VSv1.0">
+	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="1"
 			IntermediateDirectory="debug\"
-			UseOfMfc="0">
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;c:\Qt\4.6.2\include\QtCore&quot;,&quot;c:\Qt\4.6.2\include\QtGui&quot;,&quot;c:\Qt\4.6.2\include&quot;,&quot;.&quot;,&quot;c:\Qt\4.6.2\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,c:\Qt\4.6.2\mkspecs\win32-msvc2008"
-				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
-				AssemblerListingLocation="debug\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="debug\"
-				Optimization ="4"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="3"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="c:\Qt\4.6.2\lib\qtmaind.lib c:\Qt\4.6.2\lib\QtGuid4.lib c:\Qt\4.6.2\lib\QtCored4.lib"
-				AdditionalLibraryDirectories="c:\Qt\4.6.2\lib"
-				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				GenerateDebugInformation="true"
-				IgnoreImportLibrary="true"
-				LinkTimeCodeGeneration="0"
-				OutputFile="debug\Morris.exe"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				SuppressStartupBanner="true"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0"/>
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
+				Optimization="4"
+				AdditionalIncludeDirectories="&quot;c:\Qt\4.6.0\include\QtCore&quot;,&quot;c:\Qt\4.6.0\include\QtGui&quot;,&quot;c:\Qt\4.6.0\include&quot;,&quot;.&quot;,&quot;c:\Qt\4.6.0\include\ActiveQt&quot;,&quot;debug&quot;,&quot;.&quot;,c:\Qt\4.6.0\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="false"
+				TreatWChar_tAsBuiltInType="false"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="debug\"
+				ObjectFile="debug\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,_DEBUG"/>
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,_DEBUG"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="c:\Qt\4.6.0\lib\qtmaind.lib c:\Qt\4.6.0\lib\QtGuid4.lib c:\Qt\4.6.0\lib\QtCored4.lib"
+				OutputFile="debug\Morris.exe"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="c:\Qt\4.6.0\lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				LinkTimeCodeGeneration="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="1"
 			IntermediateDirectory="release\"
-			UseOfMfc="0">
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;c:\Qt\4.6.2\include\QtCore&quot;,&quot;c:\Qt\4.6.2\include\QtGui&quot;,&quot;c:\Qt\4.6.2\include&quot;,&quot;.&quot;,&quot;c:\Qt\4.6.2\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,c:\Qt\4.6.2\mkspecs\win32-msvc2008"
-				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
-				AssemblerListingLocation="release\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="0"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="release\"
-				Optimization ="2"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="3"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="c:\Qt\4.6.2\lib\qtmain.lib c:\Qt\4.6.2\lib\QtGui4.lib c:\Qt\4.6.2\lib\QtCore4.lib"
-				AdditionalLibraryDirectories="c:\Qt\4.6.2\lib"
-				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				GenerateDebugInformation="false"
-				IgnoreImportLibrary="true"
-				LinkIncremental="1"
-				LinkTimeCodeGeneration="0"
-				OutputFile="release\Morris.exe"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				SuppressStartupBanner="true"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0"/>
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
+				Optimization="2"
+				AdditionalIncludeDirectories="&quot;c:\Qt\4.6.0\include\QtCore&quot;,&quot;c:\Qt\4.6.0\include\QtGui&quot;,&quot;c:\Qt\4.6.0\include&quot;,&quot;.&quot;,&quot;c:\Qt\4.6.0\include\ActiveQt&quot;,&quot;release&quot;,&quot;.&quot;,c:\Qt\4.6.0\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				TreatWChar_tAsBuiltInType="false"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="release\"
+				ObjectFile="release\"
+				ProgramDataBaseFileName=".\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"/>
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; &quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="c:\Qt\4.6.0\lib\qtmain.lib c:\Qt\4.6.0\lib\QtGui4.lib c:\Qt\4.6.0\lib\QtCore4.lib"
+				OutputFile="release\Morris.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="c:\Qt\4.6.0\lib"
+				GenerateDebugInformation="false"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				LinkTimeCodeGeneration="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath="Board.cpp"/>
+				RelativePath="Board.cpp"
+				>
+			</File>
 			<File
-				RelativePath="BoardView.cpp"/>
+				RelativePath="BoardView.cpp"
+				>
+			</File>
 			<File
-				RelativePath="DlgSetting.cpp"/>
+				RelativePath="DlgSetting.cpp"
+				>
+			</File>
 			<File
-				RelativePath="Estimator.cpp"/>
+				RelativePath="Estimator.cpp"
+				>
+			</File>
 			<File
-				RelativePath="Main.cpp"/>
+				RelativePath="Main.cpp"
+				>
+			</File>
 			<File
-				RelativePath="MainWnd.cpp"/>
+				RelativePath="MainWnd.cpp"
+				>
+			</File>
 			<File
-				RelativePath="Manager.cpp"/>
+				RelativePath="Manager.cpp"
+				>
+			</File>
 			<File
-				RelativePath="Morris.cpp"/>
+				RelativePath="Morris.cpp"
+				>
+			</File>
 			<File
-				RelativePath="MoveGenerator.cpp"/>
+				RelativePath="MoveGenerator.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath="Board.h"/>
+				RelativePath="Board.h"
+				>
+			</File>
 			<File
-				RelativePath="BoardView.h">
+				RelativePath="BoardView.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile debug\moc_BoardView.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 BoardView.h -o debug\moc_BoardView.cpp"
 						Description="MOC BoardView.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile debug\moc_BoardView.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 BoardView.h -o debug\moc_BoardView.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.h;Rem"
 						Outputs="debug\moc_BoardView.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile release\moc_BoardView.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 BoardView.h -o release\moc_BoardView.cpp"
 						Description="MOC BoardView.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile release\moc_BoardView.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 BoardView.h -o release\moc_BoardView.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.h;Rem"
 						Outputs="release\moc_BoardView.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DlgSetting.h">
+				RelativePath="DlgSetting.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="DlgSetting.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile debug\moc_DlgSetting.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 DlgSetting.h -o debug\moc_DlgSetting.cpp"
 						Description="MOC DlgSetting.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile debug\moc_DlgSetting.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 DlgSetting.h -o debug\moc_DlgSetting.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="DlgSetting.h;Rem"
 						Outputs="debug\moc_DlgSetting.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="DlgSetting.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile release\moc_DlgSetting.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 DlgSetting.h -o release\moc_DlgSetting.cpp"
 						Description="MOC DlgSetting.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile release\moc_DlgSetting.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 DlgSetting.h -o release\moc_DlgSetting.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="DlgSetting.h;Rem"
 						Outputs="release\moc_DlgSetting.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Estimator.h"/>
+				RelativePath="Estimator.h"
+				>
+			</File>
 			<File
-				RelativePath="MainWnd.h">
+				RelativePath="MainWnd.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="MainWnd.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile debug\moc_MainWnd.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 MainWnd.h -o debug\moc_MainWnd.cpp"
 						Description="MOC MainWnd.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile debug\moc_MainWnd.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 MainWnd.h -o debug\moc_MainWnd.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="MainWnd.h;Rem"
 						Outputs="debug\moc_MainWnd.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="MainWnd.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile release\moc_MainWnd.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 MainWnd.h -o release\moc_MainWnd.cpp"
 						Description="MOC MainWnd.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile release\moc_MainWnd.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 MainWnd.h -o release\moc_MainWnd.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="MainWnd.h;Rem"
 						Outputs="release\moc_MainWnd.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Manager.h">
+				RelativePath="Manager.h"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="Manager.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile debug\moc_Manager.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 Manager.h -o debug\moc_Manager.cpp"
 						Description="MOC Manager.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile debug\moc_Manager.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;debug&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 Manager.h -o debug\moc_Manager.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="Manager.h;Rem"
 						Outputs="debug\moc_Manager.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="Manager.h;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile release\moc_Manager.cpp &#x0d;&#x0a; C:\Qt\4.6.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.2\include\QtCore&quot; -I&quot;c:\Qt\4.6.2\include\QtGui&quot; -I&quot;c:\Qt\4.6.2\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.2\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.2\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 Manager.h -o release\moc_Manager.cpp"
 						Description="MOC Manager.h"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile release\moc_Manager.cpp&#x0D;&#x0A;C:\Qt\4.6.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;c:\Qt\4.6.0\include\QtCore&quot; -I&quot;c:\Qt\4.6.0\include\QtGui&quot; -I&quot;c:\Qt\4.6.0\include&quot; -I&quot;.&quot; -I&quot;c:\Qt\4.6.0\include\ActiveQt&quot; -I&quot;release&quot; -I&quot;.&quot; -Ic:\Qt\4.6.0\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 Manager.h -o release\moc_Manager.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="Manager.h;Rem"
 						Outputs="release\moc_Manager.cpp"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Morris.h"/>
+				RelativePath="Morris.h"
+				>
+			</File>
 			<File
-				RelativePath="MoveGenerator.h"/>
+				RelativePath="MoveGenerator.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
+			>
 			<File
-				RelativePath="debug\Morris.res">
+				RelativePath="debug\moc_BoardView.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\Morris.res">
+				RelativePath="release\moc_BoardView.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_BoardView.cpp">
+				RelativePath="debug\moc_DlgSetting.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_BoardView.cpp">
+				RelativePath="release\moc_DlgSetting.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_DlgSetting.cpp">
+				RelativePath="debug\moc_MainWnd.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DlgSetting.cpp">
+				RelativePath="release\moc_MainWnd.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_MainWnd.cpp">
+				RelativePath="debug\moc_Manager.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_MainWnd.cpp">
+				RelativePath="release\moc_Manager.cpp"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Manager.cpp">
+				RelativePath="debug\Morris.res"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_Manager.cpp">
+				RelativePath="release\Morris.res"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\qrc_MainWnd.cpp">
+				RelativePath="release\qrc_MainWnd.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\qrc_MainWnd.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"/>
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_MainWnd.cpp">
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"/>
+				RelativePath="ui_BoardView.h"
+				>
 			</File>
 			<File
-				RelativePath="ui_BoardView.h"/>
+				RelativePath="ui_DlgSetting.h"
+				>
+			</File>
 			<File
-				RelativePath="ui_DlgSetting.h"/>
-			<File
-				RelativePath="ui_MainWnd.h"/>
+				RelativePath="ui_MainWnd.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Translation Files"
 			Filter="ts;xlf"
 			UniqueIdentifier="{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}"
-			ParseFiles="false">
+			ParseFiles="false"
+			>
 			<File
-				RelativePath="English.ts"/>
+				RelativePath=".\Chinese.ts"
+				>
+			</File>
+			<File
+				RelativePath="English.ts"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Form Files"
 			Filter="ui"
 			UniqueIdentifier="{99349809-55BA-4b9d-BF79-8FDBB0286EB3}"
-			ParseFiles="false">
+			ParseFiles="false"
+			>
 			<File
-				RelativePath="BoardView.ui">
+				RelativePath="BoardView.ui"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_BoardView.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe BoardView.ui -o ui_BoardView.h"
 						Description="UIC BoardView.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_BoardView.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe BoardView.ui -o ui_BoardView.h&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.ui;Rem"
 						Outputs="ui_BoardView.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_BoardView.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe BoardView.ui -o ui_BoardView.h"
 						Description="UIC BoardView.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_BoardView.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe BoardView.ui -o ui_BoardView.h&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.ui;Rem"
 						Outputs="ui_BoardView.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DlgSetting.ui">
+				RelativePath="DlgSetting.ui"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="DlgSetting.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_DlgSetting.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe DlgSetting.ui -o ui_DlgSetting.h"
 						Description="UIC DlgSetting.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_DlgSetting.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe DlgSetting.ui -o ui_DlgSetting.h&#x0D;&#x0A;"
+						AdditionalDependencies="DlgSetting.ui;Rem"
 						Outputs="ui_DlgSetting.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="DlgSetting.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_DlgSetting.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe DlgSetting.ui -o ui_DlgSetting.h"
 						Description="UIC DlgSetting.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_DlgSetting.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe DlgSetting.ui -o ui_DlgSetting.h&#x0D;&#x0A;"
+						AdditionalDependencies="DlgSetting.ui;Rem"
 						Outputs="ui_DlgSetting.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MainWnd.ui">
+				RelativePath="MainWnd.ui"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.h;MainWnd.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_MainWnd.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe MainWnd.ui -o ui_MainWnd.h"
 						Description="UIC MainWnd.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_MainWnd.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe MainWnd.ui -o ui_MainWnd.h&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.h;MainWnd.ui;Rem"
 						Outputs="ui_MainWnd.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="BoardView.h;MainWnd.ui;Rem"
-						CommandLine="Rem IncrediBuild_AllowRemote &#x0d;&#x0a; Rem IncrediBuild_OutputFile .\ui_MainWnd.h &#x0d;&#x0a; C:\Qt\4.6.2\bin\uic.exe MainWnd.ui -o ui_MainWnd.h"
 						Description="UIC MainWnd.ui"
+						CommandLine="Rem IncrediBuild_AllowRemote&#x0D;&#x0A;Rem IncrediBuild_OutputFile .\ui_MainWnd.h&#x0D;&#x0A;C:\Qt\4.6.0\bin\uic.exe MainWnd.ui -o ui_MainWnd.h&#x0D;&#x0A;"
+						AdditionalDependencies="BoardView.h;MainWnd.ui;Rem"
 						Outputs="ui_MainWnd.h"
-						Path="."/>
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -419,59 +634,91 @@
 			Name="Resource Files"
 			Filter="qrc;*"
 			UniqueIdentifier="{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}"
-			ParseFiles="false">
+			ParseFiles="false"
+			>
 			<File
-				RelativePath="Images\Black.png"/>
+				RelativePath="Images\Black.png"
+				>
+			</File>
 			<File
-				RelativePath="MainWnd.qrc">
+				RelativePath="Images\checkered_flag.png"
+				>
+			</File>
+			<File
+				RelativePath="Images\exit.png"
+				>
+			</File>
+			<File
+				RelativePath="MainWnd.qrc"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="C:\Qt\4.6.2\bin\rcc.exe;Images\Black.png;Images\Morris.png;Images\White.png;Images\checkered_flag.png;Images\exit.png;Images\open.png;Images\opening.png;Images\question.png;Images\restart.png;Images\run.png;Images\save.png;Images\setting.png;Images\step.png;MainWnd.qrc"
-						CommandLine="C:\Qt\4.6.2\bin\rcc.exe -name MainWnd MainWnd.qrc -o debug\qrc_MainWnd.cpp"
 						Description="RCC MainWnd.qrc"
+						CommandLine="C:\Qt\4.6.0\bin\rcc.exe -name MainWnd MainWnd.qrc -o debug\qrc_MainWnd.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.6.0\bin\rcc.exe;Images\Black.png;Images\Morris.png;Images\White.png;Images\checkered_flag.png;Images\exit.png;Images\open.png;Images\opening.png;Images\question.png;Images\restart.png;Images\run.png;Images\save.png;Images\setting.png;Images\step.png;MainWnd.qrc"
 						Outputs="debug\qrc_MainWnd.cpp"
-						Path="c:\Qt\4.6.2\bin"/>
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="C:\Qt\4.6.2\bin\rcc.exe;Images\Black.png;Images\Morris.png;Images\White.png;Images\checkered_flag.png;Images\exit.png;Images\open.png;Images\opening.png;Images\question.png;Images\restart.png;Images\run.png;Images\save.png;Images\setting.png;Images\step.png;MainWnd.qrc"
-						CommandLine="C:\Qt\4.6.2\bin\rcc.exe -name MainWnd MainWnd.qrc -o release\qrc_MainWnd.cpp"
 						Description="RCC MainWnd.qrc"
+						CommandLine="C:\Qt\4.6.0\bin\rcc.exe -name MainWnd MainWnd.qrc -o release\qrc_MainWnd.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.6.0\bin\rcc.exe;Images\Black.png;Images\Morris.png;Images\White.png;Images\checkered_flag.png;Images\exit.png;Images\open.png;Images\opening.png;Images\question.png;Images\restart.png;Images\run.png;Images\save.png;Images\setting.png;Images\step.png;MainWnd.qrc"
 						Outputs="release\qrc_MainWnd.cpp"
-						Path="c:\Qt\4.6.2\bin"/>
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Images\Morris.png"/>
+				RelativePath="Images\Morris.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\White.png"/>
+				RelativePath="Images\open.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\checkered_flag.png"/>
+				RelativePath="Images\opening.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\exit.png"/>
+				RelativePath="Images\question.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\open.png"/>
+				RelativePath="Images\restart.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\opening.png"/>
+				RelativePath="Images\run.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\question.png"/>
+				RelativePath="Images\save.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\restart.png"/>
+				RelativePath="Images\setting.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\run.png"/>
+				RelativePath="Images\step.png"
+				>
+			</File>
 			<File
-				RelativePath="Images\save.png"/>
-			<File
-				RelativePath="Images\setting.png"/>
-			<File
-				RelativePath="Images\step.png"/>
+				RelativePath="Images\White.png"
+				>
+			</File>
 		</Filter>
 		<File
-			RelativePath="Morris.rc"/>
+			RelativePath="Morris.rc"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

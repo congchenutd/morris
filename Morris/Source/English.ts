@@ -35,83 +35,53 @@
 <context>
     <name>DlgSetting</name>
     <message>
-        <location filename="DlgSetting.cpp" line="69"/>
+        <location filename="DlgSetting.cpp" line="68"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="70"/>
+        <location filename="DlgSetting.cpp" line="69"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="78"/>
+        <location filename="DlgSetting.cpp" line="75"/>
         <source>White - PC1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="79"/>
+        <location filename="DlgSetting.cpp" line="76"/>
         <source>Black - PC2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="85"/>
+        <location filename="DlgSetting.cpp" line="82"/>
         <source>White - Human</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="86"/>
+        <location filename="DlgSetting.cpp" line="83"/>
         <source>Black - PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="92"/>
+        <location filename="DlgSetting.cpp" line="89"/>
         <source>White - Human1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="93"/>
+        <location filename="DlgSetting.cpp" line="90"/>
         <source>Black - Human2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="136"/>
-        <source>Reasonning depth = %1 (%2)</source>
+        <location filename="DlgSetting.cpp" line="131"/>
+        <source>Depth = %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="138"/>
+        <location filename="DlgSetting.cpp" line="133"/>
         <source>The greater the smarter, but slower</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="144"/>
-        <source>fastest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="144"/>
-        <source>faster</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="144"/>
-        <source>middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="144"/>
-        <source>slower</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="144"/>
-        <source>slowest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.cpp" line="145"/>
-        <source>Speed = %1  (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -123,108 +93,103 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="25"/>
+        <location filename="DlgSetting.ui" line="28"/>
         <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="31"/>
+        <location filename="DlgSetting.ui" line="34"/>
         <source>Single Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="41"/>
+        <location filename="DlgSetting.ui" line="44"/>
         <source>PC - PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="48"/>
+        <location filename="DlgSetting.ui" line="51"/>
         <source>PC - Human</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="55"/>
+        <location filename="DlgSetting.ui" line="58"/>
         <source>Human - Human</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="65"/>
+        <location filename="DlgSetting.ui" line="68"/>
         <source>Start color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="71"/>
+        <location filename="DlgSetting.ui" line="74"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="81"/>
+        <location filename="DlgSetting.ui" line="84"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="91"/>
+        <location filename="DlgSetting.ui" line="94"/>
         <source>Language (Activate next time)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="98"/>
+        <location filename="DlgSetting.ui" line="101"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="DlgSetting.ui" line="103"/>
+        <location filename="DlgSetting.ui" line="106"/>
         <source>中文</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="114"/>
+        <location filename="DlgSetting.ui" line="117"/>
         <source>Algorithm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="120"/>
+        <location filename="DlgSetting.ui" line="123"/>
         <source>MinMax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="130"/>
+        <location filename="DlgSetting.ui" line="133"/>
         <source>Alpha-Beta pruning (faster)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="137"/>
+        <location filename="DlgSetting.ui" line="140"/>
         <source>Improved Alpha-Beta pruning (faster and smarter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="147"/>
+        <location filename="DlgSetting.ui" line="150"/>
         <source>Estimation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="153"/>
+        <location filename="DlgSetting.ui" line="156"/>
         <source>Basic estimation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="163"/>
+        <location filename="DlgSetting.ui" line="166"/>
         <source>Improved estimation (smarter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="173"/>
-        <source>Computer Intelligence</source>
+        <location filename="DlgSetting.ui" line="176"/>
+        <source>Reasoning depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="179"/>
-        <source>Reasonning depth (The greater the smarter, but slower)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.ui" line="208"/>
-        <source>Speed</source>
+        <location filename="DlgSetting.ui" line="182"/>
+        <source>Depth (The greater the smarter, but slower)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -236,28 +201,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="Manager.cpp" line="136"/>
         <location filename="Manager.cpp" line="137"/>
-        <location filename="Manager.cpp" line="138"/>
         <source>%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="209"/>
+        <location filename="Manager.cpp" line="208"/>
         <source>Game over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="210"/>
+        <location filename="Manager.cpp" line="209"/>
         <source>%1 wins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="210"/>
+        <location filename="Manager.cpp" line="209"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="210"/>
+        <location filename="Manager.cpp" line="209"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
@@ -271,44 +236,36 @@
     </message>
 </context>
 <context>
-    <name>Logger</name>
-    <message>
-        <location filename="Logger.h" line="16"/>
-        <source>%1: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MainWnd</name>
     <message>
-        <location filename="MainWnd.cpp" line="47"/>
-        <location filename="MainWnd.cpp" line="74"/>
+        <location filename="MainWnd.cpp" line="41"/>
+        <location filename="MainWnd.cpp" line="67"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="48"/>
-        <location filename="MainWnd.cpp" line="75"/>
+        <location filename="MainWnd.cpp" line="42"/>
+        <location filename="MainWnd.cpp" line="68"/>
         <source>Text files (*.txt);;All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="120"/>
+        <location filename="MainWnd.cpp" line="110"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="120"/>
-        <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.3.26&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
+        <location filename="MainWnd.cpp" line="110"/>
+        <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.3.30&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="185"/>
+        <location filename="MainWnd.cpp" line="172"/>
         <source>No input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="185"/>
+        <location filename="MainWnd.cpp" line="172"/>
         <source>Load from file, or input directly and press enter</source>
         <translation type="unfinished"></translation>
     </message>

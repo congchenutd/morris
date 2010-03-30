@@ -1,0 +1,18 @@
+(Start: WxxxxxxxxWxxBxxxxxxxxxB )
+
+MiniMaxOpening
+-----------------------------------
+d=6
+Chosen Move: WxxWxxxxxWxxBxxxxxxxxxB
+Positions evaluated by static estimation: 32346476
+MINIMAX estimate: 1
+
+
+ABOpening
+-----------------------------------
+d=6
+Chosen Move: WxxWxxxxxWxxBxxxxxxxxxB
+Positions evaluated by static estimation: 59152
+MINIMAX estimate: 1
+
+

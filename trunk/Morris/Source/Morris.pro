@@ -8,7 +8,6 @@ DEPENDPATH += . GeneratedFiles
 INCLUDEPATH += .
 
 TRANSLATIONS=Chinese.ts 
-TRANSLATIONS=English.ts
 
 RC_FILE = Morris.rc
 

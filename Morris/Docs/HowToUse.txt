@@ -1,0 +1,3 @@
+Open Setting dialog, set mode to "Single Step", set start color, algorithm and depth.
+
+Go back to main window, copy-paste the board string to "Input" and press enter. Press "Open" for opening and "Mid_End" for midendgame. 

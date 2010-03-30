@@ -1,0 +1,14 @@
+MiniMax...
+d=4
+Board Position: WxxWxxxBWWWBxxxxBxxxxBx
+Positions evaluated by static estimation: 10421
+MINIMAX estimate: -8
+
+WxxWxxWBWWxBxxxxBxBxxBx
+0 xWxWxxWBWWxBxxxxBxBxxBx
+1 WxxxWxWBWWxBxxxxBxBxxBx
+2 WxxWxxxBWWWBxxxxBxxxxBx
+3 WxxWxxxBWWWBxxxxBxBxxxx
+4 WxxWxxWBxWxBxxxxBxBxWBx
+5 WxxWxxWBWxWBxxxxBxBxxBx
+6 WxxWxxWBWxxBxxxxBWBxxBx

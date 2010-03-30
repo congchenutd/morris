@@ -1,0 +1,13 @@
+[General]
+Status=xxxBBBxxxxxxxxWWWxxxxxx
+Opening=false
+Mode=Human Human
+StartColor=W
+CurrentColor=W
+Algorithm=MinMax
+Estimation=Basic
+Depth=3
+Speed=1
+
+
+WxxxWWxxxxxxxxxxxxBxBBx

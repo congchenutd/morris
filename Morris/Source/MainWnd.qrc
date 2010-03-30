@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/MainWnd">
+        <file>Images/Black.png</file>
+        <file>Images/White.png</file>
+        <file>Images/Morris.png</file>
+        <file>Images/opening.png</file>
+        <file>Images/exit.png</file>
+        <file>Images/checkered_flag.png</file>
+        <file>Images/open.png</file>
+        <file>Images/question.png</file>
+        <file>Images/restart.png</file>
+        <file>Images/run.png</file>
+        <file>Images/save.png</file>
+        <file>Images/setting.png</file>
+        <file>Images/step.png</file>
+    </qresource>
+</RCC>

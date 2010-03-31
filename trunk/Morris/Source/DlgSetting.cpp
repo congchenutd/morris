@@ -215,7 +215,7 @@ int UserSetting::getEstimation() const
 UserSetting::UserSetting(const QString& userName) : MySetting<UserSetting>(userName)
 {
 	modeNames << "Single step" << "PC PC" << "PC Human" << "Human Human";
-	algorithmNames << "MinMax" << "AlphaBeta";
+	algorithmNames << "MinMax" << "AlphaBeta" <<"AlphaBetaImproved";
 	estimationNames << "Basic" << "Improved";
 
 	if(QFile(userName).size() == 0)   // no setting

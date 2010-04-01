@@ -17,6 +17,9 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 
 QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, int depth)
 {
+	node = 0;
+	hit = 0;
+
 	maxDepth = depth;
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
@@ -25,6 +28,7 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	runAlgorithm(Board(input, startColor));   // really run it
 	return nextMove.toString();
 }
+
 
 //////////////////////////////////////////////////////////////////////////
 // MinMax
@@ -162,8 +166,20 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 // Improved AlphaBeta
 int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 {
+	node ++;
+
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
+
+	// Search db
+	MoveRecord record = db.search(board);
+	if(record.score != MoveDB::NOT_FOUND)
+	{
+		hit ++;	
+		nextMove = record.nextMove;
+		maxValue = record.score;
+		return maxValue;
+	}
 
 	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
@@ -198,6 +214,13 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 
 	nextMove = *maxMove;
 	maxValue = value;
+
+	// save to db
+	record.nextMove = nextMove;
+	record.score = maxValue;
+	record.depth = board.getDepth();
+	db.save(board, record);
+	
 	return maxValue;
 }
 
@@ -233,4 +256,27 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 
 	nextMove = *minMove;
 	return minValue;
+}
+
+MoveRecord MoveDB::search(const Board& board) const
+{
+	const QHash<QString, MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
+	QHash<QString, MoveRecord>::const_iterator it = db.find(board.toString());
+	if(it == db.end())
+	{
+		MoveRecord result;
+		result.score = NOT_FOUND;
+		return result;
+	}
+	return it.value();
+}
+
+void MoveDB::save(const Board& current, const MoveRecord& next)
+{
+	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
+	QHash<QString, MoveRecord>::const_iterator it = db.find(current.toString());
+	if(it != db.end() && it.value().depth >= current.getDepth())
+		return;
+	
+	db.insert(current.toString(), next);
 }

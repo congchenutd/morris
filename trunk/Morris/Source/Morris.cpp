@@ -2,6 +2,7 @@
 #include "Estimator.h"
 #include "MoveGenerator.h"
 #include <QtGui>
+#include <algorithm>
 
 using namespace std;
 
@@ -27,7 +28,7 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	estimator->resetCounter();
 	generator->setOpening(opening);
 	runAlgorithm(Board(input, startColor));   // really run it
-	return nextMove.toString();
+	return nextMove.nextMove.toString();
 }
 
 
@@ -55,7 +56,7 @@ int MinMax::maxMin(const Board& board)
 	Moves::iterator maxMove = moves.begin();   // use pointer to avoid string copy
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = minMax(*it);
+		int temp = minMax(it->nextMove);
 		if(temp > value)
 		{
 			value = temp;
@@ -80,7 +81,7 @@ int MinMax::minMax(const Board& board)
 	Moves::iterator minMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = maxMin(*it);
+		int temp = maxMin(it->nextMove);
 		if(temp < minValue)
 		{
 			minValue = temp;
@@ -117,7 +118,7 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
 	Moves::iterator maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = minMax(*it, alpha, beta);
+		int temp = minMax(it->nextMove, alpha, beta);
 		if(temp > value)
 		{
 			value = temp;
@@ -147,7 +148,7 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 	Moves::iterator minMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = maxMin(*it, alpha, beta);
+		int temp = maxMin(it->nextMove, alpha, beta);
 		if(temp < minValue)
 		{
 			minValue = temp;
@@ -171,12 +172,13 @@ int AlphaBetaImproved::runAlgorithm(const Board& board)
 	int result, temp;
 
 	// Iterative deepening
+	nextMove.nextMove = board;
 	maxDepth = 0;
 	time.restart();
 	while(time.elapsed() < timeLimit)
 	{
 		maxDepth ++;
-		Board tempNextMove = nextMove;
+		MoveRecord tempNextMove = nextMove;
 		temp = maxMin(board, -INT_MAX, INT_MAX);
 		if(temp != TIME_OUT)
 		{
@@ -201,7 +203,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 
 	// Search db
 	MoveRecord record = db.search(board);
-	if(record.score != MoveDB::NOT_FOUND)
+	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		hit ++;	
 		if(record.depth > maxDepth)
@@ -213,6 +215,10 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	}
 
 	Moves moves = generator->generate(board);
+	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
+		it->score = estimator->getEstimation(it->nextMove);
+	sort(moves.begin(), moves.end(), greater<MoveRecord>());
+
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose
@@ -226,7 +232,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	Moves::iterator maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = minMax(*it, alpha, beta);
+		int temp = minMax(it->nextMove, alpha, beta);
 
 		if(temp == TIME_OUT)
 			return TIME_OUT;
@@ -251,7 +257,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	maxValue = value;
 
 	// save to db
-	record.nextMove = nextMove;
+	record.nextMove = nextMove.nextMove;
 	record.score = maxValue;
 	record.depth = board.getDepth();
 	db.save(board, record);
@@ -268,6 +274,10 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 		return estimator->getEstimation(board);
 
 	Moves moves = generator->generate(board);
+	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
+		it->score = estimator->getEstimation(it->nextMove);
+	sort(moves.begin(), moves.end(), greater<MoveRecord>());
+
 	int minValue = Estimator::MAX_ESTIMATION;
 	if(moves.empty())
 		return minValue;
@@ -275,7 +285,7 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	Moves::iterator minMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = maxMin(*it, alpha, beta);
+		int temp = maxMin(it->nextMove, alpha, beta);
 
 		if(temp == TIME_OUT)
 			return TIME_OUT;
@@ -305,11 +315,7 @@ MoveRecord MoveDB::search(const Board& board) const
 	const QHash<QString, MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
 	QHash<QString, MoveRecord>::const_iterator it = db.find(board.toString());
 	if(it == db.end())
-	{
-		MoveRecord result;
-		result.score = NOT_FOUND;
-		return result;
-	}
+		return MoveRecord();
 	return it.value();
 }
 

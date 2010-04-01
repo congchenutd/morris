@@ -1,76 +1,18 @@
 #include "Board.h"
 #include <algorithm>
+#include <set>
 #include <QtGui>
 
 using namespace std;
 
 bool Board::closeMill(int pos) const
 {
-	// all mills
-	static const int rawData[][3] = 
-	{
-		{0,1,2},
-		{0,3,6},
-		{0,8,20},
-		{1,0,2},
-		{2,0,1},
-		{2,5,7},
-		{2,13,22},
-		{3,0,6},
-		{3,9,17},
-		{3,4,5},
-		{4,3,5},
-		{5,2,7},
-		{5,3,4},
-		{5,12,19},
-		{6,0,3},
-		{6,10,14},
-		{7,2,5},
-		{7,11,16},
-		{8,0,20},
-		{8,9,10},
-		{9,3,17},
-		{9,8,10},
-		{10,6,14},
-		{10,8,9},
-		{11,7,16},
-		{11,12,13},
-		{12,5,19},
-		{12,11,13},
-		{13,2,22},
-		{13,11,12},
-		{14,6,10},
-		{14,17,20},
-		{14,15,16},
-		{15,14,16},
-		{15,18,21},
-		{16,7,11},
-		{16,14,15},
-		{16,19,22},
-		{17,3,9},
-		{17,14,20},
-		{17,18,19},
-		{18,15,21},
-		{18,17,19},
-		{19,5,12},
-		{19,16,22},
-		{19,17,18},
-		{20,0,8},
-		{20,14,17},
-		{20,21,22},
-		{21,15,18},
-		{21,20,22},
-		{22,2,13},
-		{22,16,19},
-		{22,20,21},
-	};
-
 	for(int i=0; i<54; ++i)
 	{
-		if(rawData[i][0] == pos)
-			if(isMill(Mill(rawData[i], rawData[i]+3)))
+		if(allMills[i][0] == pos)
+			if(isMill(Mill(allMills[i], allMills[i]+3)))
 				return true;
-		if(rawData[i][0] > pos)   // ignore remaining rows
+		if(allMills[i][0] > pos)   // ignore remaining rows
 			return false;
 	}
 	return false;
@@ -157,3 +99,97 @@ int Board::countJoints(QChar color) const
 			result += 4;
 	return result;
 }
+
+const int Board::allMills[][3] = 
+{
+	{0,1,2},
+	{0,3,6},
+	{0,8,20},
+	{1,0,2},
+	{2,0,1},
+	{2,5,7},
+	{2,13,22},
+	{3,0,6},
+	{3,9,17},
+	{3,4,5},
+	{4,3,5},
+	{5,2,7},
+	{5,3,4},
+	{5,12,19},
+	{6,0,3},
+	{6,10,14},
+	{7,2,5},
+	{7,11,16},
+	{8,0,20},
+	{8,9,10},
+	{9,3,17},
+	{9,8,10},
+	{10,6,14},
+	{10,8,9},
+	{11,7,16},
+	{11,12,13},
+	{12,5,19},
+	{12,11,13},
+	{13,2,22},
+	{13,11,12},
+	{14,6,10},
+	{14,17,20},
+	{14,15,16},
+	{15,14,16},
+	{15,18,21},
+	{16,7,11},
+	{16,14,15},
+	{16,19,22},
+	{17,3,9},
+	{17,14,20},
+	{17,18,19},
+	{18,15,21},
+	{18,17,19},
+	{19,5,12},
+	{19,16,22},
+	{19,17,18},
+	{20,0,8},
+	{20,14,17},
+	{20,21,22},
+	{21,15,18},
+	{21,20,22},
+	{22,2,13},
+	{22,16,19},
+	{22,20,21},
+};
+
+//int Board::countTwoItemMills(QChar color) const
+//{
+//	set<int> selfItems;
+//	for(int i=0; i<23; ++i)
+//		if(chessmen[i] == color)
+//			selfItems.insert(i);
+//
+//	int result = 0;
+//	while(!selfItems.empty())
+//	{
+//		int item = *(selfItems.begin());
+//		if(inTwoItemMill(item, color))
+//		{
+//			result ++;
+//		}
+//		selfItems.erase(selfItems.begin());
+//	}
+//	return result;
+//}
+//
+//bool Board::inTwoItemMill(int pos, QChar color) const
+//{
+//	for(int i=0; i<54; ++i)
+//	{
+//		if(allMills[i][0] == pos)
+//		{
+//			if( (allMills[i][1] == color && allMills[i][2] == 'x') ||
+//				(allMills[i][2] == color && allMills[i][1] == 'x'))
+//					return true;
+//		}
+//		if(allMills[i][0] > pos)   // ignore remaining rows
+//			return false;
+//	}
+//	return false;
+//}

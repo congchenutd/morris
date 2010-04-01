@@ -4,7 +4,7 @@
 #include <vector>
 #include "Morris.h"
 
-typedef std::vector<Board> Moves;
+typedef std::vector<MoveRecord> Moves;
 
 class MoveGenerator
 {

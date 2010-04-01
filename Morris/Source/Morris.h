@@ -8,6 +8,7 @@
 #include "Board.h"
 #include <QString>
 #include <QHash>
+#include <QTime>
 
 struct MoveRecord
 {
@@ -38,9 +39,10 @@ public:
 	MorrisAlgorithm();
 	~MorrisAlgorithm();
 	void setEstimator(Estimator* est) { estimator = est; }
-	QString run(bool opening, const QString& input, QChar startColor, int depth);
+	QString run(bool opening, const QString& input, QChar startColor, int depth, int tl = 30);
 	int getMaxValue() const { return maxValue; }
 	void clearDB() { db.clear(); }
+	int getMaxDepth() const { return maxDepth; }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
@@ -55,6 +57,7 @@ protected:
 	MoveDB         db;
 	long node;
 	long hit;
+	int timeLimit;
 };
 
 class MinMax : public MorrisAlgorithm
@@ -74,11 +77,16 @@ protected:
 	virtual int minMax(const Board& board, int alpha, int beta);
 };
 
-class AlphaBetaImproved : public AlphaBeta
+class AlphaBetaImproved : public MorrisAlgorithm
 {
 protected:
+	virtual int runAlgorithm(const Board& board);
 	virtual int maxMin(const Board& board, int alpha, int beta);
 	virtual int minMax(const Board& board, int alpha, int beta);
+
+private:
+	enum {TIME_OUT = 123456789};
+	QTime time;
 };
 
 #endif

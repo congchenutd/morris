@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
+    <width>778</width>
     <height>487</height>
    </rect>
   </property>
@@ -36,6 +36,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item>
        <widget class="QLabel" name="labelInput">
         <property name="text">
@@ -49,7 +52,7 @@
       <item>
        <widget class="QLabel" name="labelOutput">
         <property name="text">
-         <string>  Output</string>
+         <string> Output</string>
         </property>
        </widget>
       </item>
@@ -63,7 +66,7 @@
       <item>
        <widget class="QLabel" name="labelEstimationCount">
         <property name="text">
-         <string>  # of Estimation</string>
+         <string> # of Estimation</string>
         </property>
        </widget>
       </item>
@@ -71,7 +74,7 @@
        <widget class="QLineEdit" name="leEstimationCount">
         <property name="maximumSize">
          <size>
-          <width>100</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
         </property>
@@ -83,7 +86,7 @@
       <item>
        <widget class="QLabel" name="labelEstimation">
         <property name="text">
-         <string>  Estimation</string>
+         <string> Estimation</string>
         </property>
        </widget>
       </item>
@@ -101,9 +104,29 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string> Depth</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="leDepth">
+        <property name="maximumSize">
+         <size>
+          <width>20</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="labelStatus">
         <property name="text">
-         <string>  Status</string>
+         <string> Status</string>
         </property>
        </widget>
       </item>

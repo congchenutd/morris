@@ -7,6 +7,28 @@
 
 #include "Board.h"
 #include <QString>
+#include <QHash>
+
+struct MoveRecord
+{
+	Board nextMove;
+	int   score;
+	int   depth;
+};
+
+class MoveDB
+{
+public:
+	MoveRecord search(const Board& board) const;
+	void save (const Board& current, const MoveRecord& next);
+	void clear() { dbWhite.clear(); dbBlack.clear(); }
+
+public:
+	enum {NOT_FOUND = 123456789};
+
+private:
+	QHash<QString, MoveRecord> dbWhite, dbBlack;
+};
 
 class MoveGenerator;
 class Estimator;
@@ -18,6 +40,7 @@ public:
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, int depth);
 	int getMaxValue() const { return maxValue; }
+	void clearDB() { db.clear(); }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
@@ -29,6 +52,9 @@ protected:
 	int            maxValue;   // runAlgorithm() returns it
 	Estimator*     estimator;
 	MoveGenerator* generator;
+	MoveDB         db;
+	long node;
+	long hit;
 };
 
 class MinMax : public MorrisAlgorithm

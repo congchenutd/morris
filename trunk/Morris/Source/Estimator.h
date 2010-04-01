@@ -6,8 +6,23 @@
 /************************************************************************/
 
 #include <QChar>
+#include <QHash>
 
 class Board;
+
+class EstimationDB
+{
+public:
+	int search(const Board& board, bool opening) const;
+	void save (const Board& board, int score, bool opening);
+
+public:
+	enum {NOT_FOUND = 123456789};
+
+private:
+	QHash<QString, int> dbOpen, dbGame;
+};
+
 class Estimator
 {
 public:
@@ -29,6 +44,7 @@ protected:
 	QChar startColor;
 	bool  isOpening;
 	int   counter;
+	EstimationDB db;
 };
 
 class BasicEstimator : public Estimator

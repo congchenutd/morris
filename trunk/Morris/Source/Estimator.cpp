@@ -8,7 +8,16 @@
 int Estimator::getEstimation(const Board& board) 
 {
 	counter ++;
-	return isOpening ? getOpeningEstimation(board) : getGameEstimation(board);
+
+	// search from database
+	int score = db.search(board, isOpening);
+	if(score != EstimationDB::NOT_FOUND)
+		return score;
+
+	// new search
+	score = isOpening ? getOpeningEstimation(board) : getGameEstimation(board);
+	db.save(board, score, isOpening);
+	return score;
 }
 
 int BasicEstimator::getOpeningEstimation(const Board& board) const {
@@ -56,4 +65,19 @@ int ImprovedEstimator::getGameEstimation(const Board& board) const
 		return MIN_ESTIMATION;
 	return 1000 * (selfNum - opponentNum) +
 			(selfMoveNum - opponentMoveNum);
+}
+
+int EstimationDB::search(const Board& board, bool opening) const
+{
+	const QHash<QString, int>& db = opening ? dbOpen : dbGame;
+	QHash<QString, int>::const_iterator it = db.find(board.toString());
+	if(it == db.end())
+		return NOT_FOUND;
+	return it.value();
+}
+
+void EstimationDB::save(const Board& board, int score, bool opening) 
+{
+	QHash<QString, int>& db = opening ? dbOpen : dbGame;
+	db.insert(board.toString(), score);
 }

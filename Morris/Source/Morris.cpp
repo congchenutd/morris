@@ -275,7 +275,7 @@ void MoveDB::save(const Board& current, const MoveRecord& next)
 {
 	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
 	QHash<QString, MoveRecord>::const_iterator it = db.find(current.toString());
-	if(it != db.end() && it.value().depth >= current.getDepth())
+	if(it != db.end() && current.getDepth() >= it.value().depth)
 		return;
 	
 	db.insert(current.toString(), next);

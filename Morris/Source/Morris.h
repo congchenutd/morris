@@ -12,9 +12,17 @@
 
 struct MoveRecord
 {
+	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, int d = 0)
+		: nextMove(next), score(s), depth(d) {}
+
+	bool operator < (const MoveRecord& other) const { return score < other.score; }
+	bool operator > (const MoveRecord& other) const { return score > other.score; }
+
 	Board nextMove;
 	int   score;
 	int   depth;
+
+	enum {NOT_FOUND = 123456789};
 };
 
 class MoveDB
@@ -23,9 +31,6 @@ public:
 	MoveRecord search(const Board& board) const;
 	void save (const Board& current, const MoveRecord& next);
 	void clear() { dbWhite.clear(); dbBlack.clear(); }
-
-public:
-	enum {NOT_FOUND = 123456789};
 
 private:
 	QHash<QString, MoveRecord> dbWhite, dbBlack;
@@ -41,8 +46,8 @@ public:
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, int depth, int tl = 30);
 	int getMaxValue() const { return maxValue; }
-	void clearDB() { db.clear(); }
 	int getMaxDepth() const { return maxDepth; }
+	void clearDB() { db.clear(); }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
@@ -50,7 +55,7 @@ protected:
 
 protected:
 	int            maxDepth;
-	Board          nextMove;   // run() returns it, as the actual output
+	MoveRecord     nextMove;   // run() returns it, as the actual output
 	int            maxValue;   // runAlgorithm() returns it
 	Estimator*     estimator;
 	MoveGenerator* generator;

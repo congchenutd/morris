@@ -17,6 +17,8 @@ public:
 	Board(const QString& p = "xxxxxxxxxxxxxxxxxxxxxxx", QChar c = 'W', int d = 0) 
 		: chessmen(p), color(c), depth(d) {}
 
+	static void init();
+
 	QChar   getSelfColor()     const { return color; }
 	QChar   getOpponentColor() const { return flipColor(color); }
 	int     getDepth()         const { return depth; }
@@ -32,6 +34,7 @@ public:
 	
 	int countNumber(QChar color) const;    // # of chessmen
 	int countJoints(QChar color) const;    // i.e. a cross has 4 joints
+//	int countTwoItemMills(QChar color) const;
 
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);
@@ -42,11 +45,14 @@ public:
 
 private:
 	bool isMill(const Mill& mill) const;
+//	bool inTwoItemMill(int pos, QChar color) const;
 
 private:
 	QString chessmen;
 	QChar   color;           // current color
 	int     depth;           // current depth in the game tree
+
+	static const int allMills[][3];
 };
 
 #endif // Board_h__

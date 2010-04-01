@@ -26,6 +26,9 @@ public:
 	int  getDepth() const    { return ui.sliderDepth->value();  }
 	void setDepth(int depth);
 
+	int getTimeLimit() const { return ui.sliderTimeLimit->value(); }
+	void setTimeLimit(int seconds);
+
 	int getAlgorithm() const;
 	void setAlgorithm(int alg);
 
@@ -39,8 +42,9 @@ private slots:
 	void onPCPCMode();
 	void onPCHumanMode();
 	void onHumanHumanMode();
-	void onDepthChanged   (int depth);
-	void onLanguageChanged(int index);
+	void onDepthChanged    (int depth);
+	void onTimeLimitChanged(int seconds);
+	void onLanguageChanged (int index);
 
 private:
 	void setPCEnabled(bool enable);

@@ -26,6 +26,7 @@ MainWnd::MainWnd(QWidget *parent, Qt::WFlags flags)
 	mode = DlgSetting::STEP_MODE;
 	startColor = 'W';
 	depth = 3;
+	timeLimit = 30;
 	algorithm = DlgSetting::MIN_MAX;
 	estimation = DlgSetting::BASIC_ESTIMATION;
 
@@ -52,6 +53,7 @@ void MainWnd::onOpen()
 	algorithm = setting->getAlgorithm();
 	estimation = setting->getEstimation();
 	depth = setting->value("Depth").toInt();
+	timeLimit = setting->value("TimeLimit").toInt();
 
 	onRestart();
 	status = validateStatus(status);
@@ -78,6 +80,7 @@ void MainWnd::onSave()
 	setting->setAlgorithm(algorithm);
 	setting->setEstimation(estimation);
 	setting->setValue("Depth", depth);
+	setting->setValue("TimeLimit", timeLimit);
 }
 
 void MainWnd::onSetting()
@@ -86,6 +89,7 @@ void MainWnd::onSetting()
 	dlg.setMode(mode);
 	dlg.setStartColor(startColor);
 	dlg.setDepth(depth);
+	dlg.setTimeLimit(timeLimit);
 	dlg.setAlgorithm(algorithm);
 	dlg.setEstimation(estimation);
 	if(dlg.exec() == QDialog::Accepted)
@@ -93,6 +97,7 @@ void MainWnd::onSetting()
 		mode       = dlg.getMode();
 		startColor = dlg.getStartColor();
 		depth      = dlg.getDepth();
+		timeLimit  = dlg.getTimeLimit();
 		algorithm  = dlg.getAlgorithm();
 		estimation = dlg.getEstimation();
 

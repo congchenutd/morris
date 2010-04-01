@@ -15,10 +15,11 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 	delete generator;
 }
 
-QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, int depth)
+QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, int depth, int tl)
 {
 	node = 0;
 	hit = 0;
+	timeLimit = tl * 1000;
 
 	maxDepth = depth;
 	estimator->setStartColor(startColor);
@@ -164,9 +165,36 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 
 //////////////////////////////////////////////////////////////////////////
 // Improved AlphaBeta
+
+int AlphaBetaImproved::runAlgorithm(const Board& board)
+{
+	int result, temp;
+
+	// Iterative deepening
+	maxDepth = 0;
+	time.restart();
+	while(time.elapsed() < timeLimit)
+	{
+		maxDepth ++;
+		Board tempNextMove = nextMove;
+		temp = maxMin(board, -INT_MAX, INT_MAX);
+		if(temp != TIME_OUT)
+		{
+			result = temp;
+			tempNextMove = nextMove;
+		}
+		else
+			nextMove = tempNextMove;
+	}
+	return result;
+}
+
 int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 {
 	node ++;
+
+	if(time.elapsed() > timeLimit)
+		return TIME_OUT;
 
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
@@ -176,9 +204,12 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	if(record.score != MoveDB::NOT_FOUND)
 	{
 		hit ++;	
-		nextMove = record.nextMove;
-		maxValue = record.score;
-		return maxValue;
+		if(record.depth > maxDepth)
+		{
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
+		}
 	}
 
 	Moves moves = generator->generate(board);
@@ -196,6 +227,10 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
 		int temp = minMax(*it, alpha, beta);
+
+		if(temp == TIME_OUT)
+			return TIME_OUT;
+
 		if(temp > value)
 		{
 			value = temp;
@@ -226,6 +261,9 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 
 int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 {
+	if(time.elapsed() > timeLimit)
+		return TIME_OUT;
+
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
 
@@ -238,6 +276,10 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
 		int temp = maxMin(*it, alpha, beta);
+
+		if(temp == TIME_OUT)
+			return TIME_OUT;
+
 		if(temp < minValue)
 		{
 			minValue = temp;

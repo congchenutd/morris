@@ -48,6 +48,7 @@ private:
 	int mode;
 	QChar startColor;
 	int depth;
+	int timeLimit;
 	int algorithm;
 	int estimation;
 

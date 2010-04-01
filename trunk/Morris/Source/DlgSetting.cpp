@@ -13,8 +13,9 @@ DlgSetting::DlgSetting(QWidget *parent)
 	connect(ui.radioPC2PC,       SIGNAL(clicked()), this, SLOT(onPCPCMode()));
 	connect(ui.radioPC2Human,    SIGNAL(clicked()), this, SLOT(onPCHumanMode()));
 	connect(ui.radioHuman2Human, SIGNAL(clicked()), this, SLOT(onHumanHumanMode()));
-	connect(ui.sliderDepth, SIGNAL(valueChanged       (int)), this, SLOT(onDepthChanged   (int)));
-	connect(ui.cbLanguage,  SIGNAL(currentIndexChanged(int)), this, SLOT(onLanguageChanged(int)));
+	connect(ui.sliderDepth,     SIGNAL(valueChanged       (int)), this, SLOT(onDepthChanged    (int)));
+	connect(ui.sliderTimeLimit, SIGNAL(valueChanged       (int)), this, SLOT(onTimeLimitChanged(int)));
+	connect(ui.cbLanguage,      SIGNAL(currentIndexChanged(int)), this, SLOT(onLanguageChanged (int)));
 }
 
 int DlgSetting::getMode() const
@@ -133,10 +134,21 @@ void DlgSetting::onDepthChanged(int depth)
 		.arg(tr("The greater the smarter, but slower")));
 }
 
+void DlgSetting::onTimeLimitChanged(int seconds) {
+	ui.labelTimeLimit->setText(tr("Time limit = %1s (%2)")
+		.arg(seconds).arg(tr("The longer the smarter")));
+}
+
 void DlgSetting::setDepth(int depth)
 {
 	ui.sliderDepth->setValue(depth);
 	onDepthChanged(depth);
+}
+
+void DlgSetting::setTimeLimit(int seconds)
+{
+	ui.sliderTimeLimit->setValue(seconds);
+	onTimeLimitChanged(seconds);
 }
 
 void DlgSetting::onLanguageChanged(int index)
@@ -150,6 +162,7 @@ void DlgSetting::setLanguage(const QString& language) {
 	ui.cbLanguage->setCurrentIndex(language == "Chinese" ? 1 : 0);
 }
 
+
 //////////////////////////////////////////////////////////////////////////
 // UserSetting
 void UserSetting::loadDefaults()
@@ -162,6 +175,7 @@ void UserSetting::loadDefaults()
 	setValue("Algorithm", "MinMax");
 	setValue("Estimation", "Basic");
 	setValue("Depth", 3);
+	setValue("TimeLimit", 30);
 }
 
 void UserSetting::setMode(int mode) {

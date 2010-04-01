@@ -87,6 +87,7 @@ void GameManager::initMode()
 	mainWnd->ui.leOutput->clear();
 	mainWnd->ui.leEstimationCount->clear();
 	mainWnd->ui.leEstimation->clear();
+	mainWnd->ui.leDepth->clear();
 	mainWnd->setStatus("xxxxxxxxxxxxxxxxxxxxxxx");
 	mainWnd->ui.boardView->initChessmen();
 
@@ -131,11 +132,12 @@ void GameManager::runAlgorithm()
 void GameManager::runAlgorithm(bool opening)
 {
 	QString input = mainWnd->ui.leStatus->text();
-	QString output = algorithm->run(opening, input, currentColor, mainWnd->depth);
+	QString output = algorithm->run(opening, input, currentColor, mainWnd->depth, mainWnd->timeLimit);
 	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
 	mainWnd->ui.leEstimation->setText(tr("%1").arg(algorithm->getMaxValue()));
+	mainWnd->ui.leDepth->setText(tr("%1").arg(algorithm->getMaxDepth()));
 }
 
 void GameManager::flipColor()

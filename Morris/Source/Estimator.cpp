@@ -8,16 +8,7 @@
 int Estimator::getEstimation(const Board& board) 
 {
 	counter ++;
-
-	// search from database
-	int score = db.search(board, isOpening);
-	if(score != EstimationDB::NOT_FOUND)
-		return score;
-
-	// new search
-	score = isOpening ? getOpeningEstimation(board) : getGameEstimation(board);
-	db.save(board, score, isOpening);
-	return score;
+	return isOpening ? getOpeningEstimation(board) : getGameEstimation(board);
 }
 
 int BasicEstimator::getOpeningEstimation(const Board& board) const {
@@ -39,14 +30,22 @@ int BasicEstimator::getGameEstimation(const Board& board) const
 	return 1000 * (selfNum - opponentNum) - opponentMoveNum;
 }
 
+//////////////////////////////////////////////////////////////////////////
 // Improved estimator
-// The only improvement I make this time is that improved estimator counts 
-// joins instead of positions: the more joins a chessman takes, the better
-// i.e.   |
-//      __a__  __b__  a takes 4 joins while b takes 3
-//        |      |
-//     a is considered better than b because it has more mobility
-//     Chessman with less mobility is more likely to be trapped and less powerful
+int ImprovedEstimator::getEstimation(const Board& board)
+{
+	counter ++;
+
+	// search from database
+	int score = db.search(board, isOpening);
+	if(score != EstimationDB::NOT_FOUND)
+		return score;
+
+	// new search
+	score = isOpening ? getOpeningEstimation(board) : getGameEstimation(board);
+	db.save(board, score, isOpening);
+	return score;
+}
 
 int ImprovedEstimator::getOpeningEstimation(const Board& board) const {
 	return board.countJoints(startColor) - board.countJoints(Board::flipColor(startColor));
@@ -54,19 +53,31 @@ int ImprovedEstimator::getOpeningEstimation(const Board& board) const {
 
 int ImprovedEstimator::getGameEstimation(const Board& board) const
 {
+	//const int   selfNum         = board.countNumber(startColor);
+	//const int   selfMoveNum     = MoveGenerator::countMoves(board, isOpening, startColor);
+	//const QChar opponentColor   = Board::flipColor(startColor);
+	//const int   opponentNum     = board.countNumber(opponentColor);
+	//const int   opponentMoveNum = MoveGenerator::countMoves(board, isOpening, opponentColor);
+	//if(opponentNum <= 2 || opponentMoveNum == 0)
+	//	return MAX_ESTIMATION;
+	//if(selfNum <= 2 || selfMoveNum == 0)
+	//	return MIN_ESTIMATION;
+	//return 1000 * (selfNum - opponentNum) +
+	//		(selfMoveNum - opponentMoveNum);
 	const int   selfNum         = board.countNumber(startColor);
-	const int   selfMoveNum     = MoveGenerator::countMoves(board, isOpening, startColor);
 	const QChar opponentColor   = Board::flipColor(startColor);
 	const int   opponentNum     = board.countNumber(opponentColor);
 	const int   opponentMoveNum = MoveGenerator::countMoves(board, isOpening, opponentColor);
-	if(opponentNum <= 2 || opponentMoveNum == 0)
+	if(opponentNum <= 2)
 		return MAX_ESTIMATION;
-	if(selfNum <= 2 || selfMoveNum == 0)
+	if(selfNum <= 2)
 		return MIN_ESTIMATION;
-	return 1000 * (selfNum - opponentNum) +
-			(selfMoveNum - opponentMoveNum);
+	if(opponentMoveNum == 0)
+		return MAX_ESTIMATION;
+	return 1000 * (selfNum - opponentNum) - opponentMoveNum;
 }
 
+//////////////////////////////////////////////////////////////////////////
 int EstimationDB::search(const Board& board, bool opening) const
 {
 	const QHash<QString, int>& db = opening ? dbOpen : dbGame;

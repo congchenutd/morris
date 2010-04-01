@@ -27,11 +27,12 @@ class Estimator
 {
 public:
 	Estimator() : startColor('W'), isOpening(true) {}
-	int getEstimation(const Board& board);
 	void setStartColor(QChar color)  { startColor = color; }
 	void setOpening   (bool opening) { isOpening = opening; }
 	void resetCounter() { counter = 0; }
 	int  getCounter() const { return counter; }
+
+	virtual int getEstimation(const Board& board);
 
 protected:
 	virtual int getOpeningEstimation(const Board& board) const = 0;
@@ -44,20 +45,26 @@ protected:
 	QChar startColor;
 	bool  isOpening;
 	int   counter;
-	EstimationDB db;
 };
 
 class BasicEstimator : public Estimator
 {
-public:
+protected:
 	virtual int getOpeningEstimation(const Board& board) const;
 	virtual int getGameEstimation   (const Board& board) const;
 };
 
 class ImprovedEstimator : public Estimator
 {
+public:
+	virtual int getEstimation(const Board& board);
+
+protected:
 	virtual int getOpeningEstimation(const Board& board) const;
 	virtual int getGameEstimation   (const Board& board) const;
+
+private:
+	EstimationDB db;
 };
 
 #endif

@@ -47,28 +47,47 @@ int ImprovedEstimator::getEstimation(const Board& board)
 	return score;
 }
 
-int ImprovedEstimator::getOpeningEstimation(const Board& board) const {
-	return board.countJoints(startColor) - board.countJoints(Board::flipColor(startColor));
+int ImprovedEstimator::getOpeningEstimation(const Board& board) const 
+{
+	QChar opponentColor  = Board::flipColor(startColor);
+	int selfJointNum     = board.countJoints(startColor);
+	int opponentJointNum = board.countJoints(opponentColor);
+//	int selfTwoItemMillNum     = board.countTwoItemMills(startColor);
+//	int opponentTwoItemMillNum = board.countTwoItemMills(opponentColor);
+
+	return (selfJointNum - opponentJointNum);
+			//+ (selfTwoItemMillNum - opponentTwoItemMillNum);
 }
 
 int ImprovedEstimator::getGameEstimation(const Board& board) const
 {
-	int   selfNum                = board.countNumber(startColor);
-	int   selfMoveNum            = MoveGenerator::countMoves(board, isOpening, startColor);
-//	int   selfTwoItemMillNum     = board.countTwoItemMills(startColor);
-	QChar opponentColor          = Board::flipColor(startColor);
-	int   opponentNum            = board.countNumber(opponentColor);
-	int   opponentMoveNum        = MoveGenerator::countMoves(board, isOpening, opponentColor);
-//	int   opponentTwoItemMillNum = board.countTwoItemMills(opponentColor);
+	//int   selfNum                = board.countNumber(startColor);
+	//int   selfMoveNum            = MoveGenerator::countMoves(board, isOpening, startColor);
+	//int   selfTwoItemMillNum     = board.countTwoItemMills(startColor);
+	//QChar opponentColor          = Board::flipColor(startColor);
+	//int   opponentNum            = board.countNumber(opponentColor);
+	//int   opponentMoveNum        = MoveGenerator::countMoves(board, isOpening, opponentColor);
+	//int   opponentTwoItemMillNum = board.countTwoItemMills(opponentColor);
+	//if(opponentNum <= 2)
+	//	return MAX_ESTIMATION;
+	//if(selfNum <= 2)
+	//	return MIN_ESTIMATION;
+	//if(opponentMoveNum == 0)
+	//	return MAX_ESTIMATION;
+	//return 1000 * (selfNum - opponentNum) + 
+	//			10 * (selfMoveNum - opponentMoveNum) + 
+	//				100 * (selfTwoItemMillNum - opponentTwoItemMillNum);
+	const int   selfNum         = board.countNumber(startColor);
+	const QChar opponentColor   = Board::flipColor(startColor);
+	const int   opponentNum     = board.countNumber(opponentColor);
+	const int   opponentMoveNum = MoveGenerator::countMoves(board, isOpening, opponentColor);
 	if(opponentNum <= 2)
 		return MAX_ESTIMATION;
 	if(selfNum <= 2)
 		return MIN_ESTIMATION;
 	if(opponentMoveNum == 0)
 		return MAX_ESTIMATION;
-	return 1000 * (selfNum - opponentNum) + 
-				100 * (selfMoveNum - opponentMoveNum)/* + 
-					100 * (selfTwoItemMillNum - opponentTwoItemMillNum)*/;
+	return 1000 * (selfNum - opponentNum) - opponentMoveNum;
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,5 @@
 #include "Morris.h"
 #include "Estimator.h"
-#include "MoveGenerator.h"
 #include <QtGui>
 #include <algorithm>
 
@@ -166,59 +165,55 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 
 //////////////////////////////////////////////////////////////////////////
 // Improved AlphaBeta
-
 int AlphaBetaImproved::runAlgorithm(const Board& board)
 {
-	int result, temp;
+	return maxMin(board, -INT_MAX, INT_MAX);
 
+	//int result, temp;
 	// Iterative deepening
-	nextMove.nextMove = board;
-	maxDepth = 0;
-	time.restart();
-	while(time.elapsed() < timeLimit)
-	{
-		maxDepth ++;
-		MoveRecord tempNextMove = nextMove;
-		temp = maxMin(board, -INT_MAX, INT_MAX);
-		if(temp != TIME_OUT)
-		{
-			result = temp;
-			tempNextMove = nextMove;
-		}
-		else
-			nextMove = tempNextMove;
-	}
-	return result;
+	//nextMove.nextMove = board;
+	//maxDepth = 0;
+	//time.restart();
+	//while(time.elapsed() < timeLimit)
+	//{
+	//	maxDepth ++;
+	//	MoveRecord tempNextMove = nextMove;
+	//	temp = maxMin(board, -INT_MAX, INT_MAX);
+	//	if(temp != TIME_OUT)
+	//	{
+	//		result = temp;
+	//		tempNextMove = nextMove;
+	//	}
+	//	else
+	//		nextMove = tempNextMove;
+	//}
+	//return result;
 }
 
 int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 {
 	node ++;
 
-	if(time.elapsed() > timeLimit)
-		return TIME_OUT;
+	//if(time.elapsed() > timeLimit)
+	//	return TIME_OUT;
+
+	// Search db
+	//MoveRecord record = db.search(board);
+	//if(record.score != MoveRecord::NOT_FOUND)
+	//{
+	//	if(record.depth >= board.getDepth())
+	//	{
+	//		hit ++;	
+	//		nextMove = record.nextMove;
+	//		maxValue = record.score;
+	//		return maxValue;
+	//	}
+	//}
 
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
 
-	// Search db
-	MoveRecord record = db.search(board);
-	if(record.score != MoveRecord::NOT_FOUND)
-	{
-		hit ++;	
-		if(record.depth > maxDepth)
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
-		}
-	}
-
-	Moves moves = generator->generate(board);
-	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-		it->score = estimator->getEstimation(it->nextMove);
-	sort(moves.begin(), moves.end(), greater<MoveRecord>());
-
+	Moves moves = getSortedMoves(board, false);
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose
@@ -257,27 +252,34 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	maxValue = value;
 
 	// save to db
-	record.nextMove = nextMove.nextMove;
-	record.score = maxValue;
-	record.depth = board.getDepth();
-	db.save(board, record);
+//	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth()));
 	
 	return maxValue;
 }
 
 int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 {
-	if(time.elapsed() > timeLimit)
-		return TIME_OUT;
+	node ++;
+
+	//if(time.elapsed() > timeLimit)
+	//	return TIME_OUT;
+
+	// Search db
+	//MoveRecord record = db.search(board);
+	//if(record.score != MoveRecord::NOT_FOUND)
+	//{
+	//	if(record.depth >= board.getDepth())
+	//	{
+	//		hit ++;	
+	//		nextMove = record.nextMove;
+	//		return record.score;
+	//	}
+	//}
 
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
 
-	Moves moves = generator->generate(board);
-	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-		it->score = estimator->getEstimation(it->nextMove);
-	sort(moves.begin(), moves.end(), greater<MoveRecord>());
-
+	Moves moves = getSortedMoves(board, true);
 	int minValue = Estimator::MAX_ESTIMATION;
 	if(moves.empty())
 		return minValue;
@@ -307,7 +309,23 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	}
 
 	nextMove = *minMove;
+
+	// save to db
+//	db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth()));
+
 	return minValue;
+}
+
+Moves AlphaBetaImproved::getSortedMoves(const Board& board, bool minMax)
+{
+	Moves moves = generator->generate(board);
+	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
+		it->score = estimator->getEstimation(it->nextMove);
+	if(minMax)
+		sort(moves.begin(), moves.end());
+	else
+		sort(moves.begin(), moves.end(), greater<MoveRecord>());
+	return moves;
 }
 
 MoveRecord MoveDB::search(const Board& board) const
@@ -322,9 +340,9 @@ MoveRecord MoveDB::search(const Board& board) const
 void MoveDB::save(const Board& current, const MoveRecord& next)
 {
 	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	QHash<QString, MoveRecord>::const_iterator it = db.find(current.toString());
-	if(it != db.end() && current.getDepth() >= it.value().depth)
-		return;
+	//QHash<QString, MoveRecord>::const_iterator it = db.find(current.toString());
+	//if(it != db.end() && current.getDepth() >= it.value().depth)
+	//	return;
 	
 	db.insert(current.toString(), next);
 }

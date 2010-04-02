@@ -6,24 +6,10 @@
 /************************************************************************/
 
 #include "Board.h"
+#include "MoveGenerator.h"
 #include <QString>
 #include <QHash>
 #include <QTime>
-
-struct MoveRecord
-{
-	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, int d = 0)
-		: nextMove(next), score(s), depth(d) {}
-
-	bool operator < (const MoveRecord& other) const { return score < other.score; }
-	bool operator > (const MoveRecord& other) const { return score > other.score; }
-
-	Board nextMove;
-	int   score;
-	int   depth;
-
-	enum {NOT_FOUND = 123456789};
-};
 
 class MoveDB
 {
@@ -48,6 +34,7 @@ public:
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
 	void clearDB() { db.clear(); }
+	double getHitRatio() const { return (double)hit / node; }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
@@ -88,6 +75,8 @@ protected:
 	virtual int runAlgorithm(const Board& board);
 	virtual int maxMin(const Board& board, int alpha, int beta);
 	virtual int minMax(const Board& board, int alpha, int beta);
+
+	Moves getSortedMoves(const Board& board, bool minMax);
 
 private:
 	enum {TIME_OUT = 123456789};

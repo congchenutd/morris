@@ -158,38 +158,33 @@ const int Board::allMills[][3] =
 	{22,20,21},
 };
 
-//int Board::countTwoItemMills(QChar color) const
-//{
-//	set<int> selfItems;
-//	for(int i=0; i<23; ++i)
-//		if(chessmen[i] == color)
-//			selfItems.insert(i);
-//
-//	int result = 0;
-//	while(!selfItems.empty())
-//	{
-//		int item = *(selfItems.begin());
-//		if(inTwoItemMill(item, color))
-//		{
-//			result ++;
-//		}
-//		selfItems.erase(selfItems.begin());
-//	}
-//	return result;
-//}
-//
-//bool Board::inTwoItemMill(int pos, QChar color) const
-//{
-//	for(int i=0; i<54; ++i)
-//	{
-//		if(allMills[i][0] == pos)
-//		{
-//			if( (allMills[i][1] == color && allMills[i][2] == 'x') ||
-//				(allMills[i][2] == color && allMills[i][1] == 'x'))
-//					return true;
-//		}
-//		if(allMills[i][0] > pos)   // ignore remaining rows
-//			return false;
-//	}
-//	return false;
-//}
+int Board::countTwoItemMills(QChar c) const
+{
+	int result = 0;
+	Board temp(*this);
+	for(int i=0; i<23; ++i)
+		if(temp.getManAt(i) == c)
+		{
+			result += temp.inTwoItemMill(i, c);
+			temp.setManAt(i, 'x');
+		}
+
+	return result;
+}
+
+int Board::inTwoItemMill(int pos, QChar color) const
+{
+	int result = 0;
+	for(int i=0; i<54; ++i)
+	{
+		if(allMills[i][0] == pos)
+		{
+			if( (chessmen[allMills[i][1]] == color && chessmen[allMills[i][2]] == 'x') ||
+				(chessmen[allMills[i][2]] == color && chessmen[allMills[i][1]] == 'x'))
+					result ++;
+		}
+		if(allMills[i][0] > pos)   // ignore remaining rows
+			return result;
+	}
+	return result;
+}

@@ -34,7 +34,7 @@ public:
 	
 	int countNumber(QChar color) const;    // # of chessmen
 	int countJoints(QChar color) const;    // i.e. a cross has 4 joints
-//	int countTwoItemMills(QChar color) const;
+	int countTwoItemMills(QChar color) const;
 
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);
@@ -45,7 +45,7 @@ public:
 
 private:
 	bool isMill(const Mill& mill) const;
-//	bool inTwoItemMill(int pos, QChar color) const;
+	int inTwoItemMill(int pos, QChar color) const;
 
 private:
 	QString chessmen;

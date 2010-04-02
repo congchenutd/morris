@@ -2,7 +2,22 @@
 #define MoveGenerator_h__
 
 #include <vector>
-#include "Morris.h"
+#include "Board.h"
+
+struct MoveRecord
+{
+	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, int d = 0)
+		: nextMove(next), score(s), depth(d) {}
+
+	bool operator < (const MoveRecord& other) const { return score < other.score; }
+	bool operator > (const MoveRecord& other) const { return score > other.score; }
+
+	Board nextMove;
+	int   score;
+	int   depth;
+
+	enum {NOT_FOUND = 123456789};
+};
 
 typedef std::vector<MoveRecord> Moves;
 

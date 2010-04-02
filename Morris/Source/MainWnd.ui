@@ -104,7 +104,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="labelDepth">
         <property name="text">
          <string> Depth</string>
         </property>

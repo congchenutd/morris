@@ -131,6 +131,8 @@ void GameManager::runAlgorithm()
 
 void GameManager::runAlgorithm(bool opening)
 {
+	QTime time;
+	time.restart();
 	QString input = mainWnd->ui.leStatus->text();
 	QString output = algorithm->run(opening, input, currentColor, mainWnd->depth, mainWnd->timeLimit);
 	mainWnd->ui.leOutput->setText(output);
@@ -138,6 +140,8 @@ void GameManager::runAlgorithm(bool opening)
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
 	mainWnd->ui.leEstimation->setText(tr("%1").arg(algorithm->getMaxValue()));
 	mainWnd->ui.leDepth->setText(tr("%1").arg(algorithm->getMaxDepth()));
+	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
+	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
 }
 
 void GameManager::flipColor()
@@ -336,6 +340,8 @@ void HumanHumanModeManager::enterThisMode()
 	mainWnd->ui.leEstimationCount   ->hide();
 	mainWnd->ui.labelEstimation     ->hide();
 	mainWnd->ui.leEstimation        ->hide();
+	mainWnd->ui.labelDepth          ->hide();
+	mainWnd->ui.leDepth             ->hide();
 }
 
 void HumanHumanModeManager::leaveThisMode()
@@ -344,6 +350,8 @@ void HumanHumanModeManager::leaveThisMode()
 	mainWnd->ui.leEstimationCount   ->show();
 	mainWnd->ui.labelEstimation     ->show();
 	mainWnd->ui.leEstimation        ->show();
+	mainWnd->ui.labelDepth          ->show();
+	mainWnd->ui.leDepth             ->show();
 }
 
 void HumanHumanModeManager::runAlgorithm()

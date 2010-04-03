@@ -198,17 +198,17 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	//	return TIME_OUT;
 
 	// Search db
-	//MoveRecord record = db.search(board);
-	//if(record.score != MoveRecord::NOT_FOUND)
-	//{
-	//	if(record.depth >= board.getDepth())
-	//	{
-	//		hit ++;	
-	//		nextMove = record.nextMove;
-	//		maxValue = record.score;
-	//		return maxValue;
-	//	}
-	//}
+	MoveRecord record = db.search(board);
+	if(record.score != MoveRecord::NOT_FOUND)
+	{
+//		if(record.depth <= board.getDepth())
+		{
+			hit ++;	
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
+		}
+	}
 
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
@@ -252,7 +252,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	maxValue = value;
 
 	// save to db
-//	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth()));
+	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth()));
 	
 	return maxValue;
 }
@@ -265,16 +265,16 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	//	return TIME_OUT;
 
 	// Search db
-	//MoveRecord record = db.search(board);
-	//if(record.score != MoveRecord::NOT_FOUND)
-	//{
-	//	if(record.depth >= board.getDepth())
-	//	{
-	//		hit ++;	
-	//		nextMove = record.nextMove;
-	//		return record.score;
-	//	}
-	//}
+	MoveRecord record = db.search(board);
+	if(record.score != MoveRecord::NOT_FOUND)
+	{
+//		if(record.depth <= board.getDepth())
+		{
+			hit ++;	
+			nextMove = record.nextMove;
+			return record.score;
+		}
+	}
 
 	if(isLeaf(board))
 		return estimator->getEstimation(board);
@@ -311,7 +311,7 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	nextMove = *minMove;
 
 	// save to db
-//	db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth()));
+	db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth()));
 
 	return minValue;
 }
@@ -340,9 +340,5 @@ MoveRecord MoveDB::search(const Board& board) const
 void MoveDB::save(const Board& current, const MoveRecord& next)
 {
 	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	//QHash<QString, MoveRecord>::const_iterator it = db.find(current.toString());
-	//if(it != db.end() && current.getDepth() >= it.value().depth)
-	//	return;
-	
 	db.insert(current.toString(), next);
 }

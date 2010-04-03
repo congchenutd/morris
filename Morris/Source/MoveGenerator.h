@@ -6,8 +6,11 @@
 
 struct MoveRecord
 {
-	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, int d = 0)
-		: nextMove(next), score(s), depth(d) {}
+	typedef enum {EXACT_VALUE, LOWER_BOUND, HIGHER_BOUND} RecordType;
+
+	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, 
+				int d = 0, RecordType t = EXACT_VALUE)
+		: nextMove(next), score(s), depth(d), type(t) {}
 
 	bool operator < (const MoveRecord& other) const { return score < other.score; }
 	bool operator > (const MoveRecord& other) const { return score > other.score; }
@@ -15,6 +18,7 @@ struct MoveRecord
 	Board nextMove;
 	int   score;
 	int   depth;
+	RecordType type;
 
 	enum {NOT_FOUND = 123456789};
 };

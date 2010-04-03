@@ -201,12 +201,28 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	MoveRecord record = db.search(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
-//		if(record.depth <= board.getDepth())
+		if(record.depth >= board.getDepth())
 		{
 			hit ++;	
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
+			switch(record.type)
+			{
+			case MoveRecord::EXACT_VALUE:
+				nextMove = record.nextMove;
+				maxValue = record.score;
+				return maxValue;
+			case MoveRecord::LOWER_BOUND:
+				alpha = max(alpha, record.score);
+				break;
+			case MoveRecord::HIGHER_BOUND:
+				beta = min(beta, record.score);
+				break;
+			}
+			if(alpha > beta)
+			{
+				nextMove = board;
+				maxValue = record.score;
+				return maxValue;
+			}
 		}
 	}
 
@@ -252,7 +268,10 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	maxValue = value;
 
 	// save to db
-	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth()));
+	MoveRecord::RecordType type = (maxValue < alpha) ? MoveRecord::LOWER_BOUND :
+								  (maxValue > beta)  ? MoveRecord::HIGHER_BOUND :
+														MoveRecord::EXACT_VALUE;
+	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
 	
 	return maxValue;
 }
@@ -268,11 +287,22 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 	MoveRecord record = db.search(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
-//		if(record.depth <= board.getDepth())
+		if(record.depth >= board.getDepth())
 		{
 			hit ++;	
-			nextMove = record.nextMove;
-			return record.score;
+			switch(record.type)
+			{
+			case MoveRecord::EXACT_VALUE:
+				return record.type;
+			case MoveRecord::LOWER_BOUND:
+				alpha = max(alpha, record.score);
+				break;
+			case MoveRecord::HIGHER_BOUND:
+				beta = min(beta, record.score);
+				break;
+			}
+			if(alpha > beta)
+				return record.score;
 		}
 	}
 
@@ -308,10 +338,11 @@ int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
 			beta = minValue;
 	}
 
-	nextMove = *minMove;
-
 	// save to db
-	db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth()));
+	MoveRecord::RecordType type = (minValue > alpha) ? MoveRecord::LOWER_BOUND :
+								  (minValue < beta)  ? MoveRecord::HIGHER_BOUND :
+														MoveRecord::EXACT_VALUE;
+	db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth(), type));
 
 	return minValue;
 }

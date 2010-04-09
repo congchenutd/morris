@@ -28,7 +28,8 @@ class MorrisAlgorithm
 {
 public:
 	MorrisAlgorithm();
-	~MorrisAlgorithm();
+	virtual ~MorrisAlgorithm();
+
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, int depth, int tl = 30);
 	int getMaxValue() const { return maxValue; }
@@ -80,7 +81,14 @@ protected:
 
 private:
 	enum {TIME_OUT = 123456789};
-	QTime time;
+};
+
+class NegaMax : public MorrisAlgorithm
+{
+protected:
+	virtual int runAlgorithm(const Board& board);
+
+	int negaMax(const Board& board, int alpha, int beta, int sign);
 };
 
 #endif

@@ -45,6 +45,7 @@ private slots:
 	void onDepthChanged    (int depth);
 	void onTimeLimitChanged(int seconds);
 	void onLanguageChanged (int index);
+	void onAlgorithmChanged();
 
 private:
 	void setPCEnabled(bool enable);

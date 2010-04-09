@@ -14,6 +14,7 @@ public:
 	static void delManagers();
 	static GameManager* resetManager();
 
+	virtual ~GameManager() {}
 	virtual void opening() {}                            // for single step only
 	virtual void game()    {}                            // for single step only
 	

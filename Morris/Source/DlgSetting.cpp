@@ -16,6 +16,9 @@ DlgSetting::DlgSetting(QWidget *parent)
 	connect(ui.sliderDepth,     SIGNAL(valueChanged       (int)), this, SLOT(onDepthChanged    (int)));
 	connect(ui.sliderTimeLimit, SIGNAL(valueChanged       (int)), this, SLOT(onTimeLimitChanged(int)));
 	connect(ui.cbLanguage,      SIGNAL(currentIndexChanged(int)), this, SLOT(onLanguageChanged (int)));
+	connect(ui.radioMinMax,            SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
+	connect(ui.radioAlphaBeta,         SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
+//	connect(ui.radioAlphaBetaImproved, SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 }
 
 int DlgSetting::getMode() const
@@ -106,6 +109,7 @@ void DlgSetting::setAlgorithm(int alg)
 		ui.radioAlphaBeta->setChecked(true);
 	else
 		ui.radioAlphaBetaImproved->setChecked(true);
+	onAlgorithmChanged();
 }
 
 int DlgSetting::getEstimation() const {
@@ -162,6 +166,13 @@ void DlgSetting::setLanguage(const QString& language) {
 	ui.cbLanguage->setCurrentIndex(language == "Chinese" ? 1 : 0);
 }
 
+void DlgSetting::onAlgorithmChanged()
+{
+	ui.labelTimeLimit ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.sliderTimeLimit->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.labelDepth ->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
+	ui.sliderDepth->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
+}
 
 //////////////////////////////////////////////////////////////////////////
 // UserSetting

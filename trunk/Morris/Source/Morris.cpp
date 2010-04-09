@@ -213,7 +213,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 			case MoveRecord::LOWER_BOUND:
 				alpha = max(alpha, record.score);
 				break;
-			case MoveRecord::HIGHER_BOUND:
+			case MoveRecord::UPPER_BOUND:
 				beta = min(beta, record.score);
 				break;
 			}
@@ -268,8 +268,8 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	maxValue = value;
 
 	// save to db
-	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::LOWER_BOUND :
-								  (maxValue >= beta)  ? MoveRecord::HIGHER_BOUND :
+	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
+								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
 													    MoveRecord::EXACT_VALUE;
 	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
 	
@@ -365,6 +365,8 @@ MoveRecord MoveDB::search(const Board& board) const
 	QHash<QString, MoveRecord>::const_iterator it = db.find(board.toString());
 	if(it == db.end())
 		return MoveRecord();
+	if(it.value().depth > board.getDepth())
+		return MoveRecord();
 	return it.value();
 }
 
@@ -372,4 +374,79 @@ void MoveDB::save(const Board& current, const MoveRecord& next)
 {
 	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
 	db.insert(current.toString(), next);
+}
+
+int NegaMax::runAlgorithm(const Board& board) {
+	return negaMax(board, -INT_MAX, INT_MAX, 1);
+}
+
+int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
+{
+	node ++;
+
+	// Search db
+	MoveRecord record = db.search(board);
+	if(record.score != MoveRecord::NOT_FOUND)
+	{
+		hit ++;	
+		switch(record.type)
+		{
+		case MoveRecord::EXACT_VALUE:
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
+		case MoveRecord::LOWER_BOUND:
+			alpha = max(alpha, record.score);
+			break;
+		case MoveRecord::UPPER_BOUND:
+			beta = min(beta, record.score);
+			break;
+		}
+		if(alpha > beta)
+		{
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
+		}
+	}
+
+	if(isLeaf(board))
+		return sign * estimator->getEstimation(board);
+
+	Moves moves = generator->generate(board);
+	int value = Estimator::MIN_ESTIMATION;
+
+	// no future move, definitely lose
+	if(moves.empty())
+	{
+		maxValue = value;
+		nextMove = board;
+		return maxValue;
+	}
+
+	Moves::iterator maxMove = moves.begin();
+	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
+	{
+		int temp = - negaMax(it->nextMove, -beta, -alpha, -sign);
+		if(temp > value)
+		{
+			value = temp;
+			maxMove = it;
+		}
+		if(value >= beta)
+			break;
+		if(value > alpha)
+			alpha = value;
+	}
+
+	nextMove = *maxMove;
+	maxValue = value;
+
+	// save to db
+	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
+								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
+														MoveRecord::EXACT_VALUE;
+	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
+
+	return maxValue;
 }

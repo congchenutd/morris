@@ -6,7 +6,7 @@
 
 struct MoveRecord
 {
-	typedef enum {EXACT_VALUE, LOWER_BOUND, HIGHER_BOUND} RecordType;
+	typedef enum {EXACT_VALUE, LOWER_BOUND, UPPER_BOUND} RecordType;
 
 	MoveRecord(const Board& next = QString(), int s = NOT_FOUND, 
 				int d = 0, RecordType t = EXACT_VALUE)

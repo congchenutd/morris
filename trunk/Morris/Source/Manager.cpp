@@ -55,7 +55,7 @@ void GameManager::chooseAlgorithm()
 	else if(mainWnd->algorithm == DlgSetting::ALPHA_BETA)
 		algorithm = new AlphaBeta;
 	else
-		algorithm = new AlphaBetaImproved;
+		algorithm = new NegaMax;
 }
 
 void GameManager::chooseEstimator()
@@ -141,7 +141,7 @@ void GameManager::runAlgorithm(bool opening)
 	mainWnd->ui.leEstimation->setText(tr("%1").arg(algorithm->getMaxValue()));
 	mainWnd->ui.leDepth->setText(tr("%1").arg(algorithm->getMaxDepth()));
 	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
-	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
+//	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
 }
 
 void GameManager::flipColor()

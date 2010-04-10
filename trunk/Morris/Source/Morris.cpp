@@ -25,6 +25,7 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
+	estimator->setDB(&db);
 	generator->setOpening(opening);
 	runAlgorithm(Board(input, startColor));   // really run it
 	return nextMove.nextMove.toString();
@@ -198,7 +199,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	//	return TIME_OUT;
 
 	// Search db
-	MoveRecord record = db.search(board);
+	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		if(record.depth >= board.getDepth())
@@ -271,7 +272,7 @@ int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
 	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
 								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
 													    MoveRecord::EXACT_VALUE;
-	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
+	db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
 	
 	return maxValue;
 }
@@ -359,22 +360,6 @@ Moves AlphaBetaImproved::getSortedMoves(const Board& board, bool minMax)
 	return moves;
 }
 
-MoveRecord MoveDB::search(const Board& board) const
-{
-	const QHash<QString, MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	QHash<QString, MoveRecord>::const_iterator it = db.find(board.toString());
-	if(it == db.end())
-		return MoveRecord();
-	if(it.value().depth > board.getDepth())
-		return MoveRecord();
-	return it.value();
-}
-
-void MoveDB::save(const Board& current, const MoveRecord& next)
-{
-	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	db.insert(current.toString(), next);
-}
 
 int NegaMax::runAlgorithm(const Board& board) {
 	return negaMax(board, -INT_MAX, INT_MAX, 1);
@@ -385,7 +370,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	node ++;
 
 	// Search db
-	MoveRecord record = db.search(board);
+	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		hit ++;	
@@ -413,6 +398,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
+//	Moves moves = getSortedMoves(board, sign);
 	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
 
@@ -446,7 +432,16 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
 								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
 														MoveRecord::EXACT_VALUE;
-	db.save(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
+	db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
 
 	return maxValue;
+}
+
+Moves NegaMax::getSortedMoves(const Board& board, int sign)
+{
+	Moves moves = generator->generate(board);
+	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
+		it->score = estimator->getEstimation(it->nextMove);
+	sort(moves.begin(), moves.end());
+	return moves;
 }

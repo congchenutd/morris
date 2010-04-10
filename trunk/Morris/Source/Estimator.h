@@ -6,34 +6,23 @@
 /************************************************************************/
 
 #include <QChar>
-#include <QHash>
+#include "MoveDB.h"
 
 class Board;
-
-class EstimationDB
-{
-public:
-	int search(const Board& board, bool opening) const;
-	void save (const Board& board, int score, bool opening);
-
-public:
-	enum {NOT_FOUND = 123456789};
-
-private:
-	QHash<QString, int> dbOpen, dbGame;
-};
 
 class Estimator
 {
 public:
-	Estimator() : startColor('W'), isOpening(true) {}
+	Estimator() : startColor('W'), isOpening(true), db(0) {}
 	virtual ~Estimator() {}
 
-	void setStartColor(QChar color)  { startColor = color; }
+	void setStartColor(QChar color)  { startColor = color;  }
 	void setOpening   (bool opening) { isOpening = opening; }
+	void setDB        (MoveDB* db)   { this->db = db;       }
 	void resetCounter() { counter = 0; }
 	int  getCounter() const { return counter; }
-
+	
+	virtual void clearDB() {}
 	virtual int getEstimation(const Board& board);
 
 protected:
@@ -44,9 +33,10 @@ public:
 	enum {MAX_ESTIMATION = 10000, MIN_ESTIMATION = -10000};
 
 protected:
-	QChar startColor;
-	bool  isOpening;
-	int   counter;
+	QChar   startColor;
+	bool    isOpening;
+	MoveDB* db;
+	int     counter;
 };
 
 class BasicEstimator : public Estimator
@@ -60,13 +50,6 @@ class ImprovedEstimator : public BasicEstimator
 {
 public:
 	virtual int getEstimation(const Board& board);
-
-//protected:
-//	virtual int getOpeningEstimation(const Board& board) const;
-//	virtual int getGameEstimation   (const Board& board) const;
-
-private:
-	EstimationDB db;
 };
 
 #endif

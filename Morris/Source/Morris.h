@@ -7,20 +7,8 @@
 
 #include "Board.h"
 #include "MoveGenerator.h"
+#include "MoveDB.h"
 #include <QString>
-#include <QHash>
-#include <QTime>
-
-class MoveDB
-{
-public:
-	MoveRecord search(const Board& board) const;
-	void save (const Board& current, const MoveRecord& next);
-	void clear() { dbWhite.clear(); dbBlack.clear(); }
-
-private:
-	QHash<QString, MoveRecord> dbWhite, dbBlack;
-};
 
 class MoveGenerator;
 class Estimator;
@@ -89,6 +77,7 @@ protected:
 	virtual int runAlgorithm(const Board& board);
 
 	int negaMax(const Board& board, int alpha, int beta, int sign);
+	Moves getSortedMoves(const Board& board, int sign);
 };
 
 #endif

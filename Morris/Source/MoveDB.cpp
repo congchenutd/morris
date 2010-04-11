@@ -23,7 +23,8 @@ int MoveDB::searchEstimation(const Board& board) const
 	QHash<QString, int>::const_iterator it = estimationDB.find(board.toString());
 	if(it != estimationDB.end())
 		return it.value();
-	return searchMove(board).score;    // search move db for estimation
+	return MoveRecord::NOT_FOUND;
+//	return searchMove(board).score;    // search move db for estimation
 }
 
 void MoveDB::saveEstimation(const Board& board, int score) {

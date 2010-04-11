@@ -442,6 +442,9 @@ Moves NegaMax::getSortedMoves(const Board& board, int sign)
 	Moves moves = generator->generate(board);
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 		it->score = estimator->getEstimation(it->nextMove);
-	sort(moves.begin(), moves.end());
+	if(sign == -1)
+		sort(moves.begin(), moves.end(), greater<MoveRecord>());
+	else
+		sort(moves.begin(), moves.end());
 	return moves;
 }

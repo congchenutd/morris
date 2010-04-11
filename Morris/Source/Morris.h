@@ -9,6 +9,7 @@
 #include "MoveGenerator.h"
 #include "MoveDB.h"
 #include <QString>
+#include <QTime>
 
 class MoveGenerator;
 class Estimator;
@@ -27,7 +28,7 @@ public:
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
-	bool isLeaf(const Board& board) const { return board.getDepth() == maxDepth; }
+	bool isLeaf(const Board& board) const { return board.getDepth() >= maxDepth; }
 
 protected:
 	int            maxDepth;
@@ -78,6 +79,10 @@ protected:
 
 	int negaMax(const Board& board, int alpha, int beta, int sign);
 	Moves getSortedMoves(const Board& board, int sign);
+
+private:
+	enum {TIME_OUT = 123456789};
+	QTime time;
 };
 
 #endif

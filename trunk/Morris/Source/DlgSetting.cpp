@@ -18,7 +18,7 @@ DlgSetting::DlgSetting(QWidget *parent)
 	connect(ui.cbLanguage,      SIGNAL(currentIndexChanged(int)), this, SLOT(onLanguageChanged (int)));
 	connect(ui.radioMinMax,            SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 	connect(ui.radioAlphaBeta,         SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
-//	connect(ui.radioAlphaBetaImproved, SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
+	connect(ui.radioAlphaBetaImproved, SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 }
 
 int DlgSetting::getMode() const

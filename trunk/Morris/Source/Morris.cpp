@@ -360,46 +360,79 @@ Moves AlphaBetaImproved::getSortedMoves(const Board& board, bool minMax)
 	return moves;
 }
 
+//////////////////////////////////////////////////////////////////////////
+int NegaMax::runAlgorithm(const Board& board) 
+{
+//	return negaMax(board, -INT_MAX, INT_MAX, 1);
 
-int NegaMax::runAlgorithm(const Board& board) {
-	return negaMax(board, -INT_MAX, INT_MAX, 1);
+	//int result = 0;
+	//int maxDepthBackup = maxDepth;
+	//for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
+	//	result = negaMax(board, -INT_MAX, INT_MAX, 1);
+	//maxDepth --;
+	//return result;
+
+	int result = 0;
+	nextMove.nextMove = board;
+	maxDepth = 0;
+	time.restart();
+	while(time.elapsed() < timeLimit)
+	{
+		maxDepth ++;
+		MoveRecord nextMoveRollback = nextMove;
+		int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
+		if(temp != TIME_OUT)
+		{
+			result = temp;
+			nextMoveRollback = nextMove;
+		}
+		else
+			nextMove = nextMoveRollback;   // rollback on failure
+	}
+	return result;
 }
 
 int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
 	node ++;
 
+	if(time.elapsed() > timeLimit)
+		return TIME_OUT;
+
 	// Search db
 	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
-		hit ++;	
-		switch(record.type)
+		if(record.depth <= board.getDepth())
 		{
-		case MoveRecord::EXACT_VALUE:
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
-		case MoveRecord::LOWER_BOUND:
-			alpha = max(alpha, record.score);
-			break;
-		case MoveRecord::UPPER_BOUND:
-			beta = min(beta, record.score);
-			break;
-		}
-		if(alpha > beta)
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
+			hit ++;	
+			switch(record.type)
+			{
+			case MoveRecord::EXACT_VALUE:
+				nextMove = record.nextMove;
+				maxValue = record.score;
+				return maxValue;
+			case MoveRecord::LOWER_BOUND:
+				alpha = max(alpha, record.score);
+				break;
+			case MoveRecord::UPPER_BOUND:
+				beta = min(beta, record.score);
+				break;
+			}
+			if(alpha > beta)
+			{
+				nextMove = record.nextMove;
+				maxValue = record.score;
+				return maxValue;
+			}
 		}
 	}
 
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-//	Moves moves = getSortedMoves(board, sign);
-	Moves moves = generator->generate(board);
+	Moves moves = getSortedMoves(board, sign);
+//	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose
@@ -442,7 +475,7 @@ Moves NegaMax::getSortedMoves(const Board& board, int sign)
 	Moves moves = generator->generate(board);
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 		it->score = estimator->getEstimation(it->nextMove);
-	if(sign == -1)
+	if(sign == 1)
 		sort(moves.begin(), moves.end(), greater<MoveRecord>());
 	else
 		sort(moves.begin(), moves.end());

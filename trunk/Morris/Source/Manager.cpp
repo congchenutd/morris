@@ -116,7 +116,7 @@ void GameManager::setOpening(bool open)
 	{
 		openingPhase = false;
 		mainWnd->ui.boardView->removeAll(true);
-		algorithm->clearDB();
+		algorithm->endOpening();
 	}
 }
 

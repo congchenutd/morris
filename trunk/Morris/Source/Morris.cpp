@@ -25,7 +25,6 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
-	estimator->setDB(&db);
 	generator->setOpening(opening);
 	runAlgorithm(Board(input, startColor));   // really run it
 	return nextMove.nextMove.toString();
@@ -164,231 +163,45 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 	return minValue;
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Improved AlphaBeta
-int AlphaBetaImproved::runAlgorithm(const Board& board)
-{
-	return maxMin(board, -INT_MAX, INT_MAX);
-
-	//int result, temp;
-	// Iterative deepening
-	//nextMove.nextMove = board;
-	//maxDepth = 0;
-	//time.restart();
-	//while(time.elapsed() < timeLimit)
-	//{
-	//	maxDepth ++;
-	//	MoveRecord tempNextMove = nextMove;
-	//	temp = maxMin(board, -INT_MAX, INT_MAX);
-	//	if(temp != TIME_OUT)
-	//	{
-	//		result = temp;
-	//		tempNextMove = nextMove;
-	//	}
-	//	else
-	//		nextMove = tempNextMove;
-	//}
-	//return result;
-}
-
-int AlphaBetaImproved::maxMin(const Board& board, int alpha, int beta)
-{
-	node ++;
-
-	//if(time.elapsed() > timeLimit)
-	//	return TIME_OUT;
-
-	// Search db
-	MoveRecord record = db.searchMove(board);
-	if(record.score != MoveRecord::NOT_FOUND)
-	{
-		if(record.depth >= board.getDepth())
-		{
-			hit ++;	
-			switch(record.type)
-			{
-			case MoveRecord::EXACT_VALUE:
-				nextMove = record.nextMove;
-				maxValue = record.score;
-				return maxValue;
-			case MoveRecord::LOWER_BOUND:
-				alpha = max(alpha, record.score);
-				break;
-			case MoveRecord::UPPER_BOUND:
-				beta = min(beta, record.score);
-				break;
-			}
-			if(alpha > beta)
-			{
-				nextMove = board;
-				maxValue = record.score;
-				return maxValue;
-			}
-		}
-	}
-
-	if(isLeaf(board))
-		return estimator->getEstimation(board);
-
-	Moves moves = getSortedMoves(board, false);
-	int value = Estimator::MIN_ESTIMATION;
-
-	// no future move, definitely lose
-	if(moves.empty())
-	{
-		nextMove = board;
-		maxValue = value;
-		return maxValue;
-	}
-
-	Moves::iterator maxMove = moves.begin();
-	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-	{
-		int temp = minMax(it->nextMove, alpha, beta);
-
-		if(temp == TIME_OUT)
-			return TIME_OUT;
-
-		if(temp > value)
-		{
-			value = temp;
-			maxMove = it;
-		}
-
-		// definitely to win, no need to go deeper
-		if(temp == Estimator::MAX_ESTIMATION)
-			break;
-
-		if(value >= beta)
-			break;
-		if(value > alpha)
-			alpha = value;
-	}
-
-	nextMove = *maxMove;
-	maxValue = value;
-
-	// save to db
-	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
-								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
-													    MoveRecord::EXACT_VALUE;
-	db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
-	
-	return maxValue;
-}
-
-int AlphaBetaImproved::minMax(const Board& board, int alpha, int beta)
-{
-	node ++;
-
-	//if(time.elapsed() > timeLimit)
-	//	return TIME_OUT;
-
-	// Search db
-	//MoveRecord record = db.search(board);
-	//if(record.score != MoveRecord::NOT_FOUND)
-	//{
-	//	if(record.depth >= board.getDepth())
-	//	{
-	//		hit ++;	
-	//		switch(record.type)
-	//		{
-	//		case MoveRecord::EXACT_VALUE:
-	//			return record.type;
-	//		case MoveRecord::LOWER_BOUND:
-	//			alpha = max(alpha, record.score);
-	//			break;
-	//		case MoveRecord::HIGHER_BOUND:
-	//			beta = min(beta, record.score);
-	//			break;
-	//		}
-	//		if(alpha > beta)
-	//			return record.score;
-	//	}
-	//}
-
-	if(isLeaf(board))
-		return estimator->getEstimation(board);
-
-	Moves moves = getSortedMoves(board, true);
-	int minValue = Estimator::MAX_ESTIMATION;
-	if(moves.empty())
-		return minValue;
-
-	Moves::iterator minMove = moves.begin();
-	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-	{
-		int temp = maxMin(it->nextMove, alpha, beta);
-
-		if(temp == TIME_OUT)
-			return TIME_OUT;
-
-		if(temp < minValue)
-		{
-			minValue = temp;
-			minMove = it;
-		}
-
-		// definitely to lose, no need to go deeper
-		if(temp == Estimator::MIN_ESTIMATION)
-			break;
-
-		if(minValue <= alpha)
-			break;
-		if(minValue < beta)
-			beta = minValue;
-	}
-
-	// save to db
-	//MoveRecord::RecordType type = (minValue > alpha) ? MoveRecord::LOWER_BOUND :
-	//							  (minValue < beta)  ? MoveRecord::HIGHER_BOUND :
-	//													MoveRecord::EXACT_VALUE;
-	//db.save(board, MoveRecord(nextMove.nextMove, minValue, board.getDepth(), type));
-
-	return minValue;
-}
-
-Moves AlphaBetaImproved::getSortedMoves(const Board& board, bool minMax)
-{
-	Moves moves = generator->generate(board);
-	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-		it->score = estimator->getEstimation(it->nextMove);
-	if(minMax)
-		sort(moves.begin(), moves.end());
-	else
-		sort(moves.begin(), moves.end(), greater<MoveRecord>());
-	return moves;
-}
 
 //////////////////////////////////////////////////////////////////////////
 int NegaMax::runAlgorithm(const Board& board) 
 {
 //	return negaMax(board, -INT_MAX, INT_MAX, 1);
 
-	//int result = 0;
-	//int maxDepthBackup = maxDepth;
-	//for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
-	//	result = negaMax(board, -INT_MAX, INT_MAX, 1);
-	//maxDepth --;
-	//return result;
-
 	int result = 0;
-	nextMove.nextMove = board;
-	maxDepth = 0;
-	time.restart();
-	while(time.elapsed() < timeLimit)
-	{
-		maxDepth ++;
-		MoveRecord nextMoveRollback = nextMove;
-		int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
-		if(temp != TIME_OUT)
-		{
-			result = temp;
-			nextMoveRollback = nextMove;
-		}
-		else
-			nextMove = nextMoveRollback;   // rollback on failure
-	}
+	int maxDepthBackup = 6;
+	for(maxDepth = 6; maxDepth <= maxDepthBackup; maxDepth++)
+		result = negaMax(board, -INT_MAX, INT_MAX, 1);
+	maxDepth --;
+	return result;
+
+	//db.sqeeze();
+	//estimator->setDB(&db);
+	//int result = 0;
+	//nextMove.nextMove = board;
+	//maxDepth = 0;
+	//time.restart();
+	//while(time.elapsed() < timeLimit)
+	//{
+	//	maxDepth ++;
+	//	MoveRecord nextMoveRollback = nextMove;
+	//	int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
+	//	if(temp != TIME_OUT)
+	//	{
+	//		result = temp;
+	//		nextMoveRollback = nextMove;
+	//	}
+	//	else
+	//	{
+	//		nextMove = nextMoveRollback;   // rollback on failure
+	//		maxDepth --;
+	//	}
+	//}
+
+	//QMessageBox::information(0, "size", QObject::tr("mdbs=%1, edbs=%2, mdbc=%3, edbc=%4")
+	//	.arg(db.getMoveDBSize()).arg(db.getEstimationDBSize())
+	//	.arg(db.getMoveDBCapacity()).arg(db.getEstimationDBCapacity()));
 	return result;
 }
 
@@ -396,43 +209,43 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
 	node ++;
 
-	if(time.elapsed() > timeLimit)
-		return TIME_OUT;
+	//if(time.elapsed() > timeLimit)
+	//	return TIME_OUT;
 
 	// Search db
-	MoveRecord record = db.searchMove(board);
-	if(record.score != MoveRecord::NOT_FOUND)
-	{
-		if(record.depth <= board.getDepth())
-		{
-			hit ++;	
-			switch(record.type)
-			{
-			case MoveRecord::EXACT_VALUE:
-				nextMove = record.nextMove;
-				maxValue = record.score;
-				return maxValue;
-			case MoveRecord::LOWER_BOUND:
-				alpha = max(alpha, record.score);
-				break;
-			case MoveRecord::UPPER_BOUND:
-				beta = min(beta, record.score);
-				break;
-			}
-			if(alpha > beta)
-			{
-				nextMove = record.nextMove;
-				maxValue = record.score;
-				return maxValue;
-			}
-		}
-	}
+	//MoveRecord record = db.searchMove(board);
+	//if(record.score != MoveRecord::NOT_FOUND)
+	//{
+	//	if(record.depth <= board.getDepth())
+	//	{
+	//		hit ++;	
+	//		switch(record.type)
+	//		{
+	//		case MoveRecord::EXACT_VALUE:
+	//			nextMove = record.nextMove;
+	//			maxValue = record.score;
+	//			return maxValue;
+	//		case MoveRecord::LOWER_BOUND:
+	//			alpha = max(alpha, record.score);
+	//			break;
+	//		case MoveRecord::UPPER_BOUND:
+	//			beta = min(beta, record.score);
+	//			break;
+	//		}
+	//		if(alpha > beta)
+	//		{
+	//			nextMove = record.nextMove;
+	//			maxValue = record.score;
+	//			return maxValue;
+	//		}
+	//	}
+	//}
 
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-	Moves moves = getSortedMoves(board, sign);
-//	Moves moves = generator->generate(board);
+//	Moves moves = getSortedMoves(board, sign);
+	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose
@@ -447,13 +260,19 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
 		int temp = - negaMax(it->nextMove, -beta, -alpha, -sign);
+
+		//if(temp == TIME_OUT || temp == -TIME_OUT)
+		//	return TIME_OUT;
+
 		if(temp > value)
 		{
 			value = temp;
 			maxMove = it;
 		}
+
 		if(value >= beta)
 			break;
+
 		if(value > alpha)
 			alpha = value;
 	}
@@ -462,10 +281,10 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
-								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
-														MoveRecord::EXACT_VALUE;
-	db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
+	//MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
+	//							  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
+	//													MoveRecord::EXACT_VALUE;
+	//db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
 
 	return maxValue;
 }

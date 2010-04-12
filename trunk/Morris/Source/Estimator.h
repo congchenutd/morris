@@ -50,6 +50,8 @@ class ImprovedEstimator : public BasicEstimator
 {
 public:
 	virtual int getEstimation(const Board& board);
+	virtual int getOpeningEstimation(const Board& board) const;
+	virtual int getGameEstimation   (const Board& board) const;
 };
 
 #endif

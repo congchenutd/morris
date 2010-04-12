@@ -30,7 +30,7 @@ public:
 	void    setString(const QString& str)   { chessmen = str; }
 	
 	bool closeMill(int pos) const;
-	Board makeChild() const { return Board(toString(), getOpponentColor(), depth + 1); }  // a clone
+	Board makeChild() const;  // a clone
 	
 	int countNumber(QChar color) const;    // # of chessmen
 	int countJoints(QChar color) const;    // i.e. a cross has 4 joints

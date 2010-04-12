@@ -188,3 +188,7 @@ int Board::inTwoItemMill(int pos, QChar color) const
 	}
 	return result;
 }
+
+Board Board::makeChild() const {
+	return Board(toString(), getOpponentColor(), depth + 1);
+}

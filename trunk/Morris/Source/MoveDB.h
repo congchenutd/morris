@@ -40,7 +40,6 @@ public:
 	int getEstimationDBSize() const { return estimationDB.size(); }
 	int getMoveDBCapacity() const { return dbWhite.capacity() + dbBlack.capacity(); }
 	int getEstimationDBCapacity() const { return estimationDB.capacity(); }
-	void sqeeze() { estimationDB.squeeze(); }
 
 private:
 	QHash<QString, MoveRecord> dbWhite, dbBlack;

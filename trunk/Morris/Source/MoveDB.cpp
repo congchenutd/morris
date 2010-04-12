@@ -2,25 +2,28 @@
 
 MoveRecord MoveDB::searchMove(const Board& board) const
 {
-	const QHash<QString, MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	QHash<QString, MoveRecord>::const_iterator it = db.find(board.toString());
-	if(it == db.end())
+	const HashTable<MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
+	const MoveRecord* p = db.find(board.toString());
+	if(p == 0)
 		return MoveRecord();
-	return it.value();
+	return *p;
 }
 
-void MoveDB::saveMove(const Board& current, const MoveRecord& next)
+void MoveDB::saveMove(const Board& current, const Board& next, int score, int alpha, int beta)
 {
-	QHash<QString, MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	db.insert(current.toString(), next);
+	HashTable<MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
+	MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
+								  (score >= beta)  ? MoveRecord::LOWER_BOUND :
+													 MoveRecord::EXACT_VALUE;
+	db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
 }
 
 //////////////////////////////////////////////////////////////////////////
 int MoveDB::searchEstimation(const Board& board) const
 {
-	QHash<QString, int>::const_iterator it = estimationDB.find(board.toString());
-	if(it != estimationDB.end())
-		return it.value();
+	const int* p = estimationDB.find(board.toString());
+	if(p != 0)
+		return *p;
 	return MoveRecord::NOT_FOUND;
 //	return searchMove(board).score;    // search move db for estimation
 }

@@ -279,10 +279,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	MoveRecord::RecordType type = (maxValue <= alpha) ? MoveRecord::UPPER_BOUND :
-								  (maxValue >= beta)  ? MoveRecord::LOWER_BOUND :
-														MoveRecord::EXACT_VALUE;
-	db.saveMove(board, MoveRecord(nextMove.nextMove, maxValue, board.getDepth(), type));
+	db.saveMove(board, nextMove.nextMove, maxValue, alpha, beta);
 
 	return maxValue;
 }

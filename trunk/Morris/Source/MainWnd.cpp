@@ -52,6 +52,7 @@ void MainWnd::onOpen()
 	QChar currentColor = setting->value("CurrentColor").toString().at(0);
 	algorithm = setting->getAlgorithm();
 	estimation = setting->getEstimation();
+	limitBy = setting->getLimitBy();
 	depth = setting->value("Depth").toInt();
 	timeLimit = setting->value("TimeLimit").toInt();
 
@@ -79,6 +80,7 @@ void MainWnd::onSave()
 	setting->setValue("CurrentColor", QString(manager->getCurrentColor()));
 	setting->setAlgorithm(algorithm);
 	setting->setEstimation(estimation);
+	setting->setLimitBy(limitBy);
 	setting->setValue("Depth", depth);
 	setting->setValue("TimeLimit", timeLimit);
 }
@@ -92,6 +94,7 @@ void MainWnd::onSetting()
 	dlg.setTimeLimit(timeLimit);
 	dlg.setAlgorithm(algorithm);
 	dlg.setEstimation(estimation);
+	dlg.setLimitBy(limitBy);
 	if(dlg.exec() == QDialog::Accepted)
 	{
 		mode       = dlg.getMode();
@@ -100,6 +103,7 @@ void MainWnd::onSetting()
 		timeLimit  = dlg.getTimeLimit();
 		algorithm  = dlg.getAlgorithm();
 		estimation = dlg.getEstimation();
+		limitBy    = dlg.getLimitBy();
 
 		onRestart();
 	}

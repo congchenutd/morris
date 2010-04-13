@@ -8,6 +8,7 @@
 #include "Board.h"
 #include "MoveGenerator.h"
 #include "MoveDB.h"
+#include "DlgSetting.h"
 #include <QString>
 #include <QTime>
 
@@ -21,7 +22,8 @@ public:
 	virtual void endOpening() {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
-	QString run(bool opening, const QString& input, QChar startColor, int depth, int tl = 30);
+	QString run(bool opening, const QString& input, QChar startColor, 
+				int depth, int tl = 30, int by = DlgSetting::LIMIT_BY_TIME);
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
 	double getHitRatio() const { return (double)hit / node; }
@@ -39,6 +41,7 @@ protected:
 	long node;
 	long hit;
 	int timeLimit;
+	int limitBy;
 };
 
 class MinMax : public MorrisAlgorithm

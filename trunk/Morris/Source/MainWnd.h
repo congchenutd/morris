@@ -51,6 +51,7 @@ private:
 	int timeLimit;
 	int algorithm;
 	int estimation;
+	int limitBy;
 
 	BoardModel model;
 	GameManager* manager;

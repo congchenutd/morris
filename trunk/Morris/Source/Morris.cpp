@@ -15,11 +15,13 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 	delete generator;
 }
 
-QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, int depth, int tl)
+QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, 
+							 int depth, int tl, int by)
 {
 	node = 0;
 	hit = 0;
 	timeLimit = tl * 1000;
+	limitBy = by;
 
 	maxDepth = depth;
 	estimator->setStartColor(startColor);
@@ -167,36 +169,41 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 //////////////////////////////////////////////////////////////////////////
 int NegaMax::runAlgorithm(const Board& b) 
 {
-//	return negaMax(board, -INT_MAX, INT_MAX, 1);
 	Board board(b);
 	estimator->setDB(&db);
-
-	//int result = 0;
-	//int maxDepthBackup = 6;
-	//for(maxDepth = 6; maxDepth <= maxDepthBackup; maxDepth++)
-	//	result = negaMax(board, -INT_MAX, INT_MAX, 1);
-	//maxDepth --;
-	//return result;
-
 	int result = 0;
-	nextMove.nextMove = board;
-	maxDepth = 0;
-	time.restart();
-	while(time.elapsed() < timeLimit)
+
+	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
 	{
-		maxDepth ++;
-		board.setDepth(maxDepth);
-		MoveRecord nextMoveRollback = nextMove;
-		int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
-		if(temp != TIME_OUT)
+		int maxDepthBackup = maxDepth;
+		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
 		{
-			result = temp;
-			nextMoveRollback = nextMove;
+			board.setDepth(maxDepth);
+			result = negaMax(board, -INT_MAX, INT_MAX, 1);
 		}
-		else
+		maxDepth --;
+	}
+	else
+	{
+		nextMove.nextMove = board;
+		maxDepth = 0;
+		time.restart();
+		while(time.elapsed() < timeLimit)
 		{
-			nextMove = nextMoveRollback;   // rollback on failure
-			maxDepth --;
+			maxDepth ++;
+			board.setDepth(maxDepth);
+			MoveRecord nextMoveRollback = nextMove;
+			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
+			if(temp != TIME_OUT)
+			{
+				result = temp;
+				nextMoveRollback = nextMove;
+			}
+			else
+			{
+				nextMove = nextMoveRollback;   // rollback on failure
+				maxDepth --;
+			}
 		}
 	}
 	return result;
@@ -206,8 +213,9 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
 	node ++;
 
-	if(time.elapsed() > timeLimit)
-		return TIME_OUT * sign;
+	if(limitBy == DlgSetting::LIMIT_BY_TIME)
+		if(time.elapsed() > timeLimit)
+			return TIME_OUT;
 
 	// Search db
 	MoveRecord record = db.searchMove(board);
@@ -241,8 +249,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-	Moves moves = getSortedMoves(board, sign);
-//	Moves moves = generator->generate(board);
+//	Moves moves = getSortedMoves(board, sign);
+	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose
@@ -258,12 +266,13 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	{
 		int temp = - negaMax(it->nextMove, -beta, -alpha, -sign);
 
-		if(temp == TIME_OUT)   // abort
-			return TIME_OUT;
+		if(limitBy == DlgSetting::LIMIT_BY_TIME)
+			if(temp == TIME_OUT || temp == -TIME_OUT)   // abort
+				return TIME_OUT;
 
 		// definitely win, no need to go deeper
-		if(temp == Estimator::MAX_ESTIMATION)
-			break;
+		//if(temp == Estimator::MAX_ESTIMATION)
+		//	break;
 
 		if(temp > value)
 		{

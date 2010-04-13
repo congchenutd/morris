@@ -134,7 +134,8 @@ void GameManager::runAlgorithm(bool opening)
 	QTime time;
 	time.restart();
 	QString input = mainWnd->ui.leStatus->text();
-	QString output = algorithm->run(opening, input, currentColor, mainWnd->depth, mainWnd->timeLimit);
+	QString output = algorithm->run(opening, input, currentColor, 
+									mainWnd->depth, mainWnd->timeLimit, mainWnd->limitBy);
 	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));

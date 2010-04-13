@@ -46,6 +46,7 @@ private slots:
 	void onTimeLimitChanged(int seconds);
 	void onLanguageChanged (int index);
 	void onAlgorithmChanged();
+	void onEstimationChanged();
 
 private:
 	void setPCEnabled(bool enable);

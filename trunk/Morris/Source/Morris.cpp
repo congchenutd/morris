@@ -26,7 +26,7 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	estimator->setOpening(opening);
 	estimator->resetCounter();
 	generator->setOpening(opening);
-	runAlgorithm(Board(input, startColor));   // really run it
+	runAlgorithm(Board(input, startColor, maxDepth));   // really run it
 	return nextMove.nextMove.toString();
 }
 
@@ -165,9 +165,11 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 
 
 //////////////////////////////////////////////////////////////////////////
-int NegaMax::runAlgorithm(const Board& board) 
+int NegaMax::runAlgorithm(const Board& b) 
 {
 //	return negaMax(board, -INT_MAX, INT_MAX, 1);
+	Board board(b);
+	estimator->setDB(&db);
 
 	//int result = 0;
 	//int maxDepthBackup = 6;
@@ -176,8 +178,6 @@ int NegaMax::runAlgorithm(const Board& board)
 	//maxDepth --;
 	//return result;
 
-	//db.sqeeze();
-	estimator->setDB(&db);
 	int result = 0;
 	nextMove.nextMove = board;
 	maxDepth = 0;
@@ -185,6 +185,7 @@ int NegaMax::runAlgorithm(const Board& board)
 	while(time.elapsed() < timeLimit)
 	{
 		maxDepth ++;
+		board.setDepth(maxDepth);
 		MoveRecord nextMoveRollback = nextMove;
 		int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
 		if(temp != TIME_OUT)
@@ -212,7 +213,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
-		if(record.depth <= board.getDepth())
+		if(record.depth >= board.getDepth())
 		{
 			hit ++;	
 			switch(record.type)

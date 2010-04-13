@@ -1,6 +1,6 @@
 #include "MainWnd.h"
 #include <QtGui>
-#include "HashTable.h"
+#include "Board.h"
 
 int main(int argc, char *argv[])
 {

@@ -28,7 +28,7 @@ public:
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
-	bool isLeaf(const Board& board) const { return board.getDepth() >= maxDepth; }
+	bool isLeaf(const Board& board) const { return board.getDepth() <= 0; }
 
 protected:
 	int            maxDepth;

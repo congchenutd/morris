@@ -12,10 +12,14 @@ MoveRecord MoveDB::searchMove(const Board& board) const
 void MoveDB::saveMove(const Board& current, const Board& next, int score, int alpha, int beta)
 {
 	HashTable<MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
-								  (score >= beta)  ? MoveRecord::LOWER_BOUND :
-													 MoveRecord::EXACT_VALUE;
-	db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
+	MoveRecord* p = db.find(current.toString());
+	if(p == 0 || (p != 0 && p->depth < current.getDepth()) )
+	{
+		MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
+									  (score >= beta)  ? MoveRecord::LOWER_BOUND :
+														 MoveRecord::EXACT_VALUE;
+		db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////

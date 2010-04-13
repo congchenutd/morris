@@ -19,6 +19,8 @@ DlgSetting::DlgSetting(QWidget *parent)
 	connect(ui.radioMinMax,            SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 	connect(ui.radioAlphaBeta,         SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 	connect(ui.radioAlphaBetaImproved, SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
+	connect(ui.radioBasicEstimation,    SIGNAL(clicked()), this, SLOT(onEstimationChanged()));
+	connect(ui.radioImprovedEstimation, SIGNAL(clicked()), this, SLOT(onEstimationChanged()));
 }
 
 int DlgSetting::getMode() const
@@ -172,6 +174,16 @@ void DlgSetting::onAlgorithmChanged()
 	ui.sliderTimeLimit->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
 	ui.labelDepth ->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
 	ui.sliderDepth->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
+
+	ui.radioBasicEstimation   ->setChecked(getAlgorithm() != ALPHA_BETA_IMPROVED);
+	ui.radioImprovedEstimation->setChecked(getAlgorithm() == ALPHA_BETA_IMPROVED);
+}
+
+void DlgSetting::onEstimationChanged()
+{
+	ui.radioAlphaBetaImproved->setChecked(getEstimation() == IMPROVED_ESTIMATION);
+	ui.radioAlphaBeta        ->setChecked(getEstimation() != IMPROVED_ESTIMATION);
+	onAlgorithmChanged();
 }
 
 //////////////////////////////////////////////////////////////////////////

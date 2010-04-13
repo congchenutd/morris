@@ -82,7 +82,7 @@ T* HashTable<T>::find(const QString& key)
 template <class T>
 const T* HashTable<T>::find(const QString& key) const
 {
-	int pos = keyGenerator->getKey(key) % bucketSize;
+	ulong pos = keyGenerator->getKey(key) % bucketSize;
 	if(buckets[pos].first != key)
 		return 0;
 	return &(buckets[pos].second);

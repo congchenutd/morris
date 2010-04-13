@@ -5,17 +5,8 @@
 
 using namespace std;
 
-bool Board::closeMill(int pos) const
-{
-	for(int i=0; i<54; ++i)
-	{
-		if(allMills[i][0] == pos)
-			if(isMill(Mill(allMills[i], allMills[i]+3)))
-				return true;
-		if(allMills[i][0] > pos)   // ignore remaining rows
-			return false;
-	}
-	return false;
+bool Board::closeMill(int pos) const {
+	return !findMills(pos).empty();
 }
 
 bool Board::isMill(const Mill& mill) const {
@@ -100,6 +91,10 @@ int Board::countJoints(QChar color) const
 	return result;
 }
 
+Board Board::makeChild() const {
+	return Board(toString(), getOpponentColor(), depth - 1);
+}
+
 const int Board::allMills[][3] = 
 {
 	{0,1,2},
@@ -158,37 +153,110 @@ const int Board::allMills[][3] =
 	{22,20,21},
 };
 
-int Board::countTwoItemMills(QChar c) const
+int Board::countOpenMills(QChar c) const
 {
-	int result = 0;
-	Board temp(*this);
+	std::set<Mill> openMills;
 	for(int i=0; i<23; ++i)
-		if(temp.getManAt(i) == c)
+		if(getManAt(i) == c)
 		{
-			result += temp.inTwoItemMill(i, c);
-			temp.setManAt(i, 'x');
+			std::set<Mill> temp = findOpenMills(i, c);
+			copy(temp.begin(), temp.end(), inserter(openMills, openMills.end()));
 		}
 
-	return result;
+	return openMills.size();
 }
 
-int Board::inTwoItemMill(int pos, QChar color) const
+std::set<Mill> Board::findOpenMills(int pos, QChar color) const
 {
-	int result = 0;
+	std::set<Mill> result;
 	for(int i=0; i<54; ++i)
 	{
 		if(allMills[i][0] == pos)
 		{
 			if( (chessmen[allMills[i][1]] == color && chessmen[allMills[i][2]] == 'x') ||
 				(chessmen[allMills[i][2]] == color && chessmen[allMills[i][1]] == 'x'))
-					result ++;
+			{
+				Mill mill(allMills[i], allMills[i]+3);
+				sort(mill.begin(), mill.end());
+				result.insert(mill);
+			}
 		}
-		if(allMills[i][0] > pos)   // ignore remaining rows
-			return result;
+		else if(allMills[i][0] > pos)   // ignore remaining rows
+			break;
 	}
 	return result;
 }
 
-Board Board::makeChild() const {
-	return Board(toString(), getOpponentColor(), depth + 1);
+int Board::countMills(QChar color) const
+{
+	std::set<Mill> mills;
+	for(int i=0; i<23; ++i)
+		if(getManAt(i) == color)
+		{
+			std::set<Mill> temp = findMills(i);
+			copy(temp.begin(), temp.end(), inserter(mills, mills.end()));
+		}
+
+	return mills.size();
+}
+
+std::set<Mill> Board::findMills(int pos) const
+{
+	std::set<Mill> result;
+	for(int i=0; i<54; ++i)
+	{
+		if(allMills[i][0] == pos)
+		{
+			Mill mill(allMills[i], allMills[i]+3);
+			if(isMill(mill))
+			{
+				sort(mill.begin(), mill.end());
+				result.insert(mill);
+			}
+		}
+		else if(allMills[i][0] > pos)   // ignore remaining rows
+			break;
+	}
+	return result;
+}
+
+int Board::countMorris(QChar color) const
+{
+	int result = 0;
+	for(int i=0; i<23; ++i)
+		if(chessmen[i] == color)   // find color
+		{
+			Neighbors neighbors = getNeighbors(i);
+			for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+			{
+				if(chessmen[*it] == 'x')        // for all it's empty neighbor
+				{
+					Board temp(*this);
+					temp.setManAt(i, 'x');
+					temp.setManAt(*it, color);  // try to move to this neighbor
+					if(temp.closeMill(*it))
+						result ++;
+				}
+			}
+		}
+	return result;
+}
+
+int Board::countBlocked(QChar color) const
+{
+	int result = 0;
+	for(int i=0; i<23; ++i)
+		if(chessmen[i] == color)   // find color
+			if(isBlocked(i))
+				result ++;
+	return result;
+}
+
+bool Board::isBlocked(int pos) const
+{
+	Neighbors neighbors = getNeighbors(pos);
+	for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+		if(chessmen[*it] == 'x')        // try to find an empty neighbor
+			return false;
+	return true;
 }

@@ -52,6 +52,8 @@ int ImprovedEstimator::getOpeningEstimation(const Board& board) const
 	QChar opponentColor  = Board::flipColor(startColor);
 	int selfJointNum     = board.countJoints(startColor);
 	int opponentJointNum = board.countJoints(opponentColor);
+	int openMillNum      = board.countOpenMills(startColor);
+	int millNum          = board.countMills(startColor);
 //	int selfTwoItemMillNum     = board.countTwoItemMills(startColor);
 //	int opponentTwoItemMillNum = board.countTwoItemMills(opponentColor);
 

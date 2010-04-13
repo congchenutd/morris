@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <QString>
+#include <set>
 
 typedef std::vector<int> Mill, Neighbors;
 
@@ -28,13 +29,17 @@ public:
 	void    setManAt   (int pos, QChar man) { chessmen[pos] = man; }
 	void    removeManAt(int pos)            { setManAt(pos, 'x'); }
 	void    setString(const QString& str)   { chessmen = str; }
+	void    setDepth(int d)                 { depth = d; }
 	
 	bool closeMill(int pos) const;
 	Board makeChild() const;  // a clone
 	
-	int countNumber(QChar color) const;    // # of chessmen
-	int countJoints(QChar color) const;    // i.e. a cross has 4 joints
-	int countTwoItemMills(QChar color) const;
+	int countNumber   (QChar color) const;    // # of chessmen
+	int countJoints   (QChar color) const;    // i.e. a cross has 4 joints
+	int countOpenMills(QChar color) const;
+	int countMills    (QChar color) const;
+	int countMorris   (QChar color) const;
+	int countBlocked  (QChar color) const;
 
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);
@@ -45,7 +50,9 @@ public:
 
 private:
 	bool isMill(const Mill& mill) const;
-	int inTwoItemMill(int pos, QChar color) const;
+	std::set<Mill> findOpenMills(int pos, QChar color) const;
+	std::set<Mill> findMills    (int pos) const;
+	bool isBlocked(int pos) const;
 
 private:
 	QString chessmen;

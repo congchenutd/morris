@@ -35,7 +35,7 @@ public:
 	Board makeChild() const;  // a clone
 	
 	int countNumber   (QChar color) const;    // # of chessmen
-	int countJoints   (QChar color) const;    // i.e. a cross has 4 joints
+	int countFreedom  (QChar color) const;    // i.e. a cross has 4 joints
 	int countOpenMills(QChar color) const;
 	int countMills    (QChar color) const;
 	int countMorris   (QChar color) const;

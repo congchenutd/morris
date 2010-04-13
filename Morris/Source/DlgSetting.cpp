@@ -170,20 +170,26 @@ void DlgSetting::setLanguage(const QString& language) {
 
 void DlgSetting::onAlgorithmChanged()
 {
-	ui.labelTimeLimit ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.sliderTimeLimit->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.labelDepth ->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
-	ui.sliderDepth->setEnabled(getAlgorithm() != ALPHA_BETA_IMPROVED);
-
 	ui.radioBasicEstimation   ->setChecked(getAlgorithm() != ALPHA_BETA_IMPROVED);
 	ui.radioImprovedEstimation->setChecked(getAlgorithm() == ALPHA_BETA_IMPROVED);
 }
 
 void DlgSetting::onEstimationChanged()
 {
-	ui.radioAlphaBetaImproved->setChecked(getEstimation() == IMPROVED_ESTIMATION);
 	ui.radioAlphaBeta        ->setChecked(getEstimation() != IMPROVED_ESTIMATION);
-	onAlgorithmChanged();
+	ui.radioAlphaBetaImproved->setChecked(getEstimation() == IMPROVED_ESTIMATION);
+}
+
+int DlgSetting::getLimitBy() const {
+	return ui.radioLimitByDepth->isChecked() ? LIMIT_BY_DEPTH : LIMIT_BY_TIME;
+}
+
+void DlgSetting::setLimitBy(int limitBy)
+{
+	if(limitBy == LIMIT_BY_DEPTH)
+		ui.radioLimitByDepth->setChecked(true);
+	else
+		ui.radioLimitByTime->setChecked(true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -199,6 +205,7 @@ void UserSetting::loadDefaults()
 	setValue("Estimation", "Basic");
 	setValue("Depth", 3);
 	setValue("TimeLimit", 30);
+	setValue("LimitBy", "Time");
 }
 
 void UserSetting::setMode(int mode) {
@@ -215,38 +222,20 @@ void UserSetting::setEstimation(int estimation) {
 
 int UserSetting::getMode() const
 {
-	int i = 0;
-	foreach(QString name, modeNames)
-	{
-		if(name == value("Mode").toString())
-			return i;
-		++ i;
-	}
-	return 0;
+	int result = modeNames.indexOf(value("Mode").toString());
+	return result > -1 ? result : 0;
 }
 
 int UserSetting::getAlgorithm() const
 {
-	int i = 0;
-	foreach(QString name, algorithmNames)
-	{
-		if(name == value("Algorithm").toString())
-			return i;
-		++ i;
-	}
-	return 0;
+	int result = algorithmNames.indexOf(value("Algorithm").toString());
+	return result > -1 ? result : 0;
 }
 
 int UserSetting::getEstimation() const
 {
-	int i = 0;
-	foreach(QString name, estimationNames)
-	{
-		if(name == value("Estimation").toString())
-			return i;
-		++ i;
-	}
-	return 0;
+	int result = estimationNames.indexOf(value("Estimation").toString());
+	return result > -1 ? result : 0;
 }
 
 UserSetting::UserSetting(const QString& userName) : MySetting<UserSetting>(userName)
@@ -254,7 +243,18 @@ UserSetting::UserSetting(const QString& userName) : MySetting<UserSetting>(userN
 	modeNames << "Single step" << "PC PC" << "PC Human" << "Human Human";
 	algorithmNames << "MinMax" << "AlphaBeta" <<"AlphaBetaImproved";
 	estimationNames << "Basic" << "Improved";
+	limitByNames << "Depth" << "Time";
 
 	if(QFile(userName).size() == 0)   // no setting
 		loadDefaults();
+}
+
+void UserSetting::setLimitBy(int limitBy) {
+	setValue("LimitBy", limitByNames[limitBy]);
+}
+
+int UserSetting::getLimitBy() const
+{
+	int result = limitByNames.indexOf(value("LimitBy").toString());
+	return result > -1 ? result : 0;
 }

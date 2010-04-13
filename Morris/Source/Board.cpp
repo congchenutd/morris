@@ -77,17 +77,27 @@ bool Board::isNeighbor(int lhs, int rhs)
 	return find(neighbors.begin(), neighbors.end(), rhs) != neighbors.end();
 }
 
-int Board::countJoints(QChar color) const
+int Board::countFreedom(QChar color) const
 {
-	const static int threeJoints[16] = {0, 1, 2, 4, 6, 7, 8, 10, 11, 13, 14, 15, 16, 20, 21, 22};
-	const static int fourJoints [7]  = {3, 5, 9, 12, 17, 18, 19};
+	//const static int threeJoints[16] = {0, 1, 2, 4, 6, 7, 8, 10, 11, 13, 14, 15, 16, 20, 21, 22};
+	//const static int fourJoints [7]  = {3, 5, 9, 12, 17, 18, 19};
+	//int result = 0;
+	//for(int i=0; i<16; ++i)
+	//	if(chessmen[ threeJoints[i] ] == color)
+	//		result += 3;
+	//for(int i=0; i<7; ++i)
+	//	if(chessmen[ fourJoints[i] ] == color)
+	//		result += 4;
+	//return result;
 	int result = 0;
-	for(int i=0; i<16; ++i)
-		if(chessmen[ threeJoints[i] ] == color)
-			result += 3;
-	for(int i=0; i<7; ++i)
-		if(chessmen[ fourJoints[i] ] == color)
-			result += 4;
+	for(int i=0; i<23; ++i)
+		if(chessmen[i] == color)
+		{
+			Neighbors neighbors = getNeighbors(i);
+			for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+				if(chessmen[*it] == 'x')  // empty
+					result ++;
+		}
 	return result;
 }
 

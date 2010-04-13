@@ -53,7 +53,7 @@ template <class T>
 HashTable<T>::HashTable()
 {
 	keyGenerator = new djb2;
-	bucketSize = 1000000;          // 1 million entries
+	bucketSize = 5000000;          // 1 million entries
 	buckets.resize(bucketSize);
 }
 

@@ -35,3 +35,10 @@ int MoveDB::searchEstimation(const Board& board) const
 void MoveDB::saveEstimation(const Board& board, int score) {
 	estimationDB.insert(board.toString(), score);
 }
+
+void MoveDB::setSize(int size)
+{
+	dbWhite.setSize(size);
+	dbBlack.setSize(size);
+	estimationDB.setSize(size);
+}

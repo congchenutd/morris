@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>544</height>
+    <width>394</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="font">
@@ -62,7 +62,7 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="0" column="1" colspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Start color</string>
@@ -88,7 +88,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="1" column="1" colspan="2">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Language (Activate next time)</string>
@@ -130,21 +130,21 @@
       <item>
        <widget class="QRadioButton" name="radioAlphaBeta">
         <property name="text">
-         <string>Alpha-Beta pruning (faster)</string>
+         <string>Alpha-Beta pruning</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radioAlphaBetaImproved">
         <property name="text">
-         <string>Improved Alpha-Beta pruning (faster and smarter)</string>
+         <string>Improved Alpha-Beta pruning</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="2" column="2">
     <widget class="QGroupBox" name="gbEstimation">
      <property name="title">
       <string>Estimation</string>
@@ -163,19 +163,26 @@
       <item>
        <widget class="QRadioButton" name="radioImprovedEstimation">
         <property name="text">
-         <string>Improved estimation (smarter)</string>
+         <string>Improved estimation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cbCacheEstimation">
+        <property name="text">
+         <string>Cache Estimation</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="3" column="0" colspan="3">
     <widget class="QGroupBox" name="gbDepth">
      <property name="title">
-      <string>Reasoning depth</string>
+      <string>Algorithm Parameters</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_8">
+     <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -189,19 +196,13 @@
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <widget class="QLabel" name="labelDepth">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
             <property name="text">
-             <string>Depth (The greater the smarter, but slower)</string>
+             <string>Depth</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QSlider" name="sliderDepth">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
             <property name="minimum">
              <number>1</number>
             </property>
@@ -273,10 +274,46 @@
         </item>
        </layout>
       </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QLabel" name="labelMemory">
+          <property name="text">
+           <string>Memory Limit</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="sliderMemory">
+          <property name="minimum">
+           <number>100</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+          <property name="pageStep">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>500</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBelow</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="4" column="1" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

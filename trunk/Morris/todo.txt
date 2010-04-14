@@ -1,0 +1,1 @@
+put ID code to GameAlgorithm.run()

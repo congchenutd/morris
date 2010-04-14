@@ -249,8 +249,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-//	Moves moves = getSortedMoves(board, sign);
-	Moves moves = generator->generate(board);
+//      Moves moves = getSortedMoves(board, sign);
+        Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
 
 	// no future move, definitely lose

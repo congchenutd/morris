@@ -24,6 +24,9 @@ public:
 	~MainWnd();
 	void setStatus(const QString& status);
 
+protected:
+	virtual void closeEvent(QCloseEvent*);
+
 private slots:
 	void onOpen();
 	void onSave();
@@ -41,17 +44,19 @@ private slots:
 private:
 	QString validateStatus(const QString& status) const;
 	void showNoInputError();
+	void loadSetting(const QString& fileName = "Global.ini");
+	void saveSetting(const QString& fileName = "Global.ini");
 
 private:
 	Ui::MainWndClass ui;
 
 	int mode;
 	QChar startColor;
+	int algorithm;
+	int limitBy;
 	int depth;
 	int timeLimit;
-	int algorithm;
-	int estimation;
-	int limitBy;
+	int memoryLimit;
 
 	BoardModel model;
 	GameManager* manager;

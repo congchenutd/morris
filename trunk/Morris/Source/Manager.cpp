@@ -31,7 +31,7 @@ void GameManager::delManagers()
 	managers.clear();
 }
 
-GameManager* GameManager::resetManager() 
+GameManager* GameManager::reset() 
 {
 	if(currentManager != 0)
 		currentManager->leaveThisMode();
@@ -39,33 +39,33 @@ GameManager* GameManager::resetManager()
 	currentManager->initMode();
 
 	chooseAlgorithm();
-	chooseEstimator();
-	algorithm->setEstimator(estimator);
-
 	return currentManager;
 }
 
-// 2 ugly simple factories
+// ugly simple factory
 void GameManager::chooseAlgorithm()
 {
 	if(algorithm != 0)
 		delete algorithm;
-	if(mainWnd->algorithm == DlgSetting::MIN_MAX)
-		algorithm = new MinMax;
-	else if(mainWnd->algorithm == DlgSetting::ALPHA_BETA)
-		algorithm = new AlphaBeta;
-	else
-		algorithm = new NegaMax;
-}
-
-void GameManager::chooseEstimator()
-{
 	if(estimator != 0)
-		delete estimator;
-	if(mainWnd->estimation == DlgSetting::BASIC_ESTIMATION)
+		delete estimator;	
+	
+	if(mainWnd->algorithm == DlgSetting::MIN_MAX)
+	{
+		algorithm = new MinMax;
 		estimator = new BasicEstimator;
-	else
+	}
+	else if(mainWnd->algorithm == DlgSetting::ALPHA_BETA) {
+		algorithm = new AlphaBeta;
+		estimator = new BasicEstimator;
+	}
+	else {
+		algorithm = new NegaMax;
 		estimator = new ImprovedEstimator;
+		algorithm->setMemoryLimit(mainWnd->memoryLimit);
+	}
+
+	algorithm->setEstimator(estimator);
 }
 
 void GameManager::initMode()
@@ -110,14 +110,11 @@ void GameManager::initMovability()
 	mainWnd->ui.boardView->setMovable('B', false);
 }
 
-void GameManager::setOpening(bool open)
+void GameManager::endOpening()
 {
-	if(!open)
-	{
-		openingPhase = false;
-		mainWnd->ui.boardView->removeAll(true);
-		algorithm->endOpening();
-	}
+	openingPhase = false;
+	mainWnd->ui.boardView->removeAll(true);
+	algorithm->endOpening();
 }
 
 void GameManager::runAlgorithm()
@@ -131,8 +128,8 @@ void GameManager::runAlgorithm()
 
 void GameManager::runAlgorithm(bool opening)
 {
-	QTime time;
-	time.restart();
+	//QTime time;
+	//time.restart();
 	QString input = mainWnd->ui.leStatus->text();
 	QString output = algorithm->run(opening, input, currentColor, 
 									mainWnd->depth, mainWnd->timeLimit, mainWnd->limitBy);

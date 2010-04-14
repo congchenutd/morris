@@ -54,7 +54,7 @@ template <class T>
 void HashTable<T>::setSize(int size)
 {
 	bucketSize = size;
-	buckets.resize(size);
+	clear();
 }
 
 template <class T>

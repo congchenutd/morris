@@ -23,18 +23,11 @@ MainWnd::MainWnd(QWidget *parent, Qt::WFlags flags)
 	connect(ui.leInput,       SIGNAL(returnPressed()), this, SLOT(onInputPressed()));
 	connect(&model,  SIGNAL(statusChanged(QString)), this, SLOT(onModelChanged(QString)));
 
-	mode = DlgSetting::STEP_MODE;
-	startColor = 'W';
-	depth = 3;
-	timeLimit = 30;
-	algorithm = DlgSetting::MIN_MAX;
-	estimation = DlgSetting::BASIC_ESTIMATION;
-
 	ui.boardView->setModel(&model);
 	ui.boardView->createBoard();
 
 	GameManager::initManagers(this);
-	onRestart();
+	loadSetting();
 }
 
 void MainWnd::onOpen()
@@ -44,26 +37,7 @@ void MainWnd::onOpen()
 	if(fileName.isEmpty())
 		return;
 
-	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
-	setting->saveTo("Global.ini");
-	QString status = setting->value("Status").toString();
-	bool opening = setting->value("Opening").toBool();
-	mode = setting->getMode();
-	startColor = setting->value("StartColor").toString().at(0);
-	QChar currentColor = setting->value("CurrentColor").toString().at(0);
-	algorithm = setting->getAlgorithm();
-	estimation = setting->getEstimation();
-	limitBy = setting->getLimitBy();
-	depth = setting->value("Depth").toInt();
-	timeLimit = setting->value("TimeLimit").toInt();
-
-	onRestart();
-	status = validateStatus(status);
-	ui.leInput->setText(status);
-	setStatus(status);
-	manager->setOpening(opening);
-	manager->setCurrentColor(currentColor);
-	ui.boardView->showCurrentColor(currentColor);
+	loadSetting(fileName);
 }
 
 void MainWnd::onSave()
@@ -72,18 +46,8 @@ void MainWnd::onSave()
 		"./Output.txt",tr("Text files (*.txt);;All files (*.*)"));
 	if(fileName.isEmpty())
 		return;
-
-	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
-	setting->setValue("Status", ui.leStatus->text());
-	setting->setValue("Opening", manager->isOpening());
-	setting->setMode(mode);
-	setting->setValue("StartColor", QString(startColor));
-	setting->setValue("CurrentColor", QString(manager->getCurrentColor()));
-	setting->setAlgorithm(algorithm);
-	setting->setEstimation(estimation);
-	setting->setLimitBy(limitBy);
-	setting->setValue("Depth", depth);
-	setting->setValue("TimeLimit", timeLimit);
+	
+	saveSetting(fileName);
 }
 
 void MainWnd::onSetting()
@@ -91,20 +55,20 @@ void MainWnd::onSetting()
 	DlgSetting dlg(this);
 	dlg.setMode(mode);
 	dlg.setStartColor(startColor);
+	dlg.setAlgorithm(algorithm);
+	dlg.setLimitBy(limitBy);
 	dlg.setDepth(depth);
 	dlg.setTimeLimit(timeLimit);
-	dlg.setAlgorithm(algorithm);
-	dlg.setEstimation(estimation);
-	dlg.setLimitBy(limitBy);
+	dlg.setTableSize(memoryLimit);
 	if(dlg.exec() == QDialog::Accepted)
 	{
-		mode       = dlg.getMode();
-		startColor = dlg.getStartColor();
-		depth      = dlg.getDepth();
-		timeLimit  = dlg.getTimeLimit();
-		algorithm  = dlg.getAlgorithm();
-		estimation = dlg.getEstimation();
-		limitBy    = dlg.getLimitBy();
+		mode        = dlg.getMode();
+		startColor  = dlg.getStartColor();
+		algorithm   = dlg.getAlgorithm();
+		limitBy     = dlg.getLimitBy();
+		depth       = dlg.getDepth();
+		timeLimit   = dlg.getTimeLimit();
+		memoryLimit = dlg.getTableSize();
 
 		onRestart();
 	}
@@ -119,7 +83,7 @@ MainWnd::~MainWnd()
 void MainWnd::onAbout() {
 	QMessageBox::about(this, tr("About"), tr(
 "<h2><b>Morris</b></h2> \
-<p>Build 2010.3.30</p>   \
+<p>Build 2010.4.13</p>   \
 <p><a href=mailto:CongChenUTD@Gmail.com>CongChenUTD@Gmail.com</a></p> \
 <h3>Rules</h3> \
 <p>Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed</p> \
@@ -155,7 +119,7 @@ void MainWnd::onInputPressed()
 }
 
 void MainWnd::onRestart() {
-	manager = GameManager::resetManager();
+	manager = GameManager::reset();
 }
 
 void MainWnd::onOpening() 
@@ -201,4 +165,50 @@ QString MainWnd::validateStatus(const QString& status) const
 		if(result[i] != 'W' && result[i] != 'B' && result[i] != 'x')
 			result[i] = 'x';
 	return result;
+}
+
+void MainWnd::loadSetting(const QString& fileName)
+{
+	// load settings
+	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
+	setting->saveTo("Global.ini");
+	QString status = setting->value("Status").toString();
+	bool opening = setting->value("Opening").toBool();
+	mode = setting->getMode();
+	startColor = setting->value("StartColor").toString().at(0);
+	QChar currentColor = setting->value("CurrentColor").toString().at(0);
+	algorithm = setting->getAlgorithm();
+	limitBy = setting->getLimitBy();
+	depth = setting->value("Depth").toInt();
+	timeLimit = setting->value("TimeLimit").toInt();
+	memoryLimit = setting->value("TableSize").toInt();
+
+	// activate settings
+	onRestart();
+	status = validateStatus(status);
+	ui.leInput->setText(status);
+	setStatus(status);
+	if(!opening)
+		manager->endOpening();
+	manager->setCurrentColor(currentColor);
+	ui.boardView->showCurrentColor(currentColor);
+}
+
+void MainWnd::saveSetting(const QString& fileName)
+{
+	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
+	setting->setValue("Status", ui.leStatus->text());
+	setting->setValue("Opening", manager->isOpening());
+	setting->setMode(mode);
+	setting->setValue("StartColor", QString(startColor));
+	setting->setValue("CurrentColor", QString(manager->getCurrentColor()));
+	setting->setAlgorithm(algorithm);
+	setting->setLimitBy(limitBy);
+	setting->setValue("Depth", depth);
+	setting->setValue("TimeLimit", timeLimit);
+	setting->setValue("TableSize", memoryLimit);
+}
+
+void MainWnd::closeEvent(QCloseEvent*) {
+	saveSetting();
 }

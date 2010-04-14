@@ -1,1 +1,3 @@
-put ID code to GameAlgorithm.run()
+X put ID code to GameAlgorithm.run()
+- do not support copy-paste on pc/human mode
+- when load saved file, do not correctly set statusbar

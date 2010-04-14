@@ -20,10 +20,11 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 {
 	node = 0;
 	hit = 0;
-	timeLimit = tl * 1000;
-	limitBy = by;
 
+	limitBy = by;
+	timeLimit = tl * 1000;
 	maxDepth = depth;
+
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
@@ -173,6 +174,7 @@ int NegaMax::runAlgorithm(const Board& b)
 	estimator->setDB(&db);
 	int result = 0;
 
+	// iterative deepening
 	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
 	{
 		int maxDepthBackup = maxDepth;
@@ -304,4 +306,8 @@ Moves NegaMax::getSortedMoves(const Board& board, int sign)
 	else
 		sort(moves.begin(), moves.end());
 	return moves;
+}
+
+void NegaMax::setMemoryLimit(int size) {
+	db.setSize(size);
 }

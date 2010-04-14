@@ -465,7 +465,7 @@ void Chessman::setIdle()
 	idle = false;
 	idleCount --;
 	if(idleCount == 0)
-		manager->setOpening(false);
+		manager->endOpening();
 }
 
 void Chessman::setRemovable(bool enable) 

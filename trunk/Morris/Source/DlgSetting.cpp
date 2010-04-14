@@ -13,14 +13,12 @@ DlgSetting::DlgSetting(QWidget *parent)
 	connect(ui.radioPC2PC,       SIGNAL(clicked()), this, SLOT(onPCPCMode()));
 	connect(ui.radioPC2Human,    SIGNAL(clicked()), this, SLOT(onPCHumanMode()));
 	connect(ui.radioHuman2Human, SIGNAL(clicked()), this, SLOT(onHumanHumanMode()));
-	connect(ui.sliderDepth,     SIGNAL(valueChanged       (int)), this, SLOT(onDepthChanged    (int)));
-	connect(ui.sliderTimeLimit, SIGNAL(valueChanged       (int)), this, SLOT(onTimeLimitChanged(int)));
-	connect(ui.cbLanguage,      SIGNAL(currentIndexChanged(int)), this, SLOT(onLanguageChanged (int)));
+	connect(ui.sliderDepth,     SIGNAL(valueChanged(int)), this, SLOT(onDepthChanged    (int)));
+	connect(ui.sliderTimeLimit, SIGNAL(valueChanged(int)), this, SLOT(onTimeLimitChanged(int)));
+	connect(ui.sliderTableSize, SIGNAL(valueChanged(int)), this, SLOT(onTableSizeChanged(int)));
 	connect(ui.radioMinMax,            SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 	connect(ui.radioAlphaBeta,         SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
 	connect(ui.radioAlphaBetaImproved, SIGNAL(clicked()), this, SLOT(onAlgorithmChanged()));
-	connect(ui.radioBasicEstimation,    SIGNAL(clicked()), this, SLOT(onEstimationChanged()));
-	connect(ui.radioImprovedEstimation, SIGNAL(clicked()), this, SLOT(onEstimationChanged()));
 }
 
 int DlgSetting::getMode() const
@@ -114,35 +112,22 @@ void DlgSetting::setAlgorithm(int alg)
 	onAlgorithmChanged();
 }
 
-int DlgSetting::getEstimation() const {
-	return ui.radioBasicEstimation->isChecked() ? BASIC_ESTIMATION : IMPROVED_ESTIMATION;
-}
-
-void DlgSetting::setEstimation(int estimation)
-{
-	if(estimation == BASIC_ESTIMATION)
-		ui.radioBasicEstimation->setChecked(true);
-	else
-		ui.radioImprovedEstimation->setChecked(true);
-}
-
 void DlgSetting::setPCEnabled(bool enable)
 {
-	ui.gbAlgorithm ->setVisible(enable);
-	ui.gbEstimation->setVisible(enable);
-	ui.gbDepth     ->setVisible(enable);
+	ui.groupAlgorithm ->setVisible(enable);
+	ui.groupParameters->setVisible(enable);
 }
 
-void DlgSetting::onDepthChanged(int depth) 
-{
-	ui.labelDepth->setText(tr("Depth = %1 (%2)")
-		.arg(depth)
-		.arg(tr("The greater the smarter, but slower")));
+void DlgSetting::onDepthChanged(int depth) {
+	ui.radioLimitByDepth->setText(tr("Depth Limit = %1").arg(depth));
 }
 
 void DlgSetting::onTimeLimitChanged(int seconds) {
-	ui.labelTimeLimit->setText(tr("Time limit = %1s (%2)")
-		.arg(seconds).arg(tr("The longer the smarter")));
+	ui.radioLimitByTime->setText(tr("Time Limit = %1 s").arg(seconds));
+}
+
+void DlgSetting::onTableSizeChanged(int size) {
+	ui.labelTableSize->setText(tr("Hashtable Size = %1 Million").arg(size));
 }
 
 void DlgSetting::setDepth(int depth)
@@ -157,11 +142,9 @@ void DlgSetting::setTimeLimit(int seconds)
 	onTimeLimitChanged(seconds);
 }
 
-void DlgSetting::onLanguageChanged(int index)
-{
+QString DlgSetting::getLanguage() const {
 	QString languages[] = {"English", "Chinese"};
-	UserSetting* setting = MySetting<UserSetting>::getInstance();
-	setting->setValue("Language", languages[index]);
+	return languages[ui.cbLanguage->currentIndex()];
 }
 
 void DlgSetting::setLanguage(const QString& language) {
@@ -170,14 +153,12 @@ void DlgSetting::setLanguage(const QString& language) {
 
 void DlgSetting::onAlgorithmChanged()
 {
-	ui.radioBasicEstimation   ->setChecked(getAlgorithm() != ALPHA_BETA_IMPROVED);
-	ui.radioImprovedEstimation->setChecked(getAlgorithm() == ALPHA_BETA_IMPROVED);
-}
-
-void DlgSetting::onEstimationChanged()
-{
-	ui.radioAlphaBeta        ->setChecked(getEstimation() != IMPROVED_ESTIMATION);
-	ui.radioAlphaBetaImproved->setChecked(getEstimation() == IMPROVED_ESTIMATION);
+	ui.radioLimitByTime ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.sliderTimeLimit  ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.labelTableSize   ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.sliderTableSize  ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.radioLimitByTime ->setChecked(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.radioLimitByDepth->setChecked(getAlgorithm() != ALPHA_BETA_IMPROVED);
 }
 
 int DlgSetting::getLimitBy() const {
@@ -192,6 +173,24 @@ void DlgSetting::setLimitBy(int limitBy)
 		ui.radioLimitByTime->setChecked(true);
 }
 
+int DlgSetting::getTableSize() const {
+	return ui.sliderTableSize->value() * 1000000;
+}
+
+void DlgSetting::setTableSize(int size) 
+{
+	ui.sliderTableSize->setValue(size / 1000000);
+	onTableSizeChanged(size / 1000000);
+}
+
+void DlgSetting::accept()
+{
+	UserSetting* setting = MySetting<UserSetting>::getInstance();
+	setting->setValue("Language",  getLanguage());
+	setting->setValue("TableSize", getTableSize());
+	QDialog::accept();
+}
+
 //////////////////////////////////////////////////////////////////////////
 // UserSetting
 void UserSetting::loadDefaults()
@@ -202,10 +201,10 @@ void UserSetting::loadDefaults()
 	setValue("StartColor", "W");
 	setValue("CurrentColor", "W");
 	setValue("Algorithm", "MinMax");
-	setValue("Estimation", "Basic");
 	setValue("Depth", 3);
 	setValue("TimeLimit", 30);
 	setValue("LimitBy", "Time");
+	setValue("TableSize", 5000000);
 }
 
 void UserSetting::setMode(int mode) {
@@ -214,10 +213,6 @@ void UserSetting::setMode(int mode) {
 
 void UserSetting::setAlgorithm(int alg) {
 	setValue("Algorithm", algorithmNames[alg]);
-}
-
-void UserSetting::setEstimation(int estimation) {
-	setValue("Estimation", estimationNames[estimation]);
 }
 
 int UserSetting::getMode() const
@@ -232,17 +227,10 @@ int UserSetting::getAlgorithm() const
 	return result > -1 ? result : 0;
 }
 
-int UserSetting::getEstimation() const
-{
-	int result = estimationNames.indexOf(value("Estimation").toString());
-	return result > -1 ? result : 0;
-}
-
 UserSetting::UserSetting(const QString& userName) : MySetting<UserSetting>(userName)
 {
 	modeNames << "Single step" << "PC PC" << "PC Human" << "Human Human";
 	algorithmNames << "MinMax" << "AlphaBeta" <<"AlphaBetaImproved";
-	estimationNames << "Basic" << "Improved";
 	limitByNames << "Depth" << "Time";
 
 	if(QFile(userName).size() == 0)   // no setting

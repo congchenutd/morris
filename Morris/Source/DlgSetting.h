@@ -33,13 +33,16 @@ public:
 	int getAlgorithm() const;
 	void setAlgorithm(int alg);
 
-	int getEstimation() const;
-	void setEstimation(int estimation);
-
 	int getLimitBy() const;
 	void setLimitBy(int limitBy);
 
+	int getTableSize() const;
+	void setTableSize(int size);
+
+	QString getLanguage() const;
 	void setLanguage(const QString& language);
+
+	void accept();
 
 private slots:
 	void onSingleMode();
@@ -48,9 +51,8 @@ private slots:
 	void onHumanHumanMode();
 	void onDepthChanged    (int depth);
 	void onTimeLimitChanged(int seconds);
-	void onLanguageChanged (int index);
+	void onTableSizeChanged(int size);
 	void onAlgorithmChanged();
-	void onEstimationChanged();
 
 private:
 	void setPCEnabled(bool enable);
@@ -66,11 +68,9 @@ public:
 
 	void setMode      (int mode);
 	void setAlgorithm (int alg);
-	void setEstimation(int estimation);
 	void setLimitBy   (int limitBy);
 	int getMode()       const;
 	int getAlgorithm()  const;
-	int getEstimation() const;
 	int getLimitBy()    const;
 
 private:
@@ -79,7 +79,6 @@ private:
 private:
 	QStringList modeNames;
 	QStringList algorithmNames;
-	QStringList estimationNames;
 	QStringList limitByNames;
 };
 

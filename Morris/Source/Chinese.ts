@@ -35,58 +35,71 @@
 <context>
     <name>DlgSetting</name>
     <message>
-        <location filename="DlgSetting.cpp" line="68"/>
+        <location filename="DlgSetting.cpp" line="72"/>
         <source>White</source>
         <translation>白棋</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="69"/>
+        <location filename="DlgSetting.cpp" line="73"/>
         <source>Black</source>
         <translation>黑棋</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="75"/>
+        <location filename="DlgSetting.cpp" line="79"/>
         <source>White - PC1</source>
         <translation>白棋-电脑1</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="76"/>
+        <location filename="DlgSetting.cpp" line="80"/>
         <source>Black - PC2</source>
         <translation>黑棋-电脑2</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="82"/>
+        <location filename="DlgSetting.cpp" line="86"/>
         <source>White - Human</source>
         <translation>白棋-人类</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="83"/>
+        <location filename="DlgSetting.cpp" line="87"/>
         <source>Black - PC</source>
         <translation>黑棋-电脑</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="89"/>
+        <location filename="DlgSetting.cpp" line="93"/>
         <source>White - Human1</source>
         <translation>白棋-人类1</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="90"/>
+        <location filename="DlgSetting.cpp" line="94"/>
         <source>Black - Human2</source>
         <translation>黑棋-人类2</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="131"/>
+        <location filename="DlgSetting.cpp" line="122"/>
+        <source>Depth Limit = %1</source>
+        <translation>搜索深度 = %1</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.cpp" line="126"/>
+        <source>Time Limit = %1 s</source>
+        <translation>思考时间 = %1 秒</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.cpp" line="130"/>
+        <source>Hashtable Size = %1 Million</source>
+        <translation>哈希表大小 = %1 百万</translation>
+    </message>
+    <message>
         <source>Depth = %1 (%2)</source>
-        <translation>推理深度 = %1 (%2)</translation>
+        <translation type="obsolete">推理深度 = %1 (%2)</translation>
     </message>
     <message>
         <source>Reasonning depth = %1 (%2)</source>
         <translation type="obsolete">推理深度 = %1 (%2)</translation>
     </message>
     <message>
-        <location filename="DlgSetting.cpp" line="133"/>
         <source>The greater the smarter, but slower</source>
-        <translation>越深越聪明，但也越慢</translation>
+        <translation type="obsolete">越深越聪明，但也越慢</translation>
     </message>
     <message>
         <source>fastest</source>
@@ -161,6 +174,36 @@
         <translation>黑棋</translation>
     </message>
     <message>
+        <location filename="DlgSetting.ui" line="139"/>
+        <source>Alpha-Beta</source>
+        <translation>Alpha-Beta</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.ui" line="146"/>
+        <source>Improved Alpha-Beta</source>
+        <translation>Alpha-Beta改进</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.ui" line="156"/>
+        <source>Algorithm Parameters</source>
+        <translation>算法参数</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.ui" line="168"/>
+        <source>Depth Limit</source>
+        <translation>搜索深度</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.ui" line="200"/>
+        <source>Time Limit</source>
+        <translation>思考时间</translation>
+    </message>
+    <message>
+        <location filename="DlgSetting.ui" line="229"/>
+        <source>Hashtable Size</source>
+        <translation>哈希表大小</translation>
+    </message>
+    <message>
         <source>Language</source>
         <translation type="obsolete">界面语言（下次生效）</translation>
     </message>
@@ -170,59 +213,48 @@
         <translation>界面语言（下次生效）</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="101"/>
+        <location filename="DlgSetting.ui" line="107"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message utf8="true">
-        <location filename="DlgSetting.ui" line="106"/>
+        <location filename="DlgSetting.ui" line="112"/>
         <source>中文</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="117"/>
+        <location filename="DlgSetting.ui" line="123"/>
         <source>Algorithm</source>
         <translation>搜索算法</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="123"/>
+        <location filename="DlgSetting.ui" line="129"/>
         <source>MinMax</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="133"/>
         <source>Alpha-Beta pruning (faster)</source>
-        <translation>Alpha-Beta剪枝 （快多了）</translation>
+        <translation type="obsolete">Alpha-Beta剪枝 （快多了）</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="140"/>
         <source>Improved Alpha-Beta pruning (faster and smarter)</source>
-        <translation>Alpha-Beta改进版（更快、更聪明）</translation>
+        <translation type="obsolete">Alpha-Beta改进版（更快、更聪明）</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="150"/>
         <source>Estimation</source>
-        <translation>形势估计</translation>
+        <translation type="obsolete">形势估计</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="156"/>
         <source>Basic estimation</source>
-        <translation>简单算法</translation>
+        <translation type="obsolete">简单算法</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="166"/>
         <source>Improved estimation (smarter)</source>
-        <translation>改进算法</translation>
+        <translation type="obsolete">改进算法</translation>
     </message>
     <message>
-        <location filename="DlgSetting.ui" line="176"/>
         <source>Reasoning depth</source>
-        <translation>推理深度</translation>
-    </message>
-    <message>
-        <location filename="DlgSetting.ui" line="182"/>
-        <source>Depth (The greater the smarter, but slower)</source>
-        <translation></translation>
+        <translation type="obsolete">推理深度</translation>
     </message>
     <message>
         <source>Computer Intelligence</source>
@@ -237,28 +269,29 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="136"/>
-        <location filename="Manager.cpp" line="137"/>
+        <location filename="Manager.cpp" line="138"/>
+        <location filename="Manager.cpp" line="139"/>
+        <location filename="Manager.cpp" line="140"/>
         <source>%1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="208"/>
+        <location filename="Manager.cpp" line="213"/>
         <source>Game over</source>
         <translation>游戏结束</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="209"/>
+        <location filename="Manager.cpp" line="214"/>
         <source>%1 wins</source>
         <translation>%1 获胜</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="209"/>
+        <location filename="Manager.cpp" line="214"/>
         <source>Black</source>
         <translation>黑棋</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="209"/>
+        <location filename="Manager.cpp" line="214"/>
         <source>White</source>
         <translation>白棋</translation>
     </message>
@@ -272,40 +305,52 @@
     </message>
 </context>
 <context>
+    <name>Logger</name>
+    <message>
+        <location filename="Logger.h" line="16"/>
+        <source>%1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWnd</name>
     <message>
-        <location filename="MainWnd.cpp" line="41"/>
-        <location filename="MainWnd.cpp" line="67"/>
+        <location filename="MainWnd.cpp" line="37"/>
+        <location filename="MainWnd.cpp" line="47"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="42"/>
-        <location filename="MainWnd.cpp" line="68"/>
+        <location filename="MainWnd.cpp" line="38"/>
+        <location filename="MainWnd.cpp" line="48"/>
         <source>Text files (*.txt);;All files (*.*)</source>
         <translation>文本文件 (*.txt);;所有文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="110"/>
+        <location filename="MainWnd.cpp" line="86"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="110"/>
+        <location filename="MainWnd.cpp" line="86"/>
+        <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.4.13&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
+        <translation>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.4.13&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
+    </message>
+    <message>
         <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.3.30&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
-        <translation>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.3.30&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
+        <translation type="obsolete">&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.3.30&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
     </message>
     <message>
         <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.3.26&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
         <translation type="obsolete">&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.3.26&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="172"/>
+        <location filename="MainWnd.cpp" line="148"/>
         <source>No input</source>
         <translation>没有输入</translation>
     </message>
     <message>
-        <location filename="MainWnd.cpp" line="172"/>
+        <location filename="MainWnd.cpp" line="148"/>
         <source>Load from file, or input directly and press enter</source>
         <translation>从文件导入，或者复制到“输入棋盘”中</translation>
     </message>
@@ -334,82 +379,103 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="42"/>
+        <location filename="MainWnd.ui" line="45"/>
         <source>Input</source>
-        <translation>输入棋盘</translation>
+        <translation type="unfinished">输入</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="52"/>
         <source>  Output</source>
-        <translation>输出棋盘</translation>
+        <translation type="obsolete">输出棋盘</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="66"/>
         <source>  # of Estimation</source>
-        <translation>形势估计次数</translation>
+        <translation type="obsolete">形势估计次数</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="86"/>
         <source>  Estimation</source>
+        <translation type="obsolete">估计值</translation>
+    </message>
+    <message>
+        <source>  Status</source>
+        <translation type="obsolete">棋盘状态</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="55"/>
+        <source> Output</source>
+        <translation type="unfinished">输出</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="69"/>
+        <source> # of Estimation</source>
+        <translation>估计次数</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="89"/>
+        <source> Estimation</source>
         <translation>估计值</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="106"/>
-        <source>  Status</source>
-        <translation>棋盘状态</translation>
+        <location filename="MainWnd.ui" line="109"/>
+        <source> Depth</source>
+        <translation type="unfinished">深度</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="119"/>
+        <location filename="MainWnd.ui" line="129"/>
+        <source> Status</source>
+        <translation type="unfinished">状态</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="142"/>
         <source>Tool bar</source>
         <translation>工具栏</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="154"/>
+        <location filename="MainWnd.ui" line="177"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="163"/>
+        <location filename="MainWnd.ui" line="186"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="172"/>
+        <location filename="MainWnd.ui" line="195"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="181"/>
+        <location filename="MainWnd.ui" line="204"/>
         <source>Opening</source>
         <translation>开局</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="190"/>
+        <location filename="MainWnd.ui" line="213"/>
         <source>Mid_End</source>
         <translation>游戏</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="199"/>
+        <location filename="MainWnd.ui" line="222"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="208"/>
+        <location filename="MainWnd.ui" line="231"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="217"/>
+        <location filename="MainWnd.ui" line="240"/>
         <source>Step</source>
         <translation>单步</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="226"/>
+        <location filename="MainWnd.ui" line="249"/>
         <source>Run</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="235"/>
+        <location filename="MainWnd.ui" line="258"/>
         <source>Restart</source>
         <translation>重来</translation>
     </message>

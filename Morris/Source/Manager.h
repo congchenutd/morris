@@ -12,7 +12,7 @@ class GameManager : public QObject
 public:
 	static void initManagers(MainWnd* wnd);
 	static void delManagers();
-	static GameManager* resetManager();
+	static GameManager* reset();
 
 	virtual ~GameManager() {}
 	virtual void opening() {}                            // for single step only
@@ -27,7 +27,7 @@ public:
 
 	bool hoppable() const;
 	bool isOpening() const { return openingPhase; }
-	void setOpening(bool open);
+	void endOpening();
 	void setCurrentColor(QChar color);
 	QChar getCurrentColor() const { return currentColor; }
 
@@ -48,7 +48,6 @@ protected:
 private:
 	void initMode();
 	static void chooseAlgorithm();
-	static void chooseEstimator();
 
 protected:
 	static MainWnd*         mainWnd;

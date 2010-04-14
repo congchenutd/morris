@@ -20,28 +20,30 @@ public:
 	MorrisAlgorithm();
 	virtual ~MorrisAlgorithm();
 	virtual void endOpening() {}
+	virtual void setMemoryLimit(int size) { size; }
 
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, 
 				int depth, int tl = 30, int by = DlgSetting::LIMIT_BY_TIME);
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
-	double getHitRatio() const { return (double)hit / node; }
+//	double getHitRatio() const { return (double)hit / node; }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
 	bool isLeaf(const Board& board) const { return board.getDepth() <= 0; }
 
 protected:
-	int            maxDepth;
 	MoveRecord     nextMove;   // run() returns it, as the actual output
 	int            maxValue;   // runAlgorithm() returns it
 	Estimator*     estimator;
 	MoveGenerator* generator;
+	int limitBy;
+	int maxDepth;
+	int timeLimit;
+	int memoryLimit;
 	long node;
 	long hit;
-	int timeLimit;
-	int limitBy;
 };
 
 class MinMax : public MorrisAlgorithm
@@ -65,6 +67,7 @@ class NegaMax : public MorrisAlgorithm
 {
 public:
 	virtual void endOpening() { db.clear(); }
+	virtual void setMemoryLimit(int size);
 
 protected:
 	virtual int runAlgorithm(const Board& board);

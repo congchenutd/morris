@@ -45,6 +45,7 @@ void MainWnd::onOpen()
 		return;
 
 	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
+	setting->saveTo("Global.ini");
 	QString status = setting->value("Status").toString();
 	bool opening = setting->value("Opening").toBool();
 	mode = setting->getMode();

@@ -74,7 +74,7 @@ public:
 	int getLimitBy()    const;
 
 private:
-	virtual void loadDefaults();
+	void loadDefaults();
 
 private:
 	QStringList modeNames;

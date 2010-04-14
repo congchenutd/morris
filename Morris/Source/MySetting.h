@@ -11,47 +11,46 @@ class MySetting : public QSettings
 	typedef std::map<QString, T*> Manager;
 
 public:
-	QString getUserName() const { return userName; }
+	QString getFileName() const { return fileName; }
+	void saveTo(const QString& file);
 
-	static QString findUser(const QString& section, const QVariant& v);
-	static T*      getInstance(const QString& userName = "Global.ini");
+	static QString findFile(const QString& section, const QVariant& v);
+	static T*      getInstance(const QString& fileName = "Global.ini");
 	static void    destroySettingManager();
 
 protected:
 	MySetting(const QString& name);
-	MySetting(const MySetting& other);
-	MySetting& operator = (const MySetting& other);
 	~MySetting() {}
 
-	virtual void loadDefaults() = 0;
+//	virtual void loadDefaults() = 0;
 
 private:
 	static Manager settingManager;
-	QString userName;
+	QString fileName;
 };
 
 template <class T>
 MySetting<T>::MySetting(const QString& name) 
-: QSettings(name, IniFormat), userName(name) {}
+: QSettings(name, IniFormat), fileName(name) {}
 
 template <class T>
 typename MySetting<T>::Manager MySetting<T>::settingManager;
 
 template <class T>
-T* MySetting<T>::getInstance(const QString& userName)
+T* MySetting<T>::getInstance(const QString& fileName)
 {
-	typename Manager::iterator it = settingManager.find(userName);
+	typename Manager::iterator it = settingManager.find(fileName);
 	if(it != settingManager.end())
 		return it->second;
 
-	T* setting = new T(userName);
-	settingManager.insert(std::make_pair(userName, setting));
+	T* setting = new T(fileName);
+	settingManager.insert(std::make_pair(fileName, setting));
 	return setting;
 }
 
 // search for user with specific section-value
 template <class T>
-QString MySetting<T>::findUser(const QString& section, const QVariant& v)
+QString MySetting<T>::findFile(const QString& section, const QVariant& v)
 {
 	// search all ini files
 	const QStringList files = QDir().entryList(QStringList() << "*.ini", QDir::Files);
@@ -59,7 +58,7 @@ QString MySetting<T>::findUser(const QString& section, const QVariant& v)
 	{
 		QSettings setting(file, QSettings::IniFormat);
 		if(setting.value(section) == v)
-			return file.left(file.length() - 4);   // - .ini
+			return file;
 	}
 	return QString();
 }
@@ -71,6 +70,15 @@ void MySetting<T>::destroySettingManager()
 		it != settingManager.end(); ++it)
 		delete it->second;
 	settingManager.clear();
+}
+
+template <class T>
+void MySetting<T>::saveTo(const QString& file)
+{
+	MySetting<T> other(file);
+	QStringList keys = allKeys();
+	foreach(QString key, keys)
+		other.setValue(key, value(key));
 }
 
 #endif // MYSETTING_H

@@ -37,10 +37,7 @@ public:
 	void saveMove(const Board& current, const Board& next, int score, int alpha, int beta);
 	void saveEstimation(const Board& board, int score);
 	void clear() { dbWhite.clear(); dbBlack.clear(), estimationDB.clear(); }
-	//int getMoveDBSize()      const { return dbWhite.size() + dbBlack.size(); }
-	//int getEstimationDBSize() const { return estimationDB.size(); }
-	//int getMoveDBCapacity() const { return dbWhite.capacity() + dbBlack.capacity(); }
-	//int getEstimationDBCapacity() const { return estimationDB.capacity(); }
+	void setSize(int size);
 
 private:
 	HashTable<MoveRecord> dbWhite, dbBlack;

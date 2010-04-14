@@ -42,6 +42,7 @@ public:
 	T*       find(const QString& key);
 	const T* find(const QString& key) const;
 	void clear();
+	void setSize(int size);
 
 private:
 	std::vector< std::pair<QString, T> > buckets;
@@ -50,11 +51,17 @@ private:
 };
 
 template <class T>
+void HashTable<T>::setSize(int size)
+{
+	bucketSize = size;
+	buckets.resize(size);
+}
+
+template <class T>
 HashTable<T>::HashTable()
 {
 	keyGenerator = new djb2;
-	bucketSize = 5000000;          // 1 million entries
-	buckets.resize(bucketSize);
+	setSize(1000000);   // 1 million
 }
 
 template <class T>

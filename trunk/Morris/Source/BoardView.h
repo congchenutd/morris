@@ -32,8 +32,7 @@ public:
 	void remove(const QPoint& from);
 
 	bool isEmpty(const QPoint& pos) const;
-	int  countNumber(QChar color) const { return board.countNumber(color); }
-	bool closeMill  (int pos)     const { return board.closeMill(pos); }
+	Board getBoard() const { return board; }
 
 private:
 	void updateView(const QString& newStatus, QChar color);

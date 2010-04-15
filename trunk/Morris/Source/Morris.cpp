@@ -121,6 +121,8 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
 		int temp = minMax(it->nextMove, alpha, beta);
+		if(temp == Estimator::MAX_ESTIMATION)
+			break;
 		if(temp > value)
 		{
 			value = temp;
@@ -273,8 +275,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 				return TIME_OUT;
 
 		// definitely win, no need to go deeper
-		//if(temp == Estimator::MAX_ESTIMATION)
-		//	break;
+//		if(temp == Estimator::MAX_ESTIMATION)
+//			break;
 
 		if(temp > value)
 		{

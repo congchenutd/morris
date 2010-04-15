@@ -20,7 +20,7 @@ public:
 	MorrisAlgorithm();
 	virtual ~MorrisAlgorithm();
 	virtual void endOpening() {}
-	virtual void setMemoryLimit(int size) { size; }
+        virtual void setMemoryLimit(int) {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, 

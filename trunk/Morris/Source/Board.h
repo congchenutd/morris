@@ -35,11 +35,12 @@ public:
 	Board makeChild() const;  // a clone
 	
 	int countNumber   (QChar color) const;    // # of chessmen
-	int countFreedom  (QChar color) const;    // i.e. a cross has 4 joints
+	int countFreedom  (QChar color) const;    // movable positions
 	int countOpenMills(QChar color) const;
 	int countMills    (QChar color) const;
 	int countMorris   (QChar color) const;
 	int countBlocked  (QChar color) const;
+	int countMoves    (bool isOpening, QChar color) const;
 
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);

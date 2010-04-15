@@ -106,10 +106,8 @@ void MainWnd::setStatus(const QString& status)
 	ui.leStatus->setText(status);
 }
 
-void MainWnd::onStatusPressed() 
-{
-	ui.leStatus->setText(validateStatus(ui.leStatus->text()));
-	setStatus(ui.leStatus->text());
+void MainWnd::onStatusPressed() {
+	setStatus(validateStatus(ui.leStatus->text()));
 }
 
 void MainWnd::onInputPressed() 
@@ -139,6 +137,7 @@ void MainWnd::onGame()
 		showNoInputError();
 		return;
 	}
+	manager->endOpening();
 	manager->game();
 }
 
@@ -171,7 +170,6 @@ void MainWnd::loadSetting(const QString& fileName)
 {
 	// load settings
 	UserSetting* setting = MySetting<UserSetting>::getInstance(fileName);
-	setting->saveTo("Global.ini");
 	QString status = setting->value("Status").toString();
 	bool opening = setting->value("Opening").toBool();
 	mode = setting->getMode();
@@ -185,13 +183,15 @@ void MainWnd::loadSetting(const QString& fileName)
 
 	// activate settings
 	onRestart();
-	status = validateStatus(status);
-	ui.leInput->setText(status);
-	setStatus(status);
-	if(!opening)
-		manager->endOpening();
+	if(fileName != "Global.ini")  // do not load last board
+	{
+		ui.leInput->setText(validateStatus(status));
+		setStatus(status);
+		if(!opening)
+			manager->endOpening();	
+	}
+
 	manager->setCurrentColor(currentColor);
-	ui.boardView->showCurrentColor(currentColor);
 }
 
 void MainWnd::saveSetting(const QString& fileName)

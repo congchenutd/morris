@@ -35,15 +35,16 @@ protected:
 	virtual QString getModeName() const = 0;
 	virtual void initToolbar  () {}
 	virtual void enterThisMode() {}
-	virtual void leaveThisMode() {}
 	virtual void initMovability();
 	virtual void runAlgorithm();
 
+	void showStatusWidgets(bool input, bool output, bool estNum, bool est, bool depth, bool status);
 	void runAlgorithm(bool opening);
 	void flipColor();
 	bool checkWinning();
 	void lock();
 	void lock(QChar color);
+	void showCurrentColor();
 
 private:
 	void initMode();
@@ -59,7 +60,9 @@ protected:
 
 private:
 	static std::vector<GameManager*> managers;
-	static GameManager*     currentManager;
+	static GameManager*              currentManager;
+	static std::vector<MorrisAlgorithm*> algorithms;
+	static std::vector<Estimator*>       estimators;
 };
 
 class SingleStepModeManager : public GameManager
@@ -70,7 +73,6 @@ protected:
 	virtual void opening();
 	virtual void game();
 	virtual void enterThisMode();
-	virtual void leaveThisMode();
 };
 
 class PCPCModeManager : public GameManager
@@ -104,6 +106,7 @@ protected:
 	virtual QString getModeName() const { return tr("PC-Human Mode"); }
 	virtual void initToolbar();
 	virtual void initMovability();
+	virtual void enterThisMode();
 	virtual void runAlgorithm();
 
 private slots:
@@ -115,9 +118,8 @@ class HumanHumanModeManager : public GameManager
 protected:
 	virtual QString getModeName() const { return tr("Human-Human Mode"); }
 	virtual void initMovability();
-	virtual void runAlgorithm();
 	virtual void enterThisMode();
-	virtual void leaveThisMode();
+	virtual void runAlgorithm();
 };
 
 #endif // Manager_h__

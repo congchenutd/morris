@@ -22,7 +22,7 @@ protected:
 	MySetting(const QString& name);
 	~MySetting() {}
 
-//	virtual void loadDefaults() = 0;
+	virtual void loadDefaults() = 0;
 
 private:
 	static Manager settingManager;

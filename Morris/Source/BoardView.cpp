@@ -380,9 +380,9 @@ void Chessman::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 	QPoint target = view->getClosestPosition(*this);
 	if(distance(target) < 10000 && model->isEmpty(target))  // closest valid position
 	{
-		if(!onBoard(lastPosition))  // outside -> inside
+		if(!onBoard(lastPosition))  // outside -> inside, opening phase
 			add(target, true);            
-		else                        // inside -> inside
+		else                        // inside -> inside, game phase
 		{
 			if(Board::isNeighbor(view->posToID(lastPosition), view->posToID(target)))
 				move(target, true);
@@ -404,7 +404,7 @@ void Chessman::add(const QPoint& target, bool byHuman)
 	if(byHuman)
 	{
 		model->add(this, target);       // update model
-		manager->onAdd(this, view->posToID(target));
+		manager->onAdd(this, view->posToID(target));		
 	}
 	moveTo(target);
 }
@@ -470,7 +470,7 @@ void Chessman::setIdle()
 
 void Chessman::setRemovable(bool enable) 
 {
-	bool m = model->closeMill(view->posToID(pos()));
+	bool m = model->getBoard().closeMill(view->posToID(pos()));
 	removable = enable && !m;
 	update();
 }

@@ -8,12 +8,15 @@
 
 using namespace std;
 
-vector<GameManager*> GameManager::managers;
-GameManager*         GameManager::currentManager = 0;;
-MainWnd*             GameManager::mainWnd = 0;
-QChar                GameManager::currentColor = 'W';
-Estimator*           GameManager::estimator = 0;
-MorrisAlgorithm*     GameManager::algorithm = 0;
+vector<GameManager*>     GameManager::managers;
+vector<MorrisAlgorithm*> GameManager::algorithms;
+vector<Estimator*>       GameManager::estimators;
+
+GameManager*     GameManager::currentManager = 0;;
+MainWnd*         GameManager::mainWnd = 0;
+QChar            GameManager::currentColor = 'W';
+Estimator*       GameManager::estimator = 0;
+MorrisAlgorithm* GameManager::algorithm = 0;
 
 void GameManager::initManagers(MainWnd* wnd)
 {
@@ -22,6 +25,13 @@ void GameManager::initManagers(MainWnd* wnd)
 	managers.push_back(new PCPCModeManager      );
 	managers.push_back(new PCHumanModeManager   );
 	managers.push_back(new HumanHumanModeManager);
+
+	algorithms.push_back(new MinMax);
+	algorithms.push_back(new AlphaBeta);
+	algorithms.push_back(new NegaMax);
+
+	estimators.push_back(new BasicEstimator);
+	estimators.push_back(new ImprovedEstimator);
 }
 
 void GameManager::delManagers()
@@ -29,12 +39,16 @@ void GameManager::delManagers()
 	for(vector<GameManager*>::iterator it = managers.begin(); it != managers.end(); ++it)
 		delete *it;
 	managers.clear();
+	for(vector<MorrisAlgorithm*>::iterator it = algorithms.begin(); it != algorithms.end(); ++it)
+		delete *it;
+	algorithms.clear();
+	for(vector<Estimator*>::iterator it = estimators.begin(); it != estimators.end(); ++it)
+		delete *it;
+	estimators.clear();
 }
 
 GameManager* GameManager::reset() 
 {
-	if(currentManager != 0)
-		currentManager->leaveThisMode();
 	currentManager = managers[mainWnd->mode];
 	currentManager->initMode();
 
@@ -45,25 +59,14 @@ GameManager* GameManager::reset()
 // ugly simple factory
 void GameManager::chooseAlgorithm()
 {
-	if(algorithm != 0)
-		delete algorithm;
-	if(estimator != 0)
-		delete estimator;	
-	
+	algorithm = algorithms[mainWnd->algorithm];
 	if(mainWnd->algorithm == DlgSetting::MIN_MAX)
 	{
-		algorithm = new MinMax;
-		estimator = new BasicEstimator;
-	}
-	else if(mainWnd->algorithm == DlgSetting::ALPHA_BETA) {
-		algorithm = new AlphaBeta;
-		estimator = new BasicEstimator;
-	}
-	else {
-		algorithm = new NegaMax;
-		estimator = new ImprovedEstimator;
+		estimator = estimators[1];
 		algorithm->setMemoryLimit(mainWnd->memoryLimit);
 	}
+	else
+		estimator = estimators[0];
 
 	algorithm->setEstimator(estimator);
 }
@@ -95,7 +98,7 @@ void GameManager::initMode()
 	mainWnd->ui.boardView->setRemovable('B', false);
 
 	currentColor = mainWnd->startColor;
-	mainWnd->ui.boardView->showCurrentColor(currentColor);
+	showCurrentColor();
 
 	initMovability();
 	enterThisMode();
@@ -145,7 +148,7 @@ void GameManager::runAlgorithm(bool opening)
 void GameManager::flipColor()
 {
 	currentColor = Board::flipColor(currentColor);
-	mainWnd->ui.boardView->showCurrentColor(currentColor);
+	showCurrentColor();
 }
 
 void GameManager::lock(QChar color)
@@ -199,14 +202,14 @@ bool GameManager::checkWinning()
 {
 	if(isOpening())
 		return false;
-	int whiteCount = mainWnd->model.countNumber('W');
-	int blackCount = mainWnd->model.countNumber('B');
-	int whiteMoveCount = MoveGenerator::countMoves(mainWnd->model.toString(), isOpening(), 'W');
-	int blackMoveCount = MoveGenerator::countMoves(mainWnd->model.toString(), isOpening(), 'B');
+	int whiteCount = mainWnd->model.getBoard().countNumber('W');
+	int blackCount = mainWnd->model.getBoard().countNumber('B');
+	int whiteMoveCount = mainWnd->model.getBoard().countMoves(isOpening(), 'W');
+	int blackMoveCount = mainWnd->model.getBoard().countMoves(isOpening(), 'B');
 	if(whiteCount == 2 || blackCount == 2 || whiteMoveCount == 0 || blackMoveCount == 0)
 	{
 		gameOver = true;
-		mainWnd->ui.boardView->setMovable('W', false, false);
+		mainWnd->ui.boardView->setMovable('W', false, false);  // freeze all
 		mainWnd->ui.boardView->setMovable('B', false, false);
 		mainWnd->ui.boardView->setRemovable('W', false);
 		mainWnd->ui.boardView->setRemovable('B', false);
@@ -218,13 +221,34 @@ bool GameManager::checkWinning()
 }
 
 bool GameManager::hoppable() const {
-	return mainWnd->model.countNumber(currentColor) == 3;
+	return mainWnd->model.getBoard().countNumber(currentColor) == 3;
 }
 
 void GameManager::setCurrentColor(QChar color)
 {
 	currentColor = color;
 	lock();
+}
+
+void GameManager::showStatusWidgets(bool input, bool output, bool estNum, 
+									bool est,   bool depth,  bool status)
+{
+	mainWnd->ui.labelInput->setVisible(input);
+	mainWnd->ui.leInput   ->setVisible(input);
+	mainWnd->ui.labelOutput->setVisible(output);
+	mainWnd->ui.leOutput   ->setVisible(output);
+	mainWnd->ui.labelEstimationCount->setVisible(estNum);
+	mainWnd->ui.leEstimationCount   ->setVisible(estNum);
+	mainWnd->ui.labelEstimation->setVisible(est);
+	mainWnd->ui.leEstimation   ->setVisible(est);
+	mainWnd->ui.labelDepth->setVisible(depth);
+	mainWnd->ui.leDepth   ->setVisible(depth);
+	mainWnd->ui.labelStatus->setVisible(status);
+	mainWnd->ui.leStatus   ->setVisible(status);
+}
+
+void GameManager::showCurrentColor() {
+	mainWnd->ui.boardView->showCurrentColor(currentColor);
 }
 
 void SingleStepModeManager::initToolbar()
@@ -237,7 +261,6 @@ void PCPCModeManager::initToolbar()
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionStep);
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionRun);
 }
-
 void PCHumanModeManager::initToolbar() {
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionRun);
 }
@@ -253,24 +276,8 @@ void SingleStepModeManager::game() {
 	runAlgorithm(false);
 }
 
-void SingleStepModeManager::enterThisMode()
-{
-	mainWnd->ui.labelInput ->show();
-	mainWnd->ui.leInput    ->show();
-	mainWnd->ui.labelOutput->show();
-	mainWnd->ui.leOutput   ->show();
-	mainWnd->ui.labelStatus->hide();
-	mainWnd->ui.leStatus   ->hide();
-}
-
-void SingleStepModeManager::leaveThisMode()
-{
-	mainWnd->ui.labelInput ->hide();
-	mainWnd->ui.leInput    ->hide();
-	mainWnd->ui.labelOutput->hide();
-	mainWnd->ui.leOutput   ->hide();
-	mainWnd->ui.labelStatus->show();
-	mainWnd->ui.leStatus   ->show();
+void SingleStepModeManager::enterThisMode() {
+	showStatusWidgets(true, true, true, true, true, false);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -295,7 +302,9 @@ void PCPCModeManager::step()
 	runAlgorithm();
 }
 
-void PCPCModeManager::enterThisMode() {
+void PCPCModeManager::enterThisMode() 
+{
+	showStatusWidgets(false, false, true, true, true, true);
 	running = false;
 }
 
@@ -324,6 +333,10 @@ void PCHumanModeManager::onTimer()
 	lock();
 }
 
+void PCHumanModeManager::enterThisMode() {
+	showStatusWidgets(false, false, true, true, true, true);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Human - Human
 void HumanHumanModeManager::initMovability()
@@ -332,24 +345,8 @@ void HumanHumanModeManager::initMovability()
 	mainWnd->ui.boardView->setMovable('B', mainWnd->startColor == 'B');
 }
 
-void HumanHumanModeManager::enterThisMode()
-{
-	mainWnd->ui.labelEstimationCount->hide();
-	mainWnd->ui.leEstimationCount   ->hide();
-	mainWnd->ui.labelEstimation     ->hide();
-	mainWnd->ui.leEstimation        ->hide();
-	mainWnd->ui.labelDepth          ->hide();
-	mainWnd->ui.leDepth             ->hide();
-}
-
-void HumanHumanModeManager::leaveThisMode()
-{
-	mainWnd->ui.labelEstimationCount->show();
-	mainWnd->ui.leEstimationCount   ->show();
-	mainWnd->ui.labelEstimation     ->show();
-	mainWnd->ui.leEstimation        ->show();
-	mainWnd->ui.labelDepth          ->show();
-	mainWnd->ui.leDepth             ->show();
+void HumanHumanModeManager::enterThisMode() {
+	showStatusWidgets(false, false, false, false, false, true);
 }
 
 void HumanHumanModeManager::runAlgorithm()

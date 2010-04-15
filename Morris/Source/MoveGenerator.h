@@ -11,7 +11,6 @@ public:
 	MoveGenerator() : isOpening(true) {}
 	virtual Moves generate(const Board& board);
 	void setOpening(bool opening) { isOpening = opening; }
-	static int countMoves(const Board& board, bool isOpening, QChar color);
 
 private:
 	Moves generateOpening(const Board& board) const;

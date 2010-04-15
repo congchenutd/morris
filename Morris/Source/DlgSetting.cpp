@@ -114,8 +114,8 @@ void DlgSetting::setAlgorithm(int alg)
 
 void DlgSetting::setPCEnabled(bool enable)
 {
-	ui.groupAlgorithm ->setVisible(enable);
-	ui.groupParameters->setVisible(enable);
+	ui.groupAlgorithm ->setEnabled(enable);
+	ui.groupParameters->setEnabled(enable);
 }
 
 void DlgSetting::onDepthChanged(int depth) {
@@ -153,11 +153,10 @@ void DlgSetting::setLanguage(const QString& language) {
 
 void DlgSetting::onAlgorithmChanged()
 {
-	ui.radioLimitByTime ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.sliderTimeLimit  ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.labelTableSize   ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.sliderTableSize  ->setVisible(getAlgorithm() == ALPHA_BETA_IMPROVED);
-	ui.radioLimitByTime ->setChecked(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.radioLimitByTime ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.sliderTimeLimit  ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.labelTableSize   ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
+	ui.sliderTableSize  ->setEnabled(getAlgorithm() == ALPHA_BETA_IMPROVED);
 	ui.radioLimitByDepth->setChecked(getAlgorithm() != ALPHA_BETA_IMPROVED);
 }
 

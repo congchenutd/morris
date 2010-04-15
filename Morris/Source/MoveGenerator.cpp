@@ -108,10 +108,3 @@ Moves MoveGenerator::generateMove(const Board& board) const
 		}
 		return result;
 }
-
-int MoveGenerator::countMoves(const Board& board, bool isOpening, QChar color) 
-{
-	MoveGenerator generator;
-	generator.setOpening(isOpening);
-	return generator.generate(Board(board.toString(), color)).size();
-}

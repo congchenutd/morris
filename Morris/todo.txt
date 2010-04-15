@@ -1,3 +1,5 @@
 X put ID code to GameAlgorithm.run()
 - do not support copy-paste on pc/human mode
-- when load saved file, do not correctly set statusbar
+- better opening saving
+- prevent gui from blocking, multi-thread?
+- allow user to set opening

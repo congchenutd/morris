@@ -1,6 +1,5 @@
 #include "MainWnd.h"
 #include <QtGui>
-#include "Board.h"
 
 int main(int argc, char *argv[])
 {

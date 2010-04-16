@@ -8,4 +8,3 @@ BBWWBxxxWBWxxxBBWWBWxWx
 BWBWxBxBWBxxWWxxWWxBxxB
 BWBWxxxWBBWBBBxxxxxxWWW
 
-BBWWxxxxxxxxxxxxxWxxxxx depth=4 alpha-beta???

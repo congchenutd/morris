@@ -268,3 +268,24 @@ int Board::countMoves(bool isOpening, QChar color) const
 	generator.setOpening(isOpening);
 	return generator.generate(Board(toString(), color)).size();
 }
+
+bool Board::closeDoubleMill(int pos) const
+{
+	if(!closeMill(pos))
+		return false;
+	Neighbors neighbors = getNeighbors(pos);
+	for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+		if(closeMill(*it))
+			return true;
+	return false;
+}
+
+int Board::countDoubleMorris(QChar color) const
+{
+	int result = 0;
+	for(int i=0; i<23; ++i)
+		if(chessmen[i] == color)   // find color
+			if(closeDoubleMill(i))
+				result ++;
+	return result;
+}

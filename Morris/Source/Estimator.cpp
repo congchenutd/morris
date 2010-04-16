@@ -49,7 +49,6 @@ int ImprovedEstimator::getEstimation(const Board& board)
 
 int ImprovedEstimator::getOpeningEstimation(const Board& board) const 
 {
-	//return BasicEstimator::getOpeningEstimation(board);
 	QChar opponentColor = Board::flipColor(startColor);
 	int selfNum         = board.countNumber(startColor);
 	int opponentNum     = board.countNumber(opponentColor);
@@ -60,12 +59,11 @@ int ImprovedEstimator::getOpeningEstimation(const Board& board) const
 	int blockedNum      = board.countBlocked(opponentColor);
 	int millNum         = board.countMills(startColor);
 	int openMillNum     = board.countOpenMills(startColor);
-	return 1000*numDiff + 1*freedomDiff + 1*blockedNum + 10*millNum + 20*openMillNum;
+	return 1000*numDiff + 1*freedomDiff + 1*blockedNum + 10*millNum + 50*openMillNum;
 }
 
 int ImprovedEstimator::getGameEstimation(const Board& board) const
 {
-//	return BasicEstimator::getGameEstimation(board);
 	QChar opponentColor = Board::flipColor(startColor);
 	int selfNum         = board.countNumber(startColor);
 	int opponentNum     = board.countNumber(opponentColor);
@@ -73,6 +71,12 @@ int ImprovedEstimator::getGameEstimation(const Board& board) const
 	int blockedNum      = board.countBlocked(opponentColor);
 	int millNum         = board.countMills(startColor);
 	int openMillNum     = board.countOpenMills(startColor);
-	int morrisNum = board.countMorris(startColor);
-	return 1000*numDiff + 1*blockedNum + 10*millNum + 20*openMillNum + 30*morrisNum;
+	int morrisNum       = board.countMorris(startColor);
+	int doubleMorrisNum = board.countDoubleMorris(startColor);
+	return numDiff         * 1000 + 
+		   blockedNum      * 1 +
+		   millNum         * 10 + 
+		   openMillNum     * 20 + 
+		   morrisNum       * 30 +
+		   doubleMorrisNum * 50;
 }

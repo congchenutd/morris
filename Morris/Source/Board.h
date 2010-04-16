@@ -18,8 +18,6 @@ public:
 	Board(const QString& p = "xxxxxxxxxxxxxxxxxxxxxxx", QChar c = 'W', int d = 0) 
 		: chessmen(p), color(c), depth(d) {}
 
-	static void init();
-
 	QChar   getSelfColor()     const { return color; }
 	QChar   getOpponentColor() const { return flipColor(color); }
 	int     getDepth()         const { return depth; }
@@ -31,16 +29,19 @@ public:
 	void    setString(const QString& str)   { chessmen = str; }
 	void    setDepth(int d)                 { depth = d; }
 	
-	bool closeMill(int pos) const;
+	bool closeMill(int pos) const;            // if pos is in a mill
 	Board makeChild() const;  // a clone
 	
-	int countNumber   (QChar color) const;    // # of chessmen
-	int countFreedom  (QChar color) const;    // movable positions
-	int countOpenMills(QChar color) const;
-	int countMills    (QChar color) const;
-	int countMorris   (QChar color) const;
-	int countBlocked  (QChar color) const;
-	int countMoves    (bool isOpening, QChar color) const;
+	int countNumber      (QChar color) const;    // # of chessmen
+	int countFreedom     (QChar color) const;    // movable positions
+	int countOpenMills   (QChar color) const;    // *-O-*
+	int countMills       (QChar color) const;    // *-*-*
+	int countMorris      (QChar color) const;    // *-O-*
+												 //   |
+												 //   *
+	int countDoubleMorris(QChar color) const;    //   |
+	int countBlocked     (QChar color) const;    // *-O-*
+	int countMoves(bool isOpening, QChar color) const;   // including hopping
 
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);
@@ -54,6 +55,7 @@ private:
 	std::set<Mill> findOpenMills(int pos, QChar color) const;
 	std::set<Mill> findMills    (int pos) const;
 	bool isBlocked(int pos) const;
+	bool closeDoubleMill(int pos) const;   // if pos is in double morris
 
 private:
 	QString chessmen;

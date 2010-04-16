@@ -24,8 +24,7 @@ public:
 	virtual void setMemoryLimit(int) {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
-	QString run(bool opening, const QString& input, QChar startColor, 
-				int depth, int tl = 30, int by = DlgSetting::LIMIT_BY_TIME);
+	QString run(bool opening, const QString& input, QChar startColor, int by, int depth, int tl);
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
 
@@ -34,14 +33,14 @@ protected:
 	bool isLeaf(const Board& board) const { return board.getDepth() <= 0; }
 
 protected:
-	MoveRecord     nextMove;   // run() returns it, as the actual output
-	int            maxValue;   // runAlgorithm() returns it
 	Estimator*     estimator;
 	MoveGenerator* generator;
-	int limitBy;
-	int maxDepth;
-	int timeLimit;
-	int memoryLimit;
+
+	MoveRecord nextMove;   // run() returns it, as the actual output
+	int        maxValue;   // runAlgorithm() returns it
+	int        limitBy;
+	int        maxDepth;
+	int        timeLimit;
 };
 
 class MinMax : public MorrisAlgorithm
@@ -94,5 +93,6 @@ private:
 	QTime  time;
 	MoveDB db;
 };
+
 
 #endif

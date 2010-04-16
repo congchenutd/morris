@@ -17,20 +17,18 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 }
 
 QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, 
-							 int depth, int tl, int by)
+							 int by, int depth, int tl)
 {
 	limitBy = by;
-	timeLimit = tl * 1000;
 	maxDepth = depth;
-
+	timeLimit = tl * 1000;
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
 	generator->setOpening(opening);
-	runAlgorithm(Board(input, startColor, maxDepth));   // really run it
+	runAlgorithm(Board(input, startColor, depth));
 	return nextMove.nextMove.toString();
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // MinMax

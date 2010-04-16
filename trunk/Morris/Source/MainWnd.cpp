@@ -182,7 +182,6 @@ void MainWnd::loadSetting(const QString& fileName)
 	memoryLimit = setting->value("TableSize").toInt();
 
 	// activate settings
-	manager->setCurrentColor(currentColor);
 	onRestart();
 	if(fileName != "Global.ini")  // do not load last board
 	{

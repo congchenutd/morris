@@ -134,13 +134,18 @@ void GameManager::runAlgorithm(bool opening)
 	//QTime time;
 	//time.restart();
 	QString input = mainWnd->ui.leStatus->text();
+	
+	mainWnd->setEnabled(false);  // freeze GUI
+	qApp->processEvents();
 	QString output = algorithm->run(opening, input, currentColor, 
-									mainWnd->depth, mainWnd->timeLimit, mainWnd->limitBy);
+		mainWnd->limitBy, mainWnd->depth, mainWnd->timeLimit);
+	mainWnd->setEnabled(true);
+
 	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
-	mainWnd->ui.leEstimation->setText(tr("%1").arg(algorithm->getMaxValue()));
-	mainWnd->ui.leDepth->setText(tr("%1").arg(algorithm->getMaxDepth()));
+	mainWnd->ui.leEstimation     ->setText(tr("%1").arg(algorithm->getMaxValue()));
+	mainWnd->ui.leDepth          ->setText(tr("%1").arg(algorithm->getMaxDepth()));
 //	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
 //	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
 }

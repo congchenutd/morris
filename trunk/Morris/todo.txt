@@ -1,5 +1,3 @@
-X put ID code to GameAlgorithm.run()
 - do not support copy-paste on pc/human mode
 - better opening saving
-- prevent gui from blocking, multi-thread?
 - allow user to set opening

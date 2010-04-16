@@ -60,7 +60,7 @@ GameManager* GameManager::reset()
 void GameManager::chooseAlgorithm()
 {
 	algorithm = algorithms[mainWnd->algorithm];
-	if(mainWnd->algorithm == DlgSetting::MIN_MAX)
+	if(mainWnd->algorithm == DlgSetting::ALPHA_BETA_IMPROVED)
 	{
 		estimator = estimators[1];
 		algorithm->setMemoryLimit(mainWnd->memoryLimit);

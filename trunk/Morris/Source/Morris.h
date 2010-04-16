@@ -11,6 +11,7 @@
 #include "DlgSetting.h"
 #include <QString>
 #include <QTime>
+#include <vector>
 
 class MoveGenerator;
 class Estimator;
@@ -20,14 +21,13 @@ public:
 	MorrisAlgorithm();
 	virtual ~MorrisAlgorithm();
 	virtual void endOpening() {}
-        virtual void setMemoryLimit(int) {}
+	virtual void setMemoryLimit(int) {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, 
 				int depth, int tl = 30, int by = DlgSetting::LIMIT_BY_TIME);
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
-//	double getHitRatio() const { return (double)hit / node; }
 
 protected:
 	virtual int runAlgorithm(const Board& board) = 0;
@@ -42,8 +42,6 @@ protected:
 	int maxDepth;
 	int timeLimit;
 	int memoryLimit;
-	long node;
-	long hit;
 };
 
 class MinMax : public MorrisAlgorithm
@@ -55,12 +53,28 @@ protected:
 	int minMax(const Board& board);
 };
 
+struct TreeNode
+{
+	TreeNode(int d = 0, int s = 0) : depth(d), score(s) {}
+	void addChild(const TreeNode& node) { children.push_back(node); }
+	void toFile(const QString& fileName);
+
+	std::vector<TreeNode> children;
+	int depth;
+	int score;
+};
+
 class AlphaBeta : public MorrisAlgorithm
 {
+public:
+	AlphaBeta() {}
+
 protected:
 	virtual int runAlgorithm(const Board& board);
-	virtual int maxMin(const Board& board, int alpha, int beta);
-	virtual int minMax(const Board& board, int alpha, int beta);
+	int maxMin(const Board& board, int alpha, int beta, TreeNode& parent);
+	int minMax(const Board& board, int alpha, int beta, TreeNode& parent);
+
+	TreeNode root;
 };
 
 class NegaMax : public MorrisAlgorithm

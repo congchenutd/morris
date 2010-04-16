@@ -2,6 +2,7 @@
 #include "Estimator.h"
 #include <QtGui>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -18,9 +19,6 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, 
 							 int depth, int tl, int by)
 {
-	node = 0;
-	hit = 0;
-
 	limitBy = by;
 	timeLimit = tl * 1000;
 	maxDepth = depth;
@@ -97,14 +95,25 @@ int MinMax::minMax(const Board& board)
 
 //////////////////////////////////////////////////////////////////////////
 // AlphaBeta
-int AlphaBeta::runAlgorithm(const Board& board) {
-	return maxMin(board, -INT_MAX, INT_MAX);
+int AlphaBeta::runAlgorithm(const Board& board) 
+{
+	int score = maxMin(board, -INT_MAX, INT_MAX, root);
+	root.depth = board.getDepth();
+	root.score = score;
+	root.toFile("tree.txt");
+	return score;
 }
 
-int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
+int AlphaBeta::maxMin(const Board& board, int alpha, int beta, TreeNode& parent)
 {
+	TreeNode node(board.getDepth(), 0);
 	if(isLeaf(board))
-		return estimator->getEstimation(board);
+	{
+		int temp = estimator->getEstimation(board);
+		node.score = temp;
+		parent.addChild(node);
+		return temp;
+	}
 
 	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
@@ -120,9 +129,9 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
 	Moves::iterator maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = minMax(it->nextMove, alpha, beta);
-		if(temp == Estimator::MAX_ESTIMATION)
-			break;
+		int temp = minMax(it->nextMove, alpha, beta, node);
+//		if(temp == Estimator::MAX_ESTIMATION)
+//			break;
 		if(temp > value)
 		{
 			value = temp;
@@ -136,13 +145,21 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
 
 	nextMove = *maxMove;
 	maxValue = value;
+	node.score = maxValue;
+	parent.addChild(node);
 	return maxValue;
 }
 
-int AlphaBeta::minMax(const Board& board, int alpha, int beta)
+int AlphaBeta::minMax(const Board& board, int alpha, int beta, TreeNode& parent)
 {
+	TreeNode node(board.getDepth(), 0);
 	if(isLeaf(board))
-		return estimator->getEstimation(board);
+	{
+		int temp = estimator->getEstimation(board);
+		node.score = temp;
+		parent.addChild(node);
+		return temp;
+	}
 
 	Moves moves = generator->generate(board);
 	int minValue = Estimator::MAX_ESTIMATION;
@@ -152,7 +169,7 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 	Moves::iterator minMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = maxMin(it->nextMove, alpha, beta);
+		int temp = maxMin(it->nextMove, alpha, beta, node);
 		if(temp < minValue)
 		{
 			minValue = temp;
@@ -165,9 +182,41 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 	}
 
 	nextMove = *minMove;
+	node.score = minValue;
+	parent.addChild(node);
 	return minValue;
 }
 
+void TreeNode::toFile(const QString& fileName)
+{
+	QFile file(fileName);
+	file.open(QFile::WriteOnly);
+	QTextStream os(&file);
+	queue<TreeNode*> q;
+	q.push(this);
+	q.push(0);
+	int d = depth;
+	while(!q.empty())
+	{
+		TreeNode* node = q.front();
+		q.pop();
+		if(node == 0)
+		{
+			os << "|";
+			continue;
+		}
+		if(node->depth != d)
+		{
+			d = node->depth;
+			os << "\r\ndepth=" << d << "\r\n";
+		}
+		os << node->score << " ";
+
+		for(vector<TreeNode>::iterator it=node->children.begin(); it!=node->children.end(); ++it)
+			q.push(&(*it));
+		q.push(0);
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////
 int NegaMax::runAlgorithm(const Board& b) 
@@ -215,8 +264,6 @@ int NegaMax::runAlgorithm(const Board& b)
 
 int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
-	node ++;
-
 	if(limitBy == DlgSetting::LIMIT_BY_TIME)
 		if(time.elapsed() > timeLimit)
 			return TIME_OUT;
@@ -227,7 +274,6 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	{
 		if(record.depth >= board.getDepth())
 		{
-			hit ++;	
 			switch(record.type)
 			{
 			case MoveRecord::EXACT_VALUE:

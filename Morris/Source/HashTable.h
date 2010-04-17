@@ -53,7 +53,11 @@ private:
 template <class T>
 void HashTable<T>::setSize(int size)
 {
-	bucketSize = size;
+	if(size != bucketSize)
+	{
+		bucketSize = size;
+		buckets.resize(bucketSize);
+	}
 	clear();
 }
 
@@ -96,10 +100,8 @@ const T* HashTable<T>::find(const QString& key) const
 }
 
 template <class T>
-void HashTable<T>::clear()
-{
-	buckets.clear();
-	buckets.resize(bucketSize);
+void HashTable<T>::clear() {
+	fill(buckets.begin(), buckets.end(), std::make_pair(QString(), T()));
 }
 
 #endif // HashTable_h__

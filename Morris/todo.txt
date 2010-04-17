@@ -1,3 +1,4 @@
 - do not support copy-paste on pc/human mode
 - better opening saving
 - allow user to set opening
+- when ate some men in opening, doesn't save this info

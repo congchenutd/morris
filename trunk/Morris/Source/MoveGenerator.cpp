@@ -70,8 +70,7 @@ Moves MoveGenerator::generateHopping(const Board& board) const
 				if(board.isEmpty(to))
 				{
 					Board next = board.makeChild();
-					next.setManAt(from, 'x');
-					next.setManAt(to, board.getSelfColor());
+					next.move(from, to);
 					if(next.closeMill(to))
 					{
 						Moves removeMoves = generateRemove(next, board.getOpponentColor());
@@ -95,8 +94,7 @@ Moves MoveGenerator::generateMove(const Board& board) const
 				if(board.isEmpty(*it))
 				{
 					Board next = board.makeChild();
-					next.setManAt(from, 'x');
-					next.setManAt(*it, board.getSelfColor());
+					next.move(from, *it);
 					if(next.closeMill(*it))
 					{
 						Moves removeMoves = generateRemove(next, board.getOpponentColor());

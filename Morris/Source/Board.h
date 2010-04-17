@@ -28,6 +28,7 @@ public:
 	void    removeManAt(int pos)            { setManAt(pos, 'x'); }
 	void    setString(const QString& str)   { chessmen = str; }
 	void    setDepth(int d)                 { depth = d; }
+	void    move(int from, int to);
 	
 	bool closeMill(int pos) const;            // if pos is in a mill
 	Board makeChild() const;  // a clone
@@ -55,7 +56,9 @@ private:
 	std::set<Mill> findOpenMills(int pos, QChar color) const;
 	std::set<Mill> findMills    (int pos) const;
 	bool isBlocked(int pos) const;
-	bool closeDoubleMill(QChar color, int pos) const;   // if pos is in double morris
+	
+	// pos moving to a neighbor makes a morris
+	bool closeMorris(QChar color, int pos) const;
 
 private:
 	QString chessmen;

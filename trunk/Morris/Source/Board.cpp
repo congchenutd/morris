@@ -243,6 +243,32 @@ int Board::countMorris(QChar color) const
 	return result;
 }
 
+int Board::countDoubleMorris(QChar color) const
+{
+	int result = 0;
+	for(int i=0; i<23; ++i)
+		if(chessmen[i] == color)   // find color
+			if(closeDoubleMill(color, i))
+				result ++;
+	return result;
+}
+
+bool Board::closeDoubleMill(QChar color, int pos) const
+{
+	if(!closeMill(pos))
+		return false;
+	Neighbors neighbors = getNeighbors(pos);
+	for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
+	{
+		Board temp(*this);
+		temp.setManAt(pos, 'x');
+		temp.setManAt(*it, color);
+		if(temp.closeMill(*it))
+			return true;
+	}
+	return false;
+}
+
 int Board::countBlocked(QChar color) const
 {
 	int result = 0;
@@ -267,25 +293,4 @@ int Board::countMoves(bool isOpening, QChar color) const
 	MoveGenerator generator;
 	generator.setOpening(isOpening);
 	return generator.generate(Board(toString(), color)).size();
-}
-
-bool Board::closeDoubleMill(int pos) const
-{
-	if(!closeMill(pos))
-		return false;
-	Neighbors neighbors = getNeighbors(pos);
-	for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)
-		if(closeMill(*it))
-			return true;
-	return false;
-}
-
-int Board::countDoubleMorris(QChar color) const
-{
-	int result = 0;
-	for(int i=0; i<23; ++i)
-		if(chessmen[i] == color)   // find color
-			if(closeDoubleMill(i))
-				result ++;
-	return result;
 }

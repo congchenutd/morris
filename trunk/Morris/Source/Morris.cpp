@@ -270,6 +270,13 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
+		// if lower level iteration found killer move, do it
+		if(record.score == Estimator::MAX_ESTIMATION && record.type == MoveRecord::EXACT_VALUE)
+		{
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
+		}
 		if(record.depth >= board.getDepth())
 		{
 			switch(record.type)
@@ -318,9 +325,13 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 			if(temp == TIME_OUT || temp == -TIME_OUT)   // abort
 				return TIME_OUT;
 
-		// definitely win, no need to go deeper
-//		if(temp == Estimator::MAX_ESTIMATION)
-//			break;
+		// found killer move
+		if(temp == Estimator::MAX_ESTIMATION)
+		{
+			value = temp;
+			maxMove = it;
+			break;
+		}
 
 		if(temp > value)
 		{

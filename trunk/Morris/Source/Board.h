@@ -55,7 +55,7 @@ private:
 	std::set<Mill> findOpenMills(int pos, QChar color) const;
 	std::set<Mill> findMills    (int pos) const;
 	bool isBlocked(int pos) const;
-	bool closeDoubleMill(int pos) const;   // if pos is in double morris
+	bool closeDoubleMill(QChar color, int pos) const;   // if pos is in double morris
 
 private:
 	QString chessmen;

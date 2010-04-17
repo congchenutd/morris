@@ -27,7 +27,7 @@ int BasicEstimator::getGameEstimation(const Board& board) const
 		return MIN_ESTIMATION;
 	if(opponentMoveNum == 0)
 		return MAX_ESTIMATION;
-	return 1000 * (selfNum - opponentNum);// - opponentMoveNum;
+	return 1000 * (selfNum - opponentNum) - opponentMoveNum;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -68,15 +68,23 @@ int ImprovedEstimator::getGameEstimation(const Board& board) const
 	int selfNum         = board.countNumber(startColor);
 	int opponentNum     = board.countNumber(opponentColor);
 	int numDiff         = selfNum - opponentNum;
-	int blockedNum      = board.countBlocked(opponentColor);
+	int opponentMoveNum = board.countMoves(isOpening, opponentColor);
 	int millNum         = board.countMills(startColor);
 	int openMillNum     = board.countOpenMills(startColor);
 	int morrisNum       = board.countMorris(startColor);
 	int doubleMorrisNum = board.countDoubleMorris(startColor);
+
+	if(opponentNum <= 2)
+		return MAX_ESTIMATION;
+	if(selfNum <= 2)
+		return MIN_ESTIMATION;
+	if(opponentMoveNum == 0)
+		return MAX_ESTIMATION;
+
 	return numDiff         * 1000 + 
-		   blockedNum      * 1 +
+		   opponentMoveNum * -1 +
 		   millNum         * 10 + 
 		   openMillNum     * 20 + 
 		   morrisNum       * 30 +
-		   doubleMorrisNum * 50;
+		   doubleMorrisNum * 100;
 }

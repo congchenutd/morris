@@ -326,12 +326,12 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 				return TIME_OUT;
 
 		// found killer move
-		if(temp == Estimator::MAX_ESTIMATION)
-		{
-			value = temp;
-			maxMove = it;
-			break;
-		}
+		//if(temp == Estimator::MAX_ESTIMATION)
+		//{
+		//	value = temp;
+		//	maxMove = it;
+		//	break;
+		//}
 
 		if(temp > value)
 		{

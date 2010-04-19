@@ -28,8 +28,8 @@ int MoveDB::searchEstimation(const Board& board) const
 	const int* p = estimationDB.find(board.toString());
 	if(p != 0)
 		return *p;
-//	return MoveRecord::NOT_FOUND;
-	return searchMove(board).score;    // search move db for estimation
+	MoveRecord record = searchMove(board);    // search move db for estimation
+	return (record.type == MoveRecord::EXACT_VALUE) ? record.score : MoveRecord::NOT_FOUND;
 }
 
 void MoveDB::saveEstimation(const Board& board, int score) {

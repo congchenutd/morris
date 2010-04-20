@@ -28,6 +28,8 @@ int MoveDB::searchEstimation(const Board& board) const
 	const int* p = estimationDB.find(board.toString());
 	if(p != 0)
 		return *p;
+//	return MoveRecord::NOT_FOUND;
+
 	MoveRecord record = searchMove(board);    // search move db for estimation
 	return (record.type == MoveRecord::EXACT_VALUE) ? record.score : MoveRecord::NOT_FOUND;
 }
@@ -41,4 +43,25 @@ void MoveDB::setSize(int size)
 	dbWhite.setSize(size);
 	dbBlack.setSize(size);
 	estimationDB.setSize(size);
+}
+
+void HistoryHeuristc::save(const Board& from, const Board& to, int depth)
+{
+	if(depth > table.size())
+		return;
+
+//	table[depth-1][from][to] += depth * depth;
+}
+
+int HistoryHeuristc::search(const Board& from, const Board& to, int depth)
+{
+	if(depth > table.size())
+		return 0;
+
+	//return table[depth-1][from][to];
+}
+
+void HistoryHeuristc::deepen()
+{
+	table.push_back(HHTable(23, std::vector<int>(23, 0)));
 }

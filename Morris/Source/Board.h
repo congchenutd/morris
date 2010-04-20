@@ -51,6 +51,8 @@ public:
 	static Neighbors getNeighbors(int pos);
 	static bool      isNeighbor(int lhs, int rhs);
 
+	bool operator == (const Board& other) const { return chessmen == other.chessmen; }
+
 private:
 	bool isMill(const Mill& mill) const;
 	std::set<Mill> findOpenMills(int pos, QChar color) const;
@@ -58,7 +60,7 @@ private:
 	bool isBlocked(int pos) const;
 	
 	// pos moving to a neighbor makes a morris
-	bool closeMorris(QChar color, int pos) const;
+	bool closeMorris(int pos) const;
 
 private:
 	QString chessmen;

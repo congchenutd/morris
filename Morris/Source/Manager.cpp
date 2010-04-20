@@ -131,8 +131,8 @@ void GameManager::runAlgorithm()
 
 void GameManager::runAlgorithm(bool opening)
 {
-	QTime time;
-	time.restart();
+	//QTime time;
+	//time.restart();
 	QString input = mainWnd->ui.leStatus->text();
 	
 	mainWnd->setEnabled(false);  // freeze GUI
@@ -146,7 +146,7 @@ void GameManager::runAlgorithm(bool opening)
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
 	mainWnd->ui.leEstimation     ->setText(tr("%1").arg(algorithm->getMaxValue()));
 	mainWnd->ui.leDepth          ->setText(tr("%1").arg(algorithm->getMaxDepth()));
-	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
+//	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
 //	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
 }
 
@@ -219,7 +219,8 @@ bool GameManager::checkWinning()
 		mainWnd->ui.boardView->setRemovable('W', false);
 		mainWnd->ui.boardView->setRemovable('B', false);
 		QMessageBox::information(mainWnd, tr("Game over"), 
-			tr("%1 wins").arg(whiteCount == 2 || whiteMoveCount == 0 ? tr("Black") : tr("White")));
+			tr("%1 wins, %2").arg(whiteCount == 2 || whiteMoveCount == 0 ? tr("Black") : tr("White"))
+							 .arg(time.elapsed()));
 		return true;
 	}
 	return false;
@@ -289,6 +290,7 @@ void SingleStepModeManager::enterThisMode() {
 // PC - PC
 void PCPCModeManager::run() 
 {
+	time.start();
 	running = true;
 	QTimer::singleShot(1000, this, SLOT(onTimer()));
 }

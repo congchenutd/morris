@@ -226,7 +226,7 @@ int Board::countMorris(QChar color) const
 	int result = 0;
 	for(int i=0; i<23; ++i)
 		if(chessmen[i] == color)   // find color
-			if(closeMorris(color, i))
+			if(closeMorris(i))
 				result ++;
 	return result;
 }
@@ -236,12 +236,12 @@ int Board::countDoubleMorris(QChar color) const
 	int result = 0;
 	for(int i=0; i<23; ++i)
 		if(chessmen[i] == color)   // find color
-			if(closeMill(i) && closeMorris(color, i))
+			if(closeMill(i) && closeMorris(i))
 				result ++;
 	return result;
 }
 
-bool Board::closeMorris(QChar color, int pos) const
+bool Board::closeMorris(int pos) const
 {
 	Neighbors neighbors = getNeighbors(pos);
 	for(Neighbors::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it)

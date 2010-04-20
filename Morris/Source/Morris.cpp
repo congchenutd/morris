@@ -229,6 +229,7 @@ int NegaMax::runAlgorithm(const Board& b)
 		int maxDepthBackup = maxDepth;
 		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
 		{
+			hh.deepen();
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
 		}
@@ -237,24 +238,22 @@ int NegaMax::runAlgorithm(const Board& b)
 	else
 	{
 		nextMove.nextMove = board;
-		maxDepth = 0;
+		maxDepth = 1;
 		time.restart();
 		while(time.elapsed() < timeLimit)
 		{
-			maxDepth ++;
+			hh.deepen();
 			board.setDepth(maxDepth);
-			MoveRecord nextMoveRollback = nextMove;
+			MoveRecord rollBack = nextMove;
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
 			if(temp != TIME_OUT)
 			{
 				result = temp;
-				nextMoveRollback = nextMove;
+				rollBack = nextMove;   // backup
+				maxDepth ++;
 			}
 			else
-			{
-				nextMove = nextMoveRollback;   // rollback on failure
-				maxDepth --;
-			}
+				nextMove = rollBack;   // rollback on failure
 		}
 	}
 	return result;
@@ -262,6 +261,9 @@ int NegaMax::runAlgorithm(const Board& b)
 
 int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
+	Moves::iterator maxMove;
+
+	// timeout and abort
 	if(limitBy == DlgSetting::LIMIT_BY_TIME)
 		if(time.elapsed() > timeLimit)
 			return TIME_OUT;
@@ -293,78 +295,76 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 				break;
 			}
 			if(alpha > beta)
-			{
-				nextMove = record.nextMove;
-				maxValue = record.score;
-				return maxValue;
-			}
+				return record.score;
 		}
 	}
 
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-	//Moves moves = getSortedMoves(board, sign);
 	Moves moves = generator->generate(board);
+
 	int value = Estimator::MIN_ESTIMATION;
+	if(moves.empty())  // no future move, definitely lose
+		return value;
 
-	// no future move, definitely lose
-	if(moves.empty())
-	{
-		maxValue = value;
-		nextMove = board;
-		return maxValue;
-	}
+	//sortMoves(moves, sign);
+	// killer move
+	//if(record.type == MoveRecord::EXACT_VALUE)
+	//{
+	//	int temp = - negaMax(record.nextMove, -beta, -alpha, -sign);
+	//	if(temp >= beta)
+	//	{
+	//		nextMove.nextMove = record.nextMove;
+	//		maxValue = temp;
+	//		goto done;
+	//	}
+	//}
 
-	Moves::iterator maxMove = moves.begin();
+
+	maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
+		//if(it->nextMove == record.nextMove)
+		//	continue;
+
 		int temp = - negaMax(it->nextMove, -beta, -alpha, -sign);
 
-		if(limitBy == DlgSetting::LIMIT_BY_TIME)
-			if(temp == TIME_OUT || temp == -TIME_OUT)   // abort
+		if(limitBy == DlgSetting::LIMIT_BY_TIME)   // timeout, abort
+			if(temp == TIME_OUT || temp == -TIME_OUT)
 				return TIME_OUT;
-
-		// found killer move
-		//if(temp == Estimator::MAX_ESTIMATION)
-		//{
-		//	value = temp;
-		//	maxMove = it;
-		//	break;
-		//}
 
 		if(temp > value)
 		{
 			value = temp;
 			maxMove = it;
 		}
-		if(value >= beta)
+		if(value >= beta)    // beta cut-off
 			break;
-		if(value > alpha)
+		if(value > alpha)    // reduce window
 			alpha = value;
 	}
 
 	nextMove = *maxMove;
 	maxValue = value;
 
+done:
 	// save to db
 	db.saveMove(board, nextMove.nextMove, maxValue, alpha, beta);
 
 	return maxValue;
 }
 
-Moves NegaMax::getSortedMoves(const Board& board, int sign)
+void NegaMax::setMemoryLimit(int size) {
+	db.setSize(size);
+}
+
+void NegaMax::sortMoves(Moves& moves, int sign)
 {
-	Moves moves = generator->generate(board);
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 		it->score = estimator->getEstimation(it->nextMove);
 	if(sign == 1)
 		sort(moves.begin(), moves.end(), greater<MoveRecord>());
 	else
 		sort(moves.begin(), moves.end());
-	return moves;
-}
-
-void NegaMax::setMemoryLimit(int size) {
-	db.setSize(size);
 }

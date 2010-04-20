@@ -10,7 +10,3 @@ ulong djb2::getKey(const QString& str) const
 
 	return hash;
 }
-
-ulong djb2::updateKey(const QString& str, int, QChar) const {
-	return getKey(str);
-}

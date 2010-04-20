@@ -1,6 +1,7 @@
 #ifndef MoveDB_h__
 #define MoveDB_h__
 
+#include <vector>
 #include <QHash>
 #include "Board.h"
 #include "HashTable.h"
@@ -42,6 +43,19 @@ public:
 private:
 	HashTable<MoveRecord> dbWhite, dbBlack;
 	HashTable<int> estimationDB;
+};
+
+typedef std::vector<std::vector<int>> HHTable;
+
+class HistoryHeuristc
+{
+public:
+	void save  (const Board& from, const Board& to, int depth);
+	int  search(const Board& from, const Board& to, int depth);
+	void deepen();
+
+private:
+	std::vector<HHTable> table;
 };
 
 #endif // MoveDB_h__

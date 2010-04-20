@@ -86,12 +86,13 @@ protected:
 	virtual int runAlgorithm(const Board& board);
 
 	int negaMax(const Board& board, int alpha, int beta, int sign);
-	Moves getSortedMoves(const Board& board, int sign);
+	void sortMoves(Moves& moves, int sign);
 
 private:
 	enum {TIME_OUT = 123456789};
 	QTime  time;
 	MoveDB db;
+	HistoryHeuristc hh;
 };
 
 

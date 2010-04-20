@@ -21,7 +21,8 @@ public:
 	MorrisAlgorithm();
 	virtual ~MorrisAlgorithm();
 	virtual void endOpening() {}
-	virtual void setMemoryLimit(int) {}
+	virtual void setMemoryLimit(int) {}  // for negaMax
+	virtual void loadDB() {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
 	QString run(bool opening, const QString& input, QChar startColor, int by, int depth, int tl);
@@ -82,6 +83,7 @@ public:
 	~NegaMax();
 	virtual void endOpening() { db.clear(); }
 	virtual void setMemoryLimit(int size);
+	virtual void loadDB();
 
 protected:
 	virtual int runAlgorithm(const Board& board);

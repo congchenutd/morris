@@ -20,7 +20,8 @@ void MoveDB::saveMove(const Board& current, const Board& next, int score, int al
 		MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
 									  (score >= beta)  ? MoveRecord::LOWER_BOUND :
 														 MoveRecord::EXACT_VALUE;
-		db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
+		if(type == MoveRecord::EXACT_VALUE)
+			db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
 	}
 }
 
@@ -49,6 +50,20 @@ void MoveDB::setSize(int size)
 
 void MoveDB::load()
 {
+	QFile estimationBackup("estimation.txt");
+	estimationBackup.open(QFile::ReadOnly);
+	QTextStream isEstimation(&estimationBackup);
+	isEstimation >> estimationDB;
+
+	QFile whiteBackup("white.txt");
+	whiteBackup.open(QFile::ReadOnly);
+	QTextStream osWhite(&whiteBackup);
+	osWhite >> dbWhite;
+
+	QFile blackBackup("black.txt");
+	blackBackup.open(QFile::ReadOnly);
+	QTextStream osBlack(&blackBackup);
+	osBlack >> dbBlack;
 }
 
 void MoveDB::save()
@@ -69,6 +84,8 @@ void MoveDB::save()
 	osBlack << dbBlack;
 }
 
+
+//////////////////////////////////////////////////////////////////////////
 QTextStream& operator<<(QTextStream& os, const MoveRecord& record)
 {
 	os << record.nextMove.toString() << "\t" 
@@ -78,7 +95,14 @@ QTextStream& operator<<(QTextStream& os, const MoveRecord& record)
 
 QTextStream& operator>>(QTextStream& is, MoveRecord& record)
 {
+	QString nextMove;
+	is >> nextMove;
+	record.nextMove.setString(nextMove);
 
-//	is >> record.nextMove
+	int type;
+	is >> record.score >> record.depth >> type;
+	record.type = type == 0 ? MoveRecord::EXACT_VALUE : 
+				  type == 1 ? MoveRecord::LOWER_BOUND :
+							  MoveRecord::UPPER_BOUND;
 	return is;
 }

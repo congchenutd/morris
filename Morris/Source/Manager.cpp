@@ -64,6 +64,7 @@ void GameManager::chooseAlgorithm()
 	{
 		estimator = estimators[1];
 		algorithm->setMemoryLimit(mainWnd->memoryLimit);
+		algorithm->loadDB();
 	}
 	else
 		estimator = estimators[0];

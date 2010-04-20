@@ -369,3 +369,7 @@ void NegaMax::sortMoves(Moves& moves, int sign)
 NegaMax::~NegaMax() {
 	db.save();
 }
+
+void NegaMax::loadDB() {
+	db.load();
+}

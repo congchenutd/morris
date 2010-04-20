@@ -45,7 +45,9 @@ public:
 	void clear();
 	void setSize(int size);
 	mutable int hit;
-	int length;
+	mutable int collision;
+	mutable int visit;
+	mutable int length;
 
 	template <class T>
 	friend QTextStream& operator << (QTextStream& os, const HashTable<T>& ht);
@@ -74,7 +76,7 @@ HashTable<T>::HashTable()
 {
 	keyGenerator = new djb2;
 	setSize(1000000);   // 1 million
-	hit = length = 0;
+	hit = length = collision = visit = 0;
 }
 
 template <class T>
@@ -92,21 +94,20 @@ void HashTable<T>::insert(const QString& key, const T& record)
 }
 
 template <class T>
-T* HashTable<T>::find(const QString& key)
-{
-	int pos = keyGenerator->getKey(key) % bucketSize;
-	if(buckets[pos].first != key)
-		return 0;
-	hit ++;
-	return &(buckets[pos].second);
+T* HashTable<T>::find(const QString& key) {
+	return const_cast<T*>(const_cast<const HashTable*>(this)->find(key));
 }
 
 template <class T>
 const T* HashTable<T>::find(const QString& key) const
 {
-	ulong pos = keyGenerator->getKey(key) % bucketSize;
+	visit ++;
+	int pos = keyGenerator->getKey(key) % bucketSize;
 	if(buckets[pos].first != key)
+	{
+		collision ++;
 		return 0;
+	}
 	hit ++;
 	return &(buckets[pos].second);
 }
@@ -127,11 +128,15 @@ QTextStream& operator << (QTextStream& os, const HashTable<T>& ht)
 }
 
 template <class T>
-QTextStream& operator >> (QTextStream& os, HashTable<T>& ht)
+QTextStream& operator >> (QTextStream& is, HashTable<T>& ht)
 {
-	//while(os.atEnd())
-	//	os >> 
-	return os;
+	while(!is.atEnd())
+	{
+		int index;
+		is >> index;
+		is >> ht.buckets[index].first >> ht.buckets[index].second;
+	}
+	return is;
 }
 
 #endif // HashTable_h__

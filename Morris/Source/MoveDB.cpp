@@ -1,4 +1,6 @@
 #include "MoveDB.h"
+#include <QFile>
+#include <QTextStream>
 
 MoveRecord MoveDB::searchMove(const Board& board) const
 {
@@ -45,23 +47,38 @@ void MoveDB::setSize(int size)
 	estimationDB.setSize(size);
 }
 
-void HistoryHeuristc::save(const Board& from, const Board& to, int depth)
+void MoveDB::load()
 {
-	if(depth > table.size())
-		return;
-
-//	table[depth-1][from][to] += depth * depth;
 }
 
-int HistoryHeuristc::search(const Board& from, const Board& to, int depth)
+void MoveDB::save()
 {
-	if(depth > table.size())
-		return 0;
+	QFile estimationBackup("estimation.txt");
+	estimationBackup.open(QFile::WriteOnly | QFile::Truncate);
+	QTextStream osEstimation(&estimationBackup);
+	osEstimation << estimationDB;
 
-	//return table[depth-1][from][to];
+	QFile whiteBackup("white.txt");
+	whiteBackup.open(QFile::WriteOnly | QFile::Truncate);
+	QTextStream osWhite(&whiteBackup);
+	osWhite << dbWhite;
+
+	QFile blackBackup("black.txt");
+	blackBackup.open(QFile::WriteOnly | QFile::Truncate);
+	QTextStream osBlack(&blackBackup);
+	osBlack << dbBlack;
 }
 
-void HistoryHeuristc::deepen()
+QTextStream& operator<<(QTextStream& os, const MoveRecord& record)
 {
-	table.push_back(HHTable(23, std::vector<int>(23, 0)));
+	os << record.nextMove.toString() << "\t" 
+	   << record.score << "\t" << record.depth << "\t" << record.type;
+	return os;
+}
+
+QTextStream& operator>>(QTextStream& is, MoveRecord& record)
+{
+
+//	is >> record.nextMove
+	return is;
 }

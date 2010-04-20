@@ -79,6 +79,7 @@ protected:
 class NegaMax : public MorrisAlgorithm
 {
 public:
+	~NegaMax();
 	virtual void endOpening() { db.clear(); }
 	virtual void setMemoryLimit(int size);
 
@@ -92,7 +93,6 @@ private:
 	enum {TIME_OUT = 123456789};
 	QTime  time;
 	MoveDB db;
-	HistoryHeuristc hh;
 };
 
 

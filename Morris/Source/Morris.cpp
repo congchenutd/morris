@@ -229,7 +229,6 @@ int NegaMax::runAlgorithm(const Board& b)
 		int maxDepthBackup = maxDepth;
 		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
 		{
-			hh.deepen();
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
 		}
@@ -242,7 +241,6 @@ int NegaMax::runAlgorithm(const Board& b)
 		time.restart();
 		while(time.elapsed() < timeLimit)
 		{
-			hh.deepen();
 			board.setDepth(maxDepth);
 			MoveRecord rollBack = nextMove;
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
@@ -310,14 +308,14 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 
 	//sortMoves(moves, sign);
 	// killer move
-	//if(record.type == MoveRecord::EXACT_VALUE)
+	//if(record.score != MoveRecord::NOT_FOUND && record.type == MoveRecord::EXACT_VALUE)
 	//{
 	//	int temp = - negaMax(record.nextMove, -beta, -alpha, -sign);
 	//	if(temp >= beta)
 	//	{
 	//		nextMove.nextMove = record.nextMove;
 	//		maxValue = temp;
-	//		goto done;
+	//		return maxValue;
 	//	}
 	//}
 
@@ -348,7 +346,6 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	nextMove = *maxMove;
 	maxValue = value;
 
-done:
 	// save to db
 	db.saveMove(board, nextMove.nextMove, maxValue, alpha, beta);
 
@@ -367,4 +364,8 @@ void NegaMax::sortMoves(Moves& moves, int sign)
 		sort(moves.begin(), moves.end(), greater<MoveRecord>());
 	else
 		sort(moves.begin(), moves.end());
+}
+
+NegaMax::~NegaMax() {
+	db.save();
 }

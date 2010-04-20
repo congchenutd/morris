@@ -39,23 +39,15 @@ public:
 	void saveEstimation(const Board& board, int score);
 	void clear() { dbWhite.clear(); dbBlack.clear(), estimationDB.clear(); }
 	void setSize(int size);
+	void load();
+	void save();
 
 private:
 	HashTable<MoveRecord> dbWhite, dbBlack;
 	HashTable<int> estimationDB;
 };
 
-typedef std::vector<std::vector<int>> HHTable;
-
-class HistoryHeuristc
-{
-public:
-	void save  (const Board& from, const Board& to, int depth);
-	int  search(const Board& from, const Board& to, int depth);
-	void deepen();
-
-private:
-	std::vector<HHTable> table;
-};
+QTextStream& operator << (QTextStream& os, const MoveRecord& record);
+QTextStream& operator >> (QTextStream& is, MoveRecord& record);
 
 #endif // MoveDB_h__

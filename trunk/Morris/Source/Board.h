@@ -44,8 +44,8 @@ public:
 	int countBlocked     (QChar color) const;    // *-O-*
 	int countMoves(bool isOpening, QChar color) const;   // including hopping
 
-	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0);  // find difference
-	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0);
+	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0) const;
+	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0) const;
 
 	static QChar     flipColor(QChar color) { return (color == 'W') ? 'B' : 'W'; }
 	static Neighbors getNeighbors(int pos);

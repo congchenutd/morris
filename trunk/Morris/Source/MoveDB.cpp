@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QTextStream>
 
+using namespace std;
+
 MoveRecord MoveDB::searchMove(const Board& board) const
 {
 	const HashTable<MoveRecord>& db = board.getSelfColor() == 'W' ? dbWhite : dbBlack;
@@ -19,14 +21,38 @@ void MoveDB::saveMove(const Board& current, const Board& next, int score)
 		db.insert(current.toString(), MoveRecord(next, score, current.getDepth()));
 }
 
+void MoveDB::saveHistory(const Board& current, const Board& next)
+{
+	MoveHistory& moveHistory = current.getSelfColor() == 'W' ? moveHistoryWhite : moveHistoryBlack;
+	int from = current.findFirstDeleted(next, current.getSelfColor());
+	int to   = current.findFirstAdded  (next, current.getSelfColor());
+
+	if(to == -1)
+		return;
+	if(from == -1)
+		from = 23;
+	moveHistory[from][to] += 2<<current.getDepth();
+}
+
+ulong MoveDB::searchHistory(const Board& current, const Board& next) const
+{
+	const MoveHistory& moveHistory = current.getSelfColor() == 'W' ? moveHistoryWhite : moveHistoryBlack;
+	int from = current.findFirstDeleted(next, current.getSelfColor());
+	int to   = current.findFirstAdded  (next, current.getSelfColor());
+
+	if(to == -1)
+		return 0;
+	if(from == -1)
+		from = 23;
+	return moveHistory[from][to];
+}
+
 //////////////////////////////////////////////////////////////////////////
 int MoveDB::searchEstimation(const Board& board) const
 {
-	const int* p = estimationDB.find(board.toString());
+	const int* p = estimationDB.find(board.toString());  // static first
 	if(p != 0)
 		return *p;
-//	return MoveRecord::NOT_FOUND;
-
 	return searchMove(board).score;    // search move db for estimation
 }
 
@@ -41,6 +67,21 @@ void MoveDB::setSize(int size)
 	estimationDB.setSize(size);
 }
 
+void MoveDB::clear()
+{
+	dbWhite.clear();
+	dbBlack.clear();
+	estimationDB.clear();
+}
+
+MoveDB::MoveDB()
+{
+	moveHistoryWhite.resize(24, vector<ulong>(23, 0));
+	moveHistoryBlack.resize(24, vector<ulong>(23, 0));
+}
+
+
+/*
 void MoveDB::load()
 {
 	QFile estimationBackup("estimation.txt");
@@ -76,7 +117,7 @@ void MoveDB::save()
 	QTextStream osBlack(&blackBackup);
 	osBlack << dbBlack;
 }
-
+*/
 
 //////////////////////////////////////////////////////////////////////////
 QTextStream& operator<<(QTextStream& os, const MoveRecord& record)

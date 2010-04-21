@@ -16,18 +16,18 @@ bool Board::isMill(const Mill& mill) const {
 		   chessmen[mill[0]] != 'x';
 }
 
-int Board::findFirstAdded(const Board& newBoard, QChar color, int start)
+int Board::findFirstAdded(const Board& newBoard, QChar color, int start) const
 {
 	for(int i=start; i<23; ++i)
-		if(chessmen[i] != color && newBoard.chessmen[i] == color)
+		if(chessmen[i] == 'x' && newBoard.chessmen[i] == color)
 			return i;
 	return -1;
 }
 
-int Board::findFirstDeleted(const Board& newBoard, QChar color, int start)
+int Board::findFirstDeleted(const Board& newBoard, QChar color, int start) const
 {
 	for(int i=start; i<23; ++i)
-		if(chessmen[i] == color && newBoard.chessmen[i] != color)
+		if(chessmen[i] == color && newBoard.chessmen[i] == 'x')
 			return i;
 	return -1;
 }

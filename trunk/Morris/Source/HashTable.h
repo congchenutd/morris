@@ -53,6 +53,7 @@ public:
 	mutable int visit;
 	mutable int insertion;
 	int collision;
+	int length;
 
 	template <class T>
 	friend QTextStream& operator << (QTextStream& os, const HashTable<T>& ht);
@@ -81,7 +82,7 @@ HashTable<T>::HashTable()
 {
 	keyGenerator = new Zobrist;
 	setSize(1000000);   // 1 million
-	hit = insertion = visit = 0;
+	hit = insertion = visit = length = 0;
 	collision = 0;
 }
 
@@ -94,6 +95,8 @@ template <class T>
 void HashTable<T>::insert(const QString& key, const T& record)
 {
 	int pos = keyGenerator->getKey(key) % bucketSize;
+	if(buckets[pos].first.isEmpty())
+		length ++;
 	buckets[pos].first = key;
 	buckets[pos].second = record;
 }

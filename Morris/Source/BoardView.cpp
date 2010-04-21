@@ -69,18 +69,12 @@ void BoardModel::updateView(const QString& newStatus, QChar color)
 	}
 	else                          // move, assuming only 1 move per color
 	{
-		int i;
-		for(i=0; i<23; ++i)
-			if(board.getManAt(i) == color && newStatus[i] == 'x')
-				break;
-		if(i == 23)
-			return;
-		for(int j=0; j<23; ++j)
-			if(board.getManAt(j) == 'x' && newStatus[j] == color)
-				view->move(i, j);
+		int from = board.findFirstDeleted(newStatus, color);
+		int to   = board.findFirstAdded  (newStatus, color);
+		if(from != -1 && to != -1)
+			view->move(from, to);
 	}
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // View

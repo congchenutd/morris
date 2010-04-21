@@ -227,7 +227,7 @@ int NegaMax::runAlgorithm(const Board& b)
 	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
 	{
 		int maxDepthBackup = maxDepth;
-		for(maxDepth =3; maxDepth <= maxDepthBackup; maxDepth++)
+		for(maxDepth =1; maxDepth <= maxDepthBackup; maxDepth++)
 		{
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
@@ -267,23 +267,23 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 			return TIME_OUT;
 
 	// Search db
-	MoveRecord record = db.searchMove(board);
-	if(record.score != MoveRecord::NOT_FOUND)
-	{
-		// if lower level iteration found killer move, do it
-		if(record.score == Estimator::MAX_ESTIMATION)
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
-		}
-		if(record.depth >= board.getDepth())
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			return maxValue;
-		}
-	}
+	//MoveRecord record = db.searchMove(board);
+	//if(record.score != MoveRecord::NOT_FOUND)
+	//{
+	//	// if lower level iteration found killer move, do it
+	//	if(record.score == Estimator::MAX_ESTIMATION)
+	//	{
+	//		nextMove = record.nextMove;
+	//		maxValue = record.score;
+	//		return maxValue;
+	//	}
+	//	if(record.depth >= board.getDepth())
+	//	{
+	//		nextMove = record.nextMove;
+	//		maxValue = record.score;
+	//		return maxValue;
+	//	}
+	//}
 
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
@@ -294,7 +294,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(moves.empty())  // no future move, definitely lose
 		return value;
 
-	//sortMoves(moves, sign);
+//	sortMoves(board, moves, sign);
 	// killer move
 	//if(record.score != MoveRecord::NOT_FOUND && record.type == MoveRecord::EXACT_VALUE)
 	//{
@@ -342,7 +342,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	db.saveMove(board, nextMove.nextMove, maxValue);
+	//db.saveMove(board, nextMove.nextMove, maxValue);
+//	db.saveHistory(board, nextMove.nextMove);
 
 	return maxValue;
 }
@@ -351,14 +352,13 @@ void NegaMax::setMemoryLimit(int size) {
 	db.setSize(size);
 }
 
-void NegaMax::sortMoves(Moves& moves, int sign)
+void NegaMax::sortMoves(const Board& board, Moves& moves, int sign)
 {
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-		it->score = estimator->getEstimation(it->nextMove);
-	if(sign == 1)
-		sort(moves.begin(), moves.end(), greater<MoveRecord>());
-	else
-		sort(moves.begin(), moves.end());
+		it->score = db.searchHistory(board, it->nextMove);
+//		it->score = estimator->getEstimation(it->nextMove);
+
+	sort(moves.begin(), moves.end(), greater<MoveRecord>());
 }
 
 NegaMax::~NegaMax() {

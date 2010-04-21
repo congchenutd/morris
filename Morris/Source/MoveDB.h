@@ -24,26 +24,34 @@ struct MoveRecord
 };
 
 typedef std::vector<MoveRecord> Moves;
-
+typedef std::vector<std::vector<ulong> > MoveHistory;
 
 class MoveDB
 {
 public:
-	MoveRecord searchMove      (const Board& board) const;
-	int        searchEstimation(const Board& board) const;
+	MoveDB();
+	MoveRecord searchMove (const Board& board) const;
 	void saveMove(const Board& current, const Board& next, int score);
+
 	void saveEstimation(const Board& board, int score);
-	void clear() { dbWhite.clear(); dbBlack.clear(), estimationDB.clear(); }
+	int  searchEstimation(const Board& board) const;
+
+	void  saveHistory  (const Board& current, const Board& next);
+	ulong searchHistory(const Board& current, const Board& next) const;
+
+	void clear();
 	void setSize(int size);
-	void load();
-	void save();
+	//void load();
+	//void save();
 
 private:
 	HashTable<MoveRecord> dbWhite, dbBlack;
 	HashTable<int> estimationDB;
+	MoveHistory moveHistoryWhite, moveHistoryBlack;
 };
 
 QTextStream& operator << (QTextStream& os, const MoveRecord& record);
 QTextStream& operator >> (QTextStream& is, MoveRecord& record);
+
 
 #endif // MoveDB_h__

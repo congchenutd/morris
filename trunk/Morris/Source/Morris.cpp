@@ -232,7 +232,7 @@ int NegaMax::runAlgorithm(const Board& b)
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
 		}
-		maxDepth --;
+		maxDepth = maxDepthBackup;
 	}
 	else
 	{
@@ -332,6 +332,13 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 			if(temp == TIME_OUT || temp == -TIME_OUT)
 				return TIME_OUT;
 
+		if(temp == Estimator::MAX_ESTIMATION)
+		{
+			value = temp;
+			maxMove = it;
+			break;
+		}
+
 		if(temp > value)
 		{
 			value = temp;
@@ -367,9 +374,9 @@ void NegaMax::sortMoves(Moves& moves, int sign)
 }
 
 NegaMax::~NegaMax() {
-	db.save();
+//	db.save();
 }
 
 void NegaMax::loadDB() {
-	db.load();
+//	db.load();
 }

@@ -20,7 +20,7 @@ void MoveDB::saveMove(const Board& current, const Board& next, int score, int al
 		MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
 									  (score >= beta)  ? MoveRecord::LOWER_BOUND :
 														 MoveRecord::EXACT_VALUE;
-		if(type == MoveRecord::EXACT_VALUE)
+//		if(type == MoveRecord::EXACT_VALUE)
 			db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
 	}
 }

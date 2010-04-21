@@ -12,22 +12,27 @@ class QString;
 class KeyGenerator
 {
 public:
-	virtual ulong getKey(const QString& str) const = 0;
+	virtual quint64 getKey(const QString& str) const = 0;
 };
 
 class djb2 : public KeyGenerator
 {
 public:
-	virtual ulong getKey(const QString& str) const;
+	virtual quint64 getKey(const QString& str) const;
 };
 
 class Zobrist : public KeyGenerator
 {
 public:
-	virtual ulong getKey(const QString& str) const;
+	Zobrist();
+	virtual quint64 getKey(const QString& str) const;
 
 private:
-	static unsigned long randomNumbers[23][3];
+	int menToIndex(QChar color) const;
+	quint64 rand64() const;
+
+private:
+	quint64 randomNumbers[23][3];
 };
 
 
@@ -45,7 +50,6 @@ public:
 	void clear();
 	void setSize(int size);
 	mutable int hit;
-	mutable int collision;
 	mutable int visit;
 	mutable int length;
 
@@ -74,9 +78,9 @@ void HashTable<T>::setSize(int size)
 template <class T>
 HashTable<T>::HashTable()
 {
-	keyGenerator = new djb2;
+	keyGenerator = new Zobrist;
 	setSize(1000000);   // 1 million
-	hit = length = collision = visit = 0;
+	hit = length = visit = 0;
 }
 
 template <class T>
@@ -104,10 +108,7 @@ const T* HashTable<T>::find(const QString& key) const
 	visit ++;
 	int pos = keyGenerator->getKey(key) % bucketSize;
 	if(buckets[pos].first != key)
-	{
-		collision ++;
 		return 0;
-	}
 	hit ++;
 	return &(buckets[pos].second);
 }

@@ -11,18 +11,12 @@ MoveRecord MoveDB::searchMove(const Board& board) const
 	return *p;
 }
 
-void MoveDB::saveMove(const Board& current, const Board& next, int score, int alpha, int beta)
+void MoveDB::saveMove(const Board& current, const Board& next, int score)
 {
 	HashTable<MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
 	MoveRecord* p = db.find(current.toString());
-	if(p == 0 || (p != 0 && p->depth < current.getDepth()) )
-	{
-		MoveRecord::RecordType type = (score <= alpha) ? MoveRecord::UPPER_BOUND :
-									  (score >= beta)  ? MoveRecord::LOWER_BOUND :
-														 MoveRecord::EXACT_VALUE;
-//		if(type == MoveRecord::EXACT_VALUE)
-			db.insert(current.toString(), MoveRecord(next, score, current.getDepth(), type));
-	}
+	if(p == 0 || (p != 0 && p->depth <= current.getDepth()) )
+		db.insert(current.toString(), MoveRecord(next, score, current.getDepth()));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -33,8 +27,7 @@ int MoveDB::searchEstimation(const Board& board) const
 		return *p;
 //	return MoveRecord::NOT_FOUND;
 
-	MoveRecord record = searchMove(board);    // search move db for estimation
-	return (record.type == MoveRecord::EXACT_VALUE) ? record.score : MoveRecord::NOT_FOUND;
+	return searchMove(board).score;    // search move db for estimation
 }
 
 void MoveDB::saveEstimation(const Board& board, int score) {
@@ -89,7 +82,7 @@ void MoveDB::save()
 QTextStream& operator<<(QTextStream& os, const MoveRecord& record)
 {
 	os << record.nextMove.toString() << "\t" 
-	   << record.score << "\t" << record.depth << "\t" << record.type;
+	   << record.score << "\t" << record.depth << "\t";
 	return os;
 }
 
@@ -99,10 +92,6 @@ QTextStream& operator>>(QTextStream& is, MoveRecord& record)
 	is >> nextMove;
 	record.nextMove.setString(nextMove);
 
-	int type;
-	is >> record.score >> record.depth >> type;
-	record.type = type == 0 ? MoveRecord::EXACT_VALUE : 
-				  type == 1 ? MoveRecord::LOWER_BOUND :
-							  MoveRecord::UPPER_BOUND;
+	is >> record.score >> record.depth;
 	return is;
 }

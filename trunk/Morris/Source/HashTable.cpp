@@ -27,13 +27,14 @@ int Zobrist::menToIndex(QChar color) const {
 
 quint64 Zobrist::getKey(const QString& str) const
 {
-	ulong result = 0;
+	quint64 result = 0;
 	for(int i=0; i<23; ++i)
 		result ^= randomNumbers[i][menToIndex(str.at(i))];
 	return result;
 }
 
-quint64 Zobrist::rand64() const {
+quint64 Zobrist::rand64() const 
+{
 	return rand() ^ ((quint64)rand() << 15) ^ ((quint64) rand() << 30 ) ^ 
 		   ((quint64)rand() << 45) ^ ((quint64) rand() << 60);
 }

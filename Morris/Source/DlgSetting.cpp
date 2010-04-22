@@ -203,7 +203,7 @@ void UserSetting::loadDefaults()
 	setValue("Depth", 3);
 	setValue("TimeLimit", 30);
 	setValue("LimitBy", "Time");
-	setValue("TableSize", 5000000);
+	setValue("TableSize", 1000000);
 }
 
 void UserSetting::setMode(int mode) {

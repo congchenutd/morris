@@ -48,33 +48,16 @@ class MinMax : public MorrisAlgorithm
 {
 protected:
 	virtual int runAlgorithm(const Board& board);
-
 	int maxMin(const Board& board);
 	int minMax(const Board& board);
 };
 
-struct TreeNode
-{
-	TreeNode(int d = 0, int s = 0) : depth(d), score(s) {}
-	void addChild(const TreeNode& node) { children.push_back(node); }
-	void toFile(const QString& fileName);
-
-	std::vector<TreeNode> children;
-	int depth;
-	int score;
-};
-
 class AlphaBeta : public MorrisAlgorithm
 {
-public:
-	AlphaBeta() {}
-
 protected:
 	virtual int runAlgorithm(const Board& board);
-	int maxMin(const Board& board, int alpha, int beta, TreeNode& parent);
-	int minMax(const Board& board, int alpha, int beta, TreeNode& parent);
-
-	TreeNode root;
+	int maxMin(const Board& board, int alpha, int beta);
+	int minMax(const Board& board, int alpha, int beta);
 };
 
 class NegaMax : public MorrisAlgorithm

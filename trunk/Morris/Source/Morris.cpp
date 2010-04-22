@@ -93,25 +93,14 @@ int MinMax::minMax(const Board& board)
 
 //////////////////////////////////////////////////////////////////////////
 // AlphaBeta
-int AlphaBeta::runAlgorithm(const Board& board) 
-{
-	int score = maxMin(board, -INT_MAX, INT_MAX, root);
-	root.depth = board.getDepth();
-	root.score = score;
-	root.toFile("tree.txt");
-	return score;
+int AlphaBeta::runAlgorithm(const Board& board) {
+	return maxMin(board, -INT_MAX, INT_MAX);
 }
 
-int AlphaBeta::maxMin(const Board& board, int alpha, int beta, TreeNode& parent)
+int AlphaBeta::maxMin(const Board& board, int alpha, int beta)
 {
-	TreeNode node(board.getDepth(), 0);
 	if(isLeaf(board))
-	{
-		int temp = estimator->getEstimation(board);
-		node.score = temp;
-		parent.addChild(node);
-		return temp;
-	}
+		return estimator->getEstimation(board);
 
 	Moves moves = generator->generate(board);
 	int value = Estimator::MIN_ESTIMATION;
@@ -127,9 +116,7 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta, TreeNode& parent)
 	Moves::iterator maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = minMax(it->nextMove, alpha, beta, node);
-//		if(temp == Estimator::MAX_ESTIMATION)
-//			break;
+		int temp = minMax(it->nextMove, alpha, beta);
 		if(temp > value)
 		{
 			value = temp;
@@ -143,21 +130,13 @@ int AlphaBeta::maxMin(const Board& board, int alpha, int beta, TreeNode& parent)
 
 	nextMove = *maxMove;
 	maxValue = value;
-	node.score = maxValue;
-	parent.addChild(node);
 	return maxValue;
 }
 
-int AlphaBeta::minMax(const Board& board, int alpha, int beta, TreeNode& parent)
+int AlphaBeta::minMax(const Board& board, int alpha, int beta)
 {
-	TreeNode node(board.getDepth(), 0);
 	if(isLeaf(board))
-	{
-		int temp = estimator->getEstimation(board);
-		node.score = temp;
-		parent.addChild(node);
-		return temp;
-	}
+		return estimator->getEstimation(board);
 
 	Moves moves = generator->generate(board);
 	int minValue = Estimator::MAX_ESTIMATION;
@@ -167,7 +146,7 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta, TreeNode& parent)
 	Moves::iterator minMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		int temp = maxMin(it->nextMove, alpha, beta, node);
+		int temp = maxMin(it->nextMove, alpha, beta);
 		if(temp < minValue)
 		{
 			minValue = temp;
@@ -180,41 +159,9 @@ int AlphaBeta::minMax(const Board& board, int alpha, int beta, TreeNode& parent)
 	}
 
 	nextMove = *minMove;
-	node.score = minValue;
-	parent.addChild(node);
 	return minValue;
 }
 
-void TreeNode::toFile(const QString& fileName)
-{
-	QFile file(fileName);
-	file.open(QFile::WriteOnly);
-	QTextStream os(&file);
-	queue<TreeNode*> q;
-	q.push(this);
-	q.push(0);
-	int d = depth;
-	while(!q.empty())
-	{
-		TreeNode* node = q.front();
-		q.pop();
-		if(node == 0)
-		{
-			os << "|";
-			continue;
-		}
-		if(node->depth != d)
-		{
-			d = node->depth;
-			os << "\r\ndepth=" << d << "\r\n";
-		}
-		os << node->score << " ";
-
-		for(vector<TreeNode>::iterator it=node->children.begin(); it!=node->children.end(); ++it)
-			q.push(&(*it));
-		q.push(0);
-	}
-}
 
 //////////////////////////////////////////////////////////////////////////
 int NegaMax::runAlgorithm(const Board& b) 
@@ -239,13 +186,12 @@ int NegaMax::runAlgorithm(const Board& b)
 		nextMove.nextMove = board;
 		maxDepth = 1;
 		time.restart();
-		timeLimit = 9999999999;
 		while(time.elapsed() < timeLimit)
 		{
 			board.setDepth(maxDepth);
 			MoveRecord rollBack = nextMove;
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
-			if(temp == Estimator::MAX_ESTIMATION)
+			if(temp == Estimator::MAX_ESTIMATION || temp == Estimator::MIN_ESTIMATION)
 				return temp;
 			if(temp != TIME_OUT)
 			{

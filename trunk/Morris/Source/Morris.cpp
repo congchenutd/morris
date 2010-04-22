@@ -244,6 +244,8 @@ int NegaMax::runAlgorithm(const Board& b)
 			board.setDepth(maxDepth);
 			MoveRecord rollBack = nextMove;
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
+			if(temp == Estimator::MAX_ESTIMATION)
+				return temp;
 			if(temp != TIME_OUT)
 			{
 				result = temp;
@@ -270,7 +272,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	MoveRecord record = db.searchMove(board);
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
-		// if lower level iteration found killer move, do it
+		// if lower level iteration found winning move, do it
 		if(record.score == Estimator::MAX_ESTIMATION)
 		{
 			nextMove = record.nextMove;
@@ -294,19 +296,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(moves.empty())  // no future move, definitely lose
 		return value;
 
-	sortMoves(board, moves);
-	// killer move
-	//if(record.score != MoveRecord::NOT_FOUND && record.type == MoveRecord::EXACT_VALUE)
-	//{
-	//	int temp = - negaMax(record.nextMove, -beta, -alpha, -sign);
-	//	if(temp >= beta)
-	//	{
-	//		nextMove.nextMove = record.nextMove;
-	//		maxValue = temp;
-	//		return maxValue;
-	//	}
-	//}
-
+	sortMoves(board, moves);   // using hitory heuristic
 
 	maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
@@ -360,9 +350,9 @@ void NegaMax::sortMoves(const Board& board, Moves& moves)
 }
 
 NegaMax::~NegaMax() {
-	db.save();
+//	db.save();
 }
 
 void NegaMax::loadDB() {
-	db.load();
+//	db.load();
 }

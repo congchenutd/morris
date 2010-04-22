@@ -228,6 +228,7 @@ int NegaMax::runAlgorithm(const Board& b)
 	{
 		int maxDepthBackup = maxDepth;
 		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
+		{
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
 		}
@@ -270,7 +271,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		// if lower level iteration found killer move, do it
-		if(record.score == Estimator::MAX_ESTIMATION && record.type == MoveRecord::EXACT_VALUE)
+		if(record.score == Estimator::MAX_ESTIMATION)
 		{
 			nextMove = record.nextMove;
 			maxValue = record.score;
@@ -278,21 +279,9 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 		}
 		if(record.depth >= board.getDepth())
 		{
-			switch(record.type)
-			{
-			case MoveRecord::EXACT_VALUE:
-				nextMove = record.nextMove;
-				maxValue = record.score;
-				return maxValue;
-			case MoveRecord::LOWER_BOUND:
-				alpha = max(alpha, record.score);
-				break;
-			case MoveRecord::UPPER_BOUND:
-				beta = min(beta, record.score);
-				break;
-			}
-			if(alpha > beta)
-				return record.score;
+			nextMove = record.nextMove;
+			maxValue = record.score;
+			return maxValue;
 		}
 	}
 
@@ -305,7 +294,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(moves.empty())  // no future move, definitely lose
 		return value;
 
-	//sortMoves(moves, sign);
+	sortMoves(board, moves);
 	// killer move
 	//if(record.score != MoveRecord::NOT_FOUND && record.type == MoveRecord::EXACT_VALUE)
 	//{
@@ -353,7 +342,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	db.saveMove(board, nextMove.nextMove, maxValue, alpha, beta);
+	db.saveMove(board, nextMove.nextMove, maxValue);
+	db.saveHistory(board, nextMove.nextMove);
 
 	return maxValue;
 }
@@ -362,18 +352,15 @@ void NegaMax::setMemoryLimit(int size) {
 	db.setSize(size);
 }
 
-void NegaMax::sortMoves(Moves& moves, int sign)
+void NegaMax::sortMoves(const Board& board, Moves& moves)
 {
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
-		it->score = estimator->getEstimation(it->nextMove);
-	if(sign == 1)
-		sort(moves.begin(), moves.end(), greater<MoveRecord>());
-	else
-		sort(moves.begin(), moves.end());
+		it->score = db.searchHistory(board, it->nextMove);
+	sort(moves.begin(), moves.end(), greater<MoveRecord>());
 }
 
 NegaMax::~NegaMax() {
-//	db.save();
+	db.save();
 }
 
 void NegaMax::loadDB() {

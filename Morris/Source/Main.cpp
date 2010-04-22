@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	algorithm->setMemoryLimit(1000000);
 	algorithm->loadDB();
 	
-	for(int depth = 4; depth <=6; ++depth)
+	for(int depth = 4; depth <=5; ++depth)
 	{
 		QTime time;
 		time.start();

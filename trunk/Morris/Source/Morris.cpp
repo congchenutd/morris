@@ -239,6 +239,7 @@ int NegaMax::runAlgorithm(const Board& b)
 		nextMove.nextMove = board;
 		maxDepth = 1;
 		time.restart();
+		timeLimit = 9999999999;
 		while(time.elapsed() < timeLimit)
 		{
 			board.setDepth(maxDepth);
@@ -261,8 +262,6 @@ int NegaMax::runAlgorithm(const Board& b)
 
 int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 {
-	Moves::iterator maxMove;
-
 	// timeout and abort
 	if(limitBy == DlgSetting::LIMIT_BY_TIME)
 		if(time.elapsed() > timeLimit)
@@ -296,14 +295,11 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(moves.empty())  // no future move, definitely lose
 		return value;
 
-	sortMoves(board, moves);   // using hitory heuristic
+	sortMoves(board, moves);   // using history heuristic
 
-	maxMove = moves.begin();
+	Moves::iterator maxMove = moves.begin();
 	for(Moves::iterator it = moves.begin(); it != moves.end(); ++it)
 	{
-		//if(it->nextMove == record.nextMove)
-		//	continue;
-
 		int temp = - negaMax(it->nextMove, -beta, -alpha, -sign);
 
 		if(limitBy == DlgSetting::LIMIT_BY_TIME)   // timeout, abort

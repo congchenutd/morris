@@ -45,8 +45,8 @@ public:
 	HashTable();
 	~HashTable();
 	void insert(const QString& key, const T& record);
-	T*       find(const QString& key);
-	const T* find(const QString& key) const;
+	T*       find(const QString& key, bool returnSynonym = false);
+	const T* find(const QString& key, bool returnSynonym = false) const;
 	void clear();
 	void setSize(int size);
 	mutable int hit;
@@ -61,10 +61,14 @@ public:
 	friend QTextStream& operator >> (QTextStream& os, HashTable<T>& ht);
 
 private:
+	int getPosition(const QString& key) const;
+
+private:
 	Buckets buckets;
 	int bucketSize;
 	KeyGenerator* keyGenerator;
 };
+
 
 template <class T>
 void HashTable<T>::setSize(int size)
@@ -80,7 +84,7 @@ void HashTable<T>::setSize(int size)
 template <class T>
 HashTable<T>::HashTable()
 {
-	keyGenerator = new Zobrist;
+	keyGenerator = new djb2;
 	setSize(1000000);   // 1 million
 	hit = insertion = visit = length = 0;
 	collision = 0;
@@ -94,7 +98,7 @@ HashTable<T>::~HashTable() {
 template <class T>
 void HashTable<T>::insert(const QString& key, const T& record)
 {
-	int pos = keyGenerator->getKey(key) % bucketSize;
+	int pos = getPosition(key);
 	if(buckets[pos].first.isEmpty())
 		length ++;
 	buckets[pos].first = key;
@@ -102,17 +106,20 @@ void HashTable<T>::insert(const QString& key, const T& record)
 }
 
 template <class T>
-T* HashTable<T>::find(const QString& key) {
-	return const_cast<T*>(const_cast<const HashTable*>(this)->find(key));
+T* HashTable<T>::find(const QString& key, bool returnSynonym) {
+	return const_cast<T*>(const_cast<const HashTable*>(this)->find(key, returnSynonym));
 }
 
 template <class T>
-const T* HashTable<T>::find(const QString& key) const
+const T* HashTable<T>::find(const QString& key, bool returnSynonym) const
 {
-	int pos = keyGenerator->getKey(key) % bucketSize;
-	if(buckets[pos].first != key)
+	int pos = getPosition(key);
+	if(buckets[pos].first.isEmpty())
 		return 0;
-	return &(buckets[pos].second);
+	if(returnSynonym)
+		return &(buckets[pos].second);
+	else
+		return buckets[pos].first != key ? 0 : &(buckets[pos].second);
 }
 
 template <class T>
@@ -120,6 +127,13 @@ void HashTable<T>::clear() {
 	fill(buckets.begin(), buckets.end(), std::make_pair(QString(), T()));
 }
 
+template <class T>
+int HashTable<T>::getPosition(const QString& key) const {
+	return keyGenerator->getKey(key) % bucketSize;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
 template <class T>
 QTextStream& operator << (QTextStream& os, const HashTable<T>& ht)
 {

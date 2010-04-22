@@ -89,7 +89,7 @@ protected:
 	virtual int runAlgorithm(const Board& board);
 
 	int negaMax(const Board& board, int alpha, int beta, int sign);
-	void sortMoves(const Board& board, Moves& moves, int sign);
+	void sortMoves(const Board& board, Moves& moves);
 
 private:
 	enum {TIME_OUT = 123456789};

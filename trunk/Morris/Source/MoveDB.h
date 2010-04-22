@@ -41,8 +41,8 @@ public:
 
 	void clear();
 	void setSize(int size);
-	//void load();
-	//void save();
+	void load();
+	void save();
 
 private:
 	HashTable<MoveRecord> dbWhite, dbBlack;

@@ -16,8 +16,8 @@ MoveRecord MoveDB::searchMove(const Board& board) const
 void MoveDB::saveMove(const Board& current, const Board& next, int score)
 {
 	HashTable<MoveRecord>& db = current.getSelfColor() == 'W' ? dbWhite : dbBlack;
-	MoveRecord* p = db.find(current.toString());
-	if(p == 0 || (p != 0 && p->depth <= current.getDepth()) )
+	MoveRecord* p = db.find(current.toString(), true);
+	if(p == 0 || (p != 0 && p->depth < current.getDepth()) )
 		db.insert(current.toString(), MoveRecord(next, score, current.getDepth()));
 }
 
@@ -39,7 +39,6 @@ ulong MoveDB::searchHistory(const Board& current, const Board& next) const
 	const MoveHistory& moveHistory = current.getSelfColor() == 'W' ? moveHistoryWhite : moveHistoryBlack;
 	int from = current.findFirstDeleted(next, current.getSelfColor());
 	int to   = current.findFirstAdded  (next, current.getSelfColor());
-
 	if(to == -1)
 		return 0;
 	if(from == -1)
@@ -81,7 +80,7 @@ MoveDB::MoveDB()
 }
 
 
-/*
+
 void MoveDB::load()
 {
 	QFile estimationBackup("estimation.txt");
@@ -117,7 +116,7 @@ void MoveDB::save()
 	QTextStream osBlack(&blackBackup);
 	osBlack << dbBlack;
 }
-*/
+
 
 //////////////////////////////////////////////////////////////////////////
 QTextStream& operator<<(QTextStream& os, const MoveRecord& record)

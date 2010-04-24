@@ -35,6 +35,14 @@ private:
 	quint64 randomNumbers[23][3];
 };
 
+template <class T>
+class HashTable;
+
+template <class T>
+QTextStream& operator << (QTextStream& os, const HashTable<T>& ht);
+
+template <class T>
+QTextStream& operator >> (QTextStream& os, HashTable<T>& ht);
 
 template <class T>
 class HashTable
@@ -57,6 +65,7 @@ public:
 
 	template <class T>
 	friend QTextStream& operator << (QTextStream& os, const HashTable<T>& ht);
+	
 	template <class T>
 	friend QTextStream& operator >> (QTextStream& os, HashTable<T>& ht);
 
@@ -138,9 +147,10 @@ template <class T>
 QTextStream& operator << (QTextStream& os, const HashTable<T>& ht)
 {
 	int i = 0;
-	for(HashTable<T>::Buckets::const_iterator it = ht.buckets.begin(); it != ht.buckets.end(); ++it, ++i)
-		if(!it->first.isEmpty())
-			os << i << "\t" << it->first << "\t" << it->second << "\r\n";
+    HashTable<T>::Buckets::const_iterator it;
+        for(it = ht.buckets.begin(); it != ht.buckets.end(); ++it, ++i)
+	if(!it->first.isEmpty())
+		os << i << "\t" << it->first << "\t" << it->second << "\r\n";
 	return os;
 }
 

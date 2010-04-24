@@ -168,7 +168,7 @@ int NegaMax::runAlgorithm(const Board& b)
 {
 	Board board(b);
 	estimator->setDB(&db);
-	int result = 0;
+	int result = Estimator::MIN_ESTIMATION;
 
 	// iterative deepening
 	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
@@ -184,23 +184,32 @@ int NegaMax::runAlgorithm(const Board& b)
 	else
 	{
 		nextMove.nextMove = board;
-		maxDepth = 1;
+		
 		time.restart();
-		while(time.elapsed() < timeLimit)
+		for(maxDepth = 1; time.elapsed() < timeLimit; maxDepth ++)
 		{
-			board.setDepth(maxDepth);
-			MoveRecord rollBack = nextMove;
-			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);
+			board.setDepth(maxDepth);        // a new depth
+			MoveRecord rollBack = nextMove;  // take a snapshot
+
+			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);  // run
+			
+			// already win / lose
 			if(temp == Estimator::MAX_ESTIMATION || temp == Estimator::MIN_ESTIMATION)
 				return temp;
-			if(temp != TIME_OUT)
+
+			if(temp == TIME_OUT)
+			{
+				nextMove = rollBack;   // roll back on timeout
+				break;
+			}
+
+			if(temp > result)          // accept better result only
 			{
 				result = temp;
-				rollBack = nextMove;   // backup
-				maxDepth ++;
+				rollBack = nextMove;   // new snapshot
 			}
 			else
-				nextMove = rollBack;   // rollback on failure
+				nextMove = rollBack;   // roll back
 		}
 	}
 	return result;

@@ -3,7 +3,6 @@
 
 #include <QChar>
 #include <QVector>
-#include <QPair>
 #include <vector>
 #include <QTextStream>
 
@@ -35,6 +34,7 @@ private:
 	quint64 randomNumbers[23][3];
 };
 
+
 template <class T>
 class HashTable;
 
@@ -63,11 +63,8 @@ public:
 	int collision;
 	int length;
 
-	template <class T>
-	friend QTextStream& operator << (QTextStream& os, const HashTable<T>& ht);
-	
-	template <class T>
-	friend QTextStream& operator >> (QTextStream& os, HashTable<T>& ht);
+	friend QTextStream& operator << <T> (QTextStream& os, const HashTable<T>& ht);
+	friend QTextStream& operator >> <T> (QTextStream& os, HashTable<T>& ht);
 
 private:
 	int getPosition(const QString& key) const;
@@ -147,8 +144,8 @@ template <class T>
 QTextStream& operator << (QTextStream& os, const HashTable<T>& ht)
 {
 	int i = 0;
-    HashTable<T>::Buckets::const_iterator it;
-        for(it = ht.buckets.begin(); it != ht.buckets.end(); ++it, ++i)
+	typename std::vector< std::pair<QString, T> >::const_iterator it;
+	for(it = ht.buckets.begin(); it != ht.buckets.end(); ++it, ++i)
 	if(!it->first.isEmpty())
 		os << i << "\t" << it->first << "\t" << it->second << "\r\n";
 	return os;

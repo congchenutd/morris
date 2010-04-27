@@ -92,8 +92,15 @@ int Board::countFreedom(QChar color) const
 	return result;
 }
 
-Board Board::makeChild() const {
-	return Board(toString(), getOpponentColor(), depth - 1);
+Board Board::makeChild() const 
+{
+	int idleW = idleWhite;
+	int idleB = idleBlack;
+	if(color == 'W')
+		idleW = max(0, idleWhite - 1);
+	else
+		idleB = max(0, idleBlack - 1);
+	return Board(toString(), getOpponentColor(), depth - 1, idleW, idleB);
 }
 
 const int Board::allMills[][3] = 
@@ -292,4 +299,8 @@ void Board::move(int from, int to)
 		return;
 	setManAt(from, 'x');
 	setManAt(to, color);
+}
+
+int Board::getIdleCount() const {
+	return color == 'W' ? idleWhite : idleBlack;
 }

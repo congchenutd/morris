@@ -58,7 +58,6 @@ protected:
 	static QChar            currentColor;
 	bool openingPhase;
 	bool gameOver;
-	QTime time;
 
 private:
 	static std::vector<GameManager*> managers;

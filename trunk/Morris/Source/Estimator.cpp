@@ -60,8 +60,6 @@ int ImprovedEstimator::getOpeningEstimation(const Board& board) const
 	int millNum         = board.countMills(startColor);
 	int openMillNum     = board.countOpenMills(startColor);
 	int result = 1000*numDiff + 1*freedomDiff + 1*blockedNum + 10*millNum + 50*openMillNum;
-	if(result == MAX_ESTIMATION || result == MIN_ESTIMATION)
-		return result;
 	return result;
 }
 

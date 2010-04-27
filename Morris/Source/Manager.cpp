@@ -139,8 +139,13 @@ void GameManager::runAlgorithm(bool opening)
 	mainWnd->setEnabled(false);  // freeze GUI
 	qApp->processEvents();
 	QString output = algorithm->run(opening, input, currentColor, 
-		mainWnd->limitBy, mainWnd->depth, mainWnd->timeLimit);
+		mainWnd->limitBy, mainWnd->depth, mainWnd->timeLimit, 
+		mainWnd->ui.sbIdleWhite->value(), mainWnd->ui.sbIdleBlack->value());
 	mainWnd->setEnabled(true);
+	if(currentColor == 'W')
+		mainWnd->ui.sbIdleWhite->setValue(mainWnd->ui.sbIdleWhite->value() - 1);
+	else
+		mainWnd->ui.sbIdleBlack->setValue(mainWnd->ui.sbIdleBlack->value() - 1);
 
 	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
@@ -220,8 +225,7 @@ bool GameManager::checkWinning()
 		mainWnd->ui.boardView->setRemovable('W', false);
 		mainWnd->ui.boardView->setRemovable('B', false);
 		QMessageBox::information(mainWnd, tr("Game over"), 
-			tr("%1 wins, %2").arg(whiteCount == 2 || whiteMoveCount == 0 ? tr("Black") : tr("White"))
-							 .arg(time.elapsed()));
+			tr("%1 wins").arg(whiteCount == 2 || whiteMoveCount == 0 ? tr("Black") : tr("White")));
 		return true;
 	}
 	return false;
@@ -291,7 +295,6 @@ void SingleStepModeManager::enterThisMode() {
 // PC - PC
 void PCPCModeManager::run() 
 {
-	time.start();
 	running = true;
 	QTimer::singleShot(1000, this, SLOT(onTimer()));
 }

@@ -15,8 +15,9 @@ typedef std::vector<int> Mill, Neighbors;
 class Board
 {
 public:
-	Board(const QString& p = "xxxxxxxxxxxxxxxxxxxxxxx", QChar c = 'W', int d = 0) 
-		: chessmen(p), color(c), depth(d) {}
+	Board(const QString& p = "xxxxxxxxxxxxxxxxxxxxxxx", QChar c = 'W', int d = 0, 
+		int idleW = 9, int idleB = 9) 
+		: chessmen(p), color(c), depth(d), idleWhite(idleW), idleBlack(idleB) {}
 
 	QChar   getSelfColor()     const { return color; }
 	QChar   getOpponentColor() const { return flipColor(color); }
@@ -47,6 +48,8 @@ public:
 	int findFirstAdded  (const Board& newBoard, QChar color, int start = 0) const;
 	int findFirstDeleted(const Board& newBoard, QChar color, int start = 0) const;
 
+	int getIdleCount() const;
+
 	static QChar     flipColor(QChar color) { return (color == 'W') ? 'B' : 'W'; }
 	static Neighbors getNeighbors(int pos);
 	static bool      isNeighbor(int lhs, int rhs);
@@ -66,6 +69,8 @@ private:
 	QString chessmen;
 	QChar   color;           // current color
 	int     depth;           // current depth in the game tree
+	int     idleWhite;
+	int     idleBlack;
 
 	static const int allMills[][3];
 };

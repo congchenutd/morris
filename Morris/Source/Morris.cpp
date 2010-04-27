@@ -17,17 +17,19 @@ MorrisAlgorithm::~MorrisAlgorithm() {
 }
 
 QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColor, 
-							 int by, int depth, int tl)
+							 int by, int depth, int tl, int idleW, int idleB)
 {
 	limitBy = by;
 	maxDepth = depth;
 	timeLimit = tl * 1000;
 	isOpening = opening;
+	idleWhite = idleW;
+	idleBlack = idleB;
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
 	generator->setOpening(opening);
-	runAlgorithm(Board(input, startColor, depth));
+	runAlgorithm(Board(input, startColor, depth, idleWhite, idleBlack));
 	return nextMove.nextMove.toString();
 }
 
@@ -245,6 +247,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
+	generator->setOpening(board.getIdleCount() > 0);
 	Moves moves = generator->generate(board);
 
 	int value = Estimator::MIN_ESTIMATION;

@@ -25,7 +25,8 @@ public:
 	virtual void loadDB() {}
 
 	void setEstimator(Estimator* est) { estimator = est; }
-	QString run(bool opening, const QString& input, QChar startColor, int by, int depth, int tl);
+	QString run(bool opening, const QString& input, QChar startColor, 
+				int by, int depth, int tl, int idleW, int idleB);
 	int getMaxValue() const { return maxValue; }
 	int getMaxDepth() const { return maxDepth; }
 
@@ -43,6 +44,8 @@ protected:
 	int        maxDepth;
 	int        timeLimit;
 	bool       isOpening;
+	int        idleWhite;
+	int        idleBlack;
 };
 
 class MinMax : public MorrisAlgorithm

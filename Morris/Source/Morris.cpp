@@ -240,6 +240,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 		{
 			nextMove = record.nextMove;
 			maxValue = record.score;
+			if(maxValue * sign < 0)   // different sign
+				maxValue = - maxValue;
 			return maxValue;
 		}
 	}
@@ -290,7 +292,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	db.saveMove(board, nextMove.nextMove, maxValue * sign);
+	db.saveMove(board, nextMove.nextMove, maxValue);
 	db.saveHistory(board, nextMove.nextMove);
 
 	return maxValue;

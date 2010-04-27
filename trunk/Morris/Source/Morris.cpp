@@ -22,6 +22,7 @@ QString MorrisAlgorithm::run(bool opening, const QString& input, QChar startColo
 	limitBy = by;
 	maxDepth = depth;
 	timeLimit = tl * 1000;
+	isOpening = opening;
 	estimator->setStartColor(startColor);
 	estimator->setOpening(opening);
 	estimator->resetCounter();
@@ -194,8 +195,8 @@ int NegaMax::runAlgorithm(const Board& b)
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);  // run
 			
 			// already win / lose
-			if(temp == Estimator::MAX_ESTIMATION || temp == Estimator::MIN_ESTIMATION)
-				return temp;
+			//if(temp == Estimator::MAX_ESTIMATION || temp == Estimator::MIN_ESTIMATION)
+			//	return temp;
 
 			if(temp == TIME_OUT)
 			{
@@ -227,7 +228,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		// if lower level iteration found winning move, do it
-		if(record.score == Estimator::MAX_ESTIMATION)
+		if(record.score == Estimator::MAX_ESTIMATION * sign)
 		{
 			nextMove = record.nextMove;
 			maxValue = record.score;
@@ -283,7 +284,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	maxValue = value;
 
 	// save to db
-	db.saveMove(board, nextMove.nextMove, maxValue);
+	db.saveMove(board, nextMove.nextMove, maxValue * sign);
 	db.saveHistory(board, nextMove.nextMove);
 
 	return maxValue;

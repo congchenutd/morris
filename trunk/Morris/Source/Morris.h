@@ -42,6 +42,7 @@ protected:
 	int        limitBy;
 	int        maxDepth;
 	int        timeLimit;
+	bool       isOpening;
 };
 
 class MinMax : public MorrisAlgorithm

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>962</width>
+    <width>713</width>
     <height>406</height>
    </rect>
   </property>
@@ -36,10 +36,13 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>4</number>
+      </property>
       <item>
        <widget class="QLabel" name="labelInput">
         <property name="text">
-         <string>Input</string>
+         <string> Input</string>
         </property>
        </widget>
       </item>
@@ -47,23 +50,19 @@
        <widget class="QLineEdit" name="leInput"/>
       </item>
       <item>
-       <widget class="QLabel" name="labelOutput">
+       <widget class="QLabel" name="labelStatus">
         <property name="text">
-         <string> Output</string>
+         <string> Status</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="leOutput">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="leStatus"/>
       </item>
       <item>
        <widget class="QLabel" name="labelEstimationCount">
         <property name="text">
-         <string> # of Estimation</string>
+         <string> # of Est.</string>
         </property>
        </widget>
       </item>
@@ -83,7 +82,7 @@
       <item>
        <widget class="QLabel" name="labelEstimation">
         <property name="text">
-         <string> Estimation</string>
+         <string> Est.</string>
         </property>
        </widget>
       </item>
@@ -121,19 +120,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelStatus">
-        <property name="text">
-         <string> Status</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="leStatus"/>
-      </item>
-      <item>
        <widget class="QLabel" name="labelIdleWhite">
         <property name="text">
-         <string>White Idles</string>
+         <string> W Idles</string>
         </property>
        </widget>
       </item>
@@ -154,9 +143,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelIdleWhite_2">
+       <widget class="QLabel" name="labelIdleBlack">
         <property name="text">
-         <string>Black Idles</string>
+         <string> B Idles</string>
         </property>
        </widget>
       </item>

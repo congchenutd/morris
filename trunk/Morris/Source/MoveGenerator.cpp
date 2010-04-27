@@ -1,5 +1,6 @@
 #include "MoveGenerator.h"
 #include <algorithm>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -13,6 +14,11 @@ Moves MoveGenerator::generate(const Board& board)
 Moves MoveGenerator::generateOpening(const Board& board) const
 {
 	Moves result;
+	if(board.getIdleCount() == 0)
+	{
+		QMessageBox::critical(0, "error", "idle == 0");
+		return result;
+	}
 	for(int i=0; i<23; ++i)
 	{
 		if(board.isEmpty(i))

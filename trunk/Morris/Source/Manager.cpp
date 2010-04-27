@@ -74,8 +74,10 @@ void GameManager::chooseAlgorithm()
 
 void GameManager::initMode()
 {
+	// title
 	mainWnd->setWindowTitle(tr("Morris - ") + getModeName());
 
+	// tool bar
 	mainWnd->ui.mainToolBar->clear();
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionOpen);
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionSave);
@@ -85,16 +87,19 @@ void GameManager::initMode()
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionSetting);
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionExit);
 	mainWnd->ui.mainToolBar->addAction(mainWnd->ui.actionAbout);
-
-	Chessman::setManager(this);
+	
+	// status bar
 	mainWnd->ui.leInput->clear();
-	mainWnd->ui.leOutput->clear();
+	mainWnd->setStatus("xxxxxxxxxxxxxxxxxxxxxxx");
 	mainWnd->ui.leEstimationCount->clear();
 	mainWnd->ui.leEstimation->clear();
 	mainWnd->ui.leDepth->clear();
-	mainWnd->setStatus("xxxxxxxxxxxxxxxxxxxxxxx");
-	mainWnd->ui.boardView->initChessmen();
+	mainWnd->ui.sbIdleWhite->setValue(9);
+	mainWnd->ui.sbIdleBlack->setValue(9);
 
+	// chessmen, view
+	Chessman::setManager(this);
+	mainWnd->ui.boardView->initChessmen();
 	mainWnd->ui.boardView->setRemovable('W', false);
 	mainWnd->ui.boardView->setRemovable('B', false);
 
@@ -132,26 +137,18 @@ void GameManager::runAlgorithm()
 
 void GameManager::runAlgorithm(bool opening)
 {
-	//QTime time;
-	//time.restart();
-	QString input = mainWnd->model.toString();
-//	input = mainWnd->ui.leStatus->text();
-	
 	mainWnd->setEnabled(false);  // freeze GUI
 	qApp->processEvents();
-	QString output = algorithm->run(opening, input, currentColor, 
+	QString output = algorithm->run(opening, mainWnd->model.toString(), currentColor, 
 		mainWnd->limitBy, mainWnd->depth, mainWnd->timeLimit, 
 		mainWnd->ui.sbIdleWhite->value(), mainWnd->ui.sbIdleBlack->value());
 	mainWnd->setEnabled(true);
 	mainWnd->downIdle(currentColor);
 
-//	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
 	mainWnd->ui.leEstimation     ->setText(tr("%1").arg(algorithm->getMaxValue()));
 	mainWnd->ui.leDepth          ->setText(tr("%1").arg(algorithm->getMaxDepth()));
-//	QMessageBox::information(0, "time", QObject::tr("%1").arg(time.elapsed()));
-//	QMessageBox::information(0, "hit", QObject::tr("%1").arg(algorithm->getHitRatio()));
 }
 
 void GameManager::flipColor()
@@ -240,21 +237,23 @@ void GameManager::setCurrentColor(QChar color)
 	lock();
 }
 
-void GameManager::showStatusWidgets(bool input, bool output, bool estNum, 
-									bool est,   bool depth,  bool status)
+void GameManager::showStatusWidgets(bool input, bool status, bool estNum, 
+									bool est,   bool depth,  bool idle)
 {
-	mainWnd->ui.labelInput->setVisible(input);
-	mainWnd->ui.leInput   ->setVisible(input);
-	mainWnd->ui.labelOutput->setVisible(output);
-	mainWnd->ui.leOutput   ->setVisible(output);
+	mainWnd->ui.labelInput          ->setVisible(input);
+	mainWnd->ui.leInput             ->setVisible(input);
 	mainWnd->ui.labelEstimationCount->setVisible(estNum);
 	mainWnd->ui.leEstimationCount   ->setVisible(estNum);
-	mainWnd->ui.labelEstimation->setVisible(est);
-	mainWnd->ui.leEstimation   ->setVisible(est);
-	mainWnd->ui.labelDepth->setVisible(depth);
-	mainWnd->ui.leDepth   ->setVisible(depth);
-	mainWnd->ui.labelStatus->setVisible(status);
-	mainWnd->ui.leStatus   ->setVisible(status);
+	mainWnd->ui.labelEstimation     ->setVisible(est);
+	mainWnd->ui.leEstimation        ->setVisible(est);
+	mainWnd->ui.labelDepth          ->setVisible(depth);
+	mainWnd->ui.leDepth             ->setVisible(depth);
+	mainWnd->ui.labelStatus         ->setVisible(status);
+	mainWnd->ui.leStatus            ->setVisible(status);
+	//mainWnd->ui.labelIdleWhite      ->setVisible(idle);
+	//mainWnd->ui.sbIdleWhite         ->setVisible(idle);
+	//mainWnd->ui.labelIdleBlack      ->setVisible(idle);
+	//mainWnd->ui.sbIdleBlack         ->setVisible(idle);
 }
 
 void GameManager::showCurrentColor() {
@@ -287,7 +286,7 @@ void SingleStepModeManager::game() {
 }
 
 void SingleStepModeManager::enterThisMode() {
-	showStatusWidgets(true, false, true, true, true, true);
+	showStatusWidgets(true, true, true, true, true, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -314,7 +313,7 @@ void PCPCModeManager::step()
 
 void PCPCModeManager::enterThisMode() 
 {
-	showStatusWidgets(false, false, true, true, true, true);
+	showStatusWidgets(false, true, true, true, true, false);
 	running = false;
 }
 
@@ -344,7 +343,7 @@ void PCHumanModeManager::onTimer()
 }
 
 void PCHumanModeManager::enterThisMode() {
-	showStatusWidgets(false, false, true, true, true, true);
+	showStatusWidgets(false, true, true, true, true, false);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -356,7 +355,7 @@ void HumanHumanModeManager::initMovability()
 }
 
 void HumanHumanModeManager::enterThisMode() {
-	showStatusWidgets(false, false, false, false, false, true);
+	showStatusWidgets(false, true, false, false, false, false);
 }
 
 void HumanHumanModeManager::runAlgorithm()

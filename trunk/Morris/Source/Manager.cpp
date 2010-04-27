@@ -134,7 +134,8 @@ void GameManager::runAlgorithm(bool opening)
 {
 	//QTime time;
 	//time.restart();
-	QString input = mainWnd->ui.leStatus->text();
+	QString input = mainWnd->model.toString();
+//	input = mainWnd->ui.leStatus->text();
 	
 	mainWnd->setEnabled(false);  // freeze GUI
 	qApp->processEvents();
@@ -142,10 +143,7 @@ void GameManager::runAlgorithm(bool opening)
 		mainWnd->limitBy, mainWnd->depth, mainWnd->timeLimit, 
 		mainWnd->ui.sbIdleWhite->value(), mainWnd->ui.sbIdleBlack->value());
 	mainWnd->setEnabled(true);
-	if(currentColor == 'W')
-		mainWnd->ui.sbIdleWhite->setValue(mainWnd->ui.sbIdleWhite->value() - 1);
-	else
-		mainWnd->ui.sbIdleBlack->setValue(mainWnd->ui.sbIdleBlack->value() - 1);
+	mainWnd->downIdle(currentColor);
 
 	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
@@ -181,6 +179,7 @@ void GameManager::lock()
 
 void GameManager::onAdd(Chessman* man, int boardID)
 {
+	mainWnd->downIdle(man->getColor());
 	man->setMovable(false);
 	onMove(boardID);		
 }

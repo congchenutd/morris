@@ -398,7 +398,7 @@ void Chessman::add(const QPoint& target, bool byHuman)
 	if(byHuman)
 	{
 		model->add(this, target);       // update model
-		manager->onAdd(this, view->posToID(target));		
+		manager->onAdd(this, view->posToID(target));	
 	}
 	moveTo(target);
 }

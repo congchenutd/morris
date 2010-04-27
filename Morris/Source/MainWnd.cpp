@@ -83,7 +83,7 @@ MainWnd::~MainWnd()
 void MainWnd::onAbout() {
 	QMessageBox::about(this, tr("About"), tr(
 "<h2><b>Morris</b></h2> \
-<p>Build 2010.4.22</p>   \
+<p>Build 2010.4.26</p>   \
 <p><a href=mailto:CongChenUTD@Gmail.com>CongChenUTD@Gmail.com</a></p> \
 <h3>Rules</h3> \
 <p>Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed</p> \
@@ -209,4 +209,12 @@ void MainWnd::saveSetting(const QString& fileName)
 
 void MainWnd::closeEvent(QCloseEvent*) {
 	saveSetting();
+}
+
+void MainWnd::downIdle(QChar color)
+{
+	if(color == 'W')
+		ui.sbIdleWhite->setValue(ui.sbIdleWhite->value() - 1);
+	else
+		ui.sbIdleBlack->setValue(ui.sbIdleBlack->value() - 1);
 }

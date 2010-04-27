@@ -177,7 +177,7 @@ int NegaMax::runAlgorithm(const Board& b)
 	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
 	{
 		int maxDepthBackup = maxDepth;
-		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
+		for(maxDepth = maxDepthBackup; maxDepth <= maxDepthBackup; maxDepth++)
 		{
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
@@ -252,7 +252,10 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 
 	int value = Estimator::MIN_ESTIMATION;
 	if(moves.empty())  // no future move, definitely lose
+	{
+		QMessageBox::information(0, "error", "no move");
 		return value;
+	}
 
 	sortMoves(board, moves);   // using history heuristic
 
@@ -265,12 +268,12 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 			if(temp == TIME_OUT || temp == -TIME_OUT)
 				return TIME_OUT;
 
-		if(temp == Estimator::MAX_ESTIMATION)
-		{
-			value = temp;
-			maxMove = it;
-			break;
-		}
+		//if(temp == Estimator::MAX_ESTIMATION)
+		//{
+		//	value = temp;
+		//	maxMove = it;
+		//	break;
+		//}
 
 		if(temp > value)
 		{

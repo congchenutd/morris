@@ -145,7 +145,7 @@ void GameManager::runAlgorithm(bool opening)
 	mainWnd->setEnabled(true);
 	mainWnd->downIdle(currentColor);
 
-	mainWnd->ui.leOutput->setText(output);
+//	mainWnd->ui.leOutput->setText(output);
 	mainWnd->setStatus(output);
 	mainWnd->ui.leEstimationCount->setText(tr("%1").arg(estimator->getCounter()));
 	mainWnd->ui.leEstimation     ->setText(tr("%1").arg(algorithm->getMaxValue()));
@@ -287,7 +287,7 @@ void SingleStepModeManager::game() {
 }
 
 void SingleStepModeManager::enterThisMode() {
-	showStatusWidgets(true, true, true, true, true, false);
+	showStatusWidgets(true, false, true, true, true, true);
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -177,7 +177,7 @@ int NegaMax::runAlgorithm(const Board& b)
 	if(limitBy == DlgSetting::LIMIT_BY_DEPTH)
 	{
 		int maxDepthBackup = maxDepth;
-		for(maxDepth = maxDepthBackup; maxDepth <= maxDepthBackup; maxDepth++)
+		for(maxDepth = 1; maxDepth <= maxDepthBackup; maxDepth++)
 		{
 			board.setDepth(maxDepth);
 			result = negaMax(board, -INT_MAX, INT_MAX, 1);
@@ -197,8 +197,8 @@ int NegaMax::runAlgorithm(const Board& b)
 			int temp = negaMax(board, -INT_MAX, INT_MAX, 1);  // run
 			
 			// already win / lose
-			//if(temp == Estimator::MAX_ESTIMATION || temp == Estimator::MIN_ESTIMATION)
-			//	return temp;
+			if(temp == Estimator::MAX_ESTIMATION)
+				return temp;
 
 			if(temp == TIME_OUT)
 			{
@@ -240,9 +240,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 		{
 			nextMove = record.nextMove;
 			maxValue = record.score;
-			if(maxValue * sign < 0)   // different sign
-				maxValue = - maxValue;
-			return maxValue;
+			if(maxValue * sign > 0)   // same sign
+				return maxValue;
 		}
 	}
 
@@ -255,7 +254,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	int value = Estimator::MIN_ESTIMATION;
 	if(moves.empty())  // no future move, definitely lose
 	{
-		QMessageBox::information(0, "error", "no move");
+//		QMessageBox::information(0, "error", "no move");
 		return value;
 	}
 
@@ -270,12 +269,12 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 			if(temp == TIME_OUT || temp == -TIME_OUT)
 				return TIME_OUT;
 
-		//if(temp == Estimator::MAX_ESTIMATION)
-		//{
-		//	value = temp;
-		//	maxMove = it;
-		//	break;
-		//}
+		if(temp == Estimator::MAX_ESTIMATION)
+		{
+			value = temp;
+			maxMove = it;
+			break;
+		}
 
 		if(temp > value)
 		{

@@ -59,7 +59,10 @@ int ImprovedEstimator::getOpeningEstimation(const Board& board) const
 	int blockedNum      = board.countBlocked(opponentColor);
 	int millNum         = board.countMills(startColor);
 	int openMillNum     = board.countOpenMills(startColor);
-	return 1000*numDiff + 1*freedomDiff + 1*blockedNum + 10*millNum + 50*openMillNum;
+	int result = 1000*numDiff + 1*freedomDiff + 1*blockedNum + 10*millNum + 50*openMillNum;
+	if(result == MAX_ESTIMATION || result == MIN_ESTIMATION)
+		return result;
+	return result;
 }
 
 int ImprovedEstimator::getGameEstimation(const Board& board) const

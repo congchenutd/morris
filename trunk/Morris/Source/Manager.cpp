@@ -250,10 +250,10 @@ void GameManager::showStatusWidgets(bool input, bool status, bool estNum,
 	mainWnd->ui.leDepth             ->setVisible(depth);
 	mainWnd->ui.labelStatus         ->setVisible(status);
 	mainWnd->ui.leStatus            ->setVisible(status);
-	//mainWnd->ui.labelIdleWhite      ->setVisible(idle);
-	//mainWnd->ui.sbIdleWhite         ->setVisible(idle);
-	//mainWnd->ui.labelIdleBlack      ->setVisible(idle);
-	//mainWnd->ui.sbIdleBlack         ->setVisible(idle);
+	mainWnd->ui.labelIdleWhite      ->setVisible(idle);
+	mainWnd->ui.sbIdleWhite         ->setVisible(idle);
+	mainWnd->ui.labelIdleBlack      ->setVisible(idle);
+	mainWnd->ui.sbIdleBlack         ->setVisible(idle);
 }
 
 void GameManager::showCurrentColor() {

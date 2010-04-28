@@ -253,10 +253,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 
 	int value = Estimator::MIN_ESTIMATION;
 	if(moves.empty())  // no future move, definitely lose
-	{
-//		QMessageBox::information(0, "error", "no move");
 		return value;
-	}
 
 	sortMoves(board, moves);   // using history heuristic
 

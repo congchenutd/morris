@@ -238,7 +238,7 @@ void GameManager::setCurrentColor(QChar color)
 }
 
 void GameManager::showStatusWidgets(bool input, bool status, bool estNum, 
-									bool est,   bool depth,  bool idle)
+									bool est,   bool depth)
 {
 	mainWnd->ui.labelInput          ->setVisible(input);
 	mainWnd->ui.leInput             ->setVisible(input);
@@ -250,10 +250,6 @@ void GameManager::showStatusWidgets(bool input, bool status, bool estNum,
 	mainWnd->ui.leDepth             ->setVisible(depth);
 	mainWnd->ui.labelStatus         ->setVisible(status);
 	mainWnd->ui.leStatus            ->setVisible(status);
-	mainWnd->ui.labelIdleWhite      ->setVisible(idle);
-	mainWnd->ui.sbIdleWhite         ->setVisible(idle);
-	mainWnd->ui.labelIdleBlack      ->setVisible(idle);
-	mainWnd->ui.sbIdleBlack         ->setVisible(idle);
 }
 
 void GameManager::showCurrentColor() {
@@ -286,7 +282,7 @@ void SingleStepModeManager::game() {
 }
 
 void SingleStepModeManager::enterThisMode() {
-	showStatusWidgets(true, true, true, true, true, true);
+	showStatusWidgets(true, true, true, true, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -313,7 +309,7 @@ void PCPCModeManager::step()
 
 void PCPCModeManager::enterThisMode() 
 {
-	showStatusWidgets(false, true, true, true, true, false);
+	showStatusWidgets(false, true, true, true, true);
 	running = false;
 }
 
@@ -343,7 +339,7 @@ void PCHumanModeManager::onTimer()
 }
 
 void PCHumanModeManager::enterThisMode() {
-	showStatusWidgets(false, true, true, true, true, false);
+	showStatusWidgets(false, true, true, true, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -355,7 +351,7 @@ void HumanHumanModeManager::initMovability()
 }
 
 void HumanHumanModeManager::enterThisMode() {
-	showStatusWidgets(false, true, false, false, false, false);
+	showStatusWidgets(false, true, false, false, false);
 }
 
 void HumanHumanModeManager::runAlgorithm()

@@ -4,22 +4,22 @@
 <context>
     <name>BoardView</name>
     <message>
-        <location filename="BoardView.cpp" line="181"/>
+        <location filename="BoardView.cpp" line="175"/>
         <source>Arial</source>
         <translation>宋体</translation>
     </message>
     <message>
-        <location filename="BoardView.cpp" line="278"/>
+        <location filename="BoardView.cpp" line="272"/>
         <source>%1&apos;s turn</source>
         <translation>%1走</translation>
     </message>
     <message>
-        <location filename="BoardView.cpp" line="278"/>
+        <location filename="BoardView.cpp" line="272"/>
         <source>White</source>
         <translation>白棋</translation>
     </message>
     <message>
-        <location filename="BoardView.cpp" line="278"/>
+        <location filename="BoardView.cpp" line="272"/>
         <source>Black</source>
         <translation>黑棋</translation>
     </message>
@@ -264,34 +264,34 @@
 <context>
     <name>GameManager</name>
     <message>
-        <location filename="Manager.cpp" line="76"/>
+        <location filename="Manager.cpp" line="78"/>
         <source>Morris - </source>
         <translation>Morris -</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="146"/>
-        <location filename="Manager.cpp" line="147"/>
-        <location filename="Manager.cpp" line="148"/>
+        <location filename="Manager.cpp" line="149"/>
+        <location filename="Manager.cpp" line="150"/>
+        <location filename="Manager.cpp" line="151"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="221"/>
+        <location filename="Manager.cpp" line="223"/>
         <source>Game over</source>
         <translation>游戏结束</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="222"/>
+        <location filename="Manager.cpp" line="224"/>
         <source>%1 wins</source>
         <translation>%1 获胜</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="222"/>
+        <location filename="Manager.cpp" line="224"/>
         <source>Black</source>
         <translation>黑棋</translation>
     </message>
     <message>
-        <location filename="Manager.cpp" line="222"/>
+        <location filename="Manager.cpp" line="224"/>
         <source>White</source>
         <translation>白棋</translation>
     </message>
@@ -299,7 +299,7 @@
 <context>
     <name>HumanHumanModeManager</name>
     <message>
-        <location filename="Manager.h" line="119"/>
+        <location filename="Manager.h" line="120"/>
         <source>Human-Human Mode</source>
         <translation>双人互搏模式</translation>
     </message>
@@ -309,7 +309,7 @@
     <message>
         <location filename="Logger.h" line="16"/>
         <source>%1: %2</source>
-        <translation type="unfinished">%1: %2</translation>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -333,8 +333,12 @@
     </message>
     <message>
         <location filename="MainWnd.cpp" line="84"/>
+        <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.4.30&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
+        <translation>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.4.30&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
+    </message>
+    <message>
         <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.4.13&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
-        <translation>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.4.13&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
+        <translation type="obsolete">&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt;&lt;p&gt;Build 2010.4.13&lt;/p&gt;&lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;规则&lt;/h3&gt;&lt;p&gt;开局阶段：游戏双方轮流将棋子添加到棋盘&lt;/p&gt;&lt;p&gt;游戏阶段：所有棋子都添加到棋盘后，双方轮流移动一枚棋子，只能移动到相邻空位&lt;/p&gt;&lt;p&gt;决胜阶段：当一方只剩下三个棋子时，棋子可移动到任意空位（跳跃）&lt;/p&gt;&lt;p&gt;三子连线：若出现三子连线，则可吃掉对方一个不在三连线中的棋子&lt;/p&gt;将对方消灭到只剩下两个棋子，或者让对方无路可走时获胜</translation>
     </message>
     <message>
         <source>&lt;h2&gt;&lt;b&gt;Morris&lt;/b&gt;&lt;/h2&gt; &lt;p&gt;Build 2010.3.30&lt;/p&gt;   &lt;p&gt;&lt;a href=mailto:CongChenUTD@Gmail.com&gt;CongChenUTD@Gmail.com&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Rules&lt;/h3&gt; &lt;p&gt;Opening phase: Players take turns placing pieces on any vacant board intersection spot until all pieces have been placed&lt;/p&gt; &lt;p&gt;Midgame: Once all the pieces are placed, then take turns moving one piece along a board line to any adjacent vacant spot&lt;/p&gt; &lt;p&gt;Endgame: When a player is down to only three game pieces, then he may move a piece to any open spot, not just an adjacent one (hopping)&lt;/p&gt; &lt;p&gt;Mills: At any stage if you get three pieces in a row along the same straight board line, then you may remove one isolated opponent piece from play. An isolated piece is a piece that is not part of a mill.&lt;/p&gt; The winner is the first player to reduce the opponent to only 2 tokens, or blocks the opponent from any further moves.</source>
@@ -380,7 +384,8 @@
     </message>
     <message>
         <location filename="MainWnd.ui" line="45"/>
-        <source>Input</source>
+        <source> Input</source>
+        <oldsource>Input</oldsource>
         <translation>输入</translation>
     </message>
     <message>
@@ -400,82 +405,99 @@
         <translation type="obsolete">棋盘状态</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="55"/>
         <source> Output</source>
-        <translation>输出</translation>
+        <translation type="obsolete">输出</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="69"/>
         <source> # of Estimation</source>
-        <translation>估计次数</translation>
+        <translation type="obsolete">估计次数</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="89"/>
         <source> Estimation</source>
-        <translation>估计值</translation>
+        <translation type="obsolete">估计值</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="109"/>
+        <location filename="MainWnd.ui" line="105"/>
         <source> Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="129"/>
+        <location filename="MainWnd.ui" line="55"/>
         <source> Status</source>
         <translation>状态</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="142"/>
+        <location filename="MainWnd.ui" line="65"/>
+        <source> # of Est.</source>
+        <translation>估计次数</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="85"/>
+        <source> Est.</source>
+        <translation>估计值</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="125"/>
+        <source> W Idles</source>
+        <translation>白棋剩余</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="148"/>
+        <source> B Idles</source>
+        <translation>黑棋剩余</translation>
+    </message>
+    <message>
+        <location filename="MainWnd.ui" line="174"/>
         <source>Tool bar</source>
         <translation>工具栏</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="177"/>
+        <location filename="MainWnd.ui" line="209"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="186"/>
+        <location filename="MainWnd.ui" line="218"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="195"/>
+        <location filename="MainWnd.ui" line="227"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="204"/>
+        <location filename="MainWnd.ui" line="236"/>
         <source>Opening</source>
         <translation>开局</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="213"/>
+        <location filename="MainWnd.ui" line="245"/>
         <source>Mid_End</source>
         <translation>游戏</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="222"/>
+        <location filename="MainWnd.ui" line="254"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="231"/>
+        <location filename="MainWnd.ui" line="263"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="240"/>
+        <location filename="MainWnd.ui" line="272"/>
         <source>Step</source>
         <translation>单步</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="249"/>
+        <location filename="MainWnd.ui" line="281"/>
         <source>Run</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="MainWnd.ui" line="258"/>
+        <location filename="MainWnd.ui" line="290"/>
         <source>Restart</source>
         <translation>重来</translation>
     </message>
@@ -483,7 +505,7 @@
 <context>
     <name>PCHumanModeManager</name>
     <message>
-        <location filename="Manager.h" line="106"/>
+        <location filename="Manager.h" line="107"/>
         <source>PC-Human Mode</source>
         <translation>人机对战模式</translation>
     </message>
@@ -491,7 +513,7 @@
 <context>
     <name>PCPCModeManager</name>
     <message>
-        <location filename="Manager.h" line="86"/>
+        <location filename="Manager.h" line="87"/>
         <source>PC-PC Mode</source>
         <translation>电脑左右互搏模式</translation>
     </message>
@@ -499,7 +521,7 @@
 <context>
     <name>SingleStepModeManager</name>
     <message>
-        <location filename="Manager.h" line="71"/>
+        <location filename="Manager.h" line="72"/>
         <source>Single Step Mode</source>
         <translation>单步模式</translation>
     </message>

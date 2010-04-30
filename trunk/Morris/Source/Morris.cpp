@@ -227,7 +227,9 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 
 	// Search db
 	MoveRecord record = db.searchMove(board);
-	if(record.score != MoveRecord::NOT_FOUND && record.depth >= board.getDepth())
+	if( record.score != MoveRecord::NOT_FOUND && 
+		record.depth >= board.getDepth() && 
+		record.nextMove.getOpponentColor() == board.getSelfColor())
 	{
 		nextMove = record.nextMove;
 		maxValue = record.score;

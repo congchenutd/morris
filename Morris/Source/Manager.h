@@ -39,7 +39,7 @@ protected:
 	virtual void initMovability();
 	virtual void runAlgorithm();
 
-	void showStatusWidgets(bool input, bool output, bool estNum, bool est, bool depth, bool status);
+	void showStatusWidgets(bool input, bool status, bool estNum, bool est, bool depth);
 	void runAlgorithm(bool opening);
 	void flipColor();
 	bool checkWinning();

@@ -230,7 +230,8 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(record.score != MoveRecord::NOT_FOUND)
 	{
 		// if lower level iteration found winning move, do it
-		if(record.score == Estimator::MAX_ESTIMATION * sign)
+		// must be the same color/sign
+		if(record.score == Estimator::MAX_ESTIMATION && record.nextMove.getSelfColor() == board.getOpponentColor())
 		{
 			nextMove = record.nextMove;
 			maxValue = record.score;
@@ -248,7 +249,7 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 	if(isLeaf(board))
 		return sign * estimator->getEstimation(board);
 
-	generator->setOpening(board.getIdleCount() > 0);
+	generator->setOpening(board.getIdleCount() > 0);   // switch to game phase
 	Moves moves = generator->generate(board);
 
 	int value = Estimator::MIN_ESTIMATION;

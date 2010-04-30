@@ -227,23 +227,12 @@ int NegaMax::negaMax(const Board& board, int alpha, int beta, int sign)
 
 	// Search db
 	MoveRecord record = db.searchMove(board);
-	if(record.score != MoveRecord::NOT_FOUND)
+	if(record.score != MoveRecord::NOT_FOUND && record.depth >= board.getDepth())
 	{
-		// if lower level iteration found winning move, do it
-		// must be the same color/sign
-		if(record.score == Estimator::MAX_ESTIMATION && record.nextMove.getSelfColor() == board.getOpponentColor())
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
+		nextMove = record.nextMove;
+		maxValue = record.score;
+		if(maxValue * sign > 0)   // same sign
 			return maxValue;
-		}
-		if(record.depth >= board.getDepth())
-		{
-			nextMove = record.nextMove;
-			maxValue = record.score;
-			if(maxValue * sign > 0)   // same sign
-				return maxValue;
-		}
 	}
 
 	if(isLeaf(board))

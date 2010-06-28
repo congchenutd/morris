@@ -196,12 +196,12 @@ void UserSetting::loadDefaults()
 {
 	setValue("Status", "xxxxxxxxxxxxxxxxxxxxxxx");
 	setValue("Opening", true);
-	setValue("Mode", "Single step");
+	setValue("Mode", "PC Human");
 	setValue("StartColor", "W");
 	setValue("CurrentColor", "W");
-	setValue("Algorithm", "MinMax");
-	setValue("Depth", 3);
-	setValue("TimeLimit", 30);
+	setValue("Algorithm", "AlphaBetaImproved");
+	setValue("Depth", 6);
+	setValue("TimeLimit", 10);
 	setValue("LimitBy", "Time");
 	setValue("TableSize", 1000000);
 }

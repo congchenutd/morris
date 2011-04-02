@@ -1,0 +1,29 @@
+WxxWxBWxWxxBxxxxBWBxxBx 240   232
+WxxWxxWBWxxxBxxxBWBxxBx 239   231
+WxxWxxWBxxxBxxxBxWBxxBx 81    81
+WxxWxxWBWxxBxxxBxxBxxBx 66    
+WxxWxxWBWxxBxxxxxWBBxBx 168   164
+WxxWxxWBWxxBxxxBBWxxxBx 84     
+WxxWxxWBWxxBxxxxBWxBxBx 115
+WxxWxxWBWxxBxxxxBWBxBxx 66
+WxxWxxWBWxxBxxxxBWBxxxB 121
+
+
+xWxWxBWxWxxBxxxxBWBxxBx 20
+WxxxWBWxWxxBxxxxBWBxxBx 19
+WxxxxBWxWWxBxxxxBWBxxBx 20
+WxxWxBxWWxxBxxxxBWBxxBx 14
+WxxWxBxxWxWBxxxxBWBxxBx 20
+WxxWxxWxxWxBxxxxBWBxxBx 8    7
+WxxWxBWxxWxxxxxxBWBxxBx
+WxxWxBWxxWxBxxxxxWBxxBx
+WxxWxBWxxWxBxxxxBWxxxBx
+WxxWxBWxxWxBxxxxBWBxxxx
+WxxWxBWxxxxBxxxxBWBxWBx
+WxxWxBWxWWxBxxxxBxBxxBx
+WxxWxBWxWxxBxxWxBxBxxBx
+WxxWxxWxWxxBxxxxBxBxWBx
+WxxWxBWxWxxxxxxxBxBxWBx
+WxxWxBWxWxxBxxxxxxBxWBx
+WxxWxBWxWxxBxxxxBxxxWBx
+WxxWxBWxWxxBxxxxBxBxWxx

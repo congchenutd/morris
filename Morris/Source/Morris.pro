@@ -3,13 +3,14 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = 
+TARGET =
 DEPENDPATH += . debug release
 INCLUDEPATH += .
 
-TRANSLATIONS=Chinese.ts 
+TRANSLATIONS=Chinese.ts
 
-RC_FILE = Morris.rc
+win32:RC_FILE = Morris.rc
+macx:ICON = images/Morris.icns
 
 # Input
 HEADERS += Board.h \

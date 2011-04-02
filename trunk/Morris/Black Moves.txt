@@ -1,7 +1,0 @@
-Input: WWxBxBxWBxxxxxWxxxxBxxW
-
-MiniMaxOpeningBlack
-d=4
-Board Postion: WWBBxBxWBxxxxxWxxxxBxxW
-Positions evaluated by static estimation: 101266
-MINIMAX estimate: 0.0
